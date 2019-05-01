@@ -1,18 +1,20 @@
 {
 	"id" : "watchdog",
-	"name" : "Watchdog",
-	"description" : "Plugin pour surveiller les équipements des autres plugins",
+	"name" : "watchdog",
+	"description" : "Plugin watchdog pour la création de plugin",
 	"licence" : "AGPL",
-	"author" : "Sigalou",
-	"require" : "3.0",
-	"version": "0.0.1",
-	"changelog" : "http://sigalou-domotique.fr/plugin-jeedom-alexa-api",
-	"documentation" : "https://www.jeedom.com/forum/viewtopic.php?f=140&t=43750",
-	"category" : "monitoring",
-  "hasDependency" : 0,
-  "hasOwnDeamon" : 0,
-	"language" : ["fr_FR","en_US"],
-	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile"],
-	"maxDependancyInstallTime" : 0
+	"author" : "Jeedom SAS",
+	"require" : "3.2",
+	"category" : "programming",
+	"hasDependency" : false,
+	"hasOwnDeamon" : false,
+	"maxDependancyInstallTime" : 0,
+	"changelog" : "https://jeedom.github.io/plugin-watchdog/#language#/changelog",
+	"documentation" : "https://jeedom.github.io/plugin-watchdog/#language#/",
+	"link" : {
+		"forum":"Lien vers le forum",
+		"video" : "Lien vers une video"
+	},
+	"language" : ["fr_FR","en_US","de_DE","sp_SP","ru_RU","id_ID","it_IT"],
+	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile"]
 }
-

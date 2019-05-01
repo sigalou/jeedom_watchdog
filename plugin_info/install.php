@@ -18,10 +18,17 @@
 
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
+function watchdog_install() {
+    
+}
+
 function watchdog_update() {
-	foreach (eqLogic::byType('watchdog') as $watchdog) {
-		$watchdog->save();
-    }
+    
+}
+
+
+function watchdog_remove() {
+    
 }
 
 ?>
