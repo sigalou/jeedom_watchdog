@@ -1,9 +1,0 @@
-.eqLogicThumbnailContainer .eqLogicAction,
-.eqLogicThumbnailContainer .eqLogicDisplayCard {
-    text-align: center;
-}
- 
-.eqLogicThumbnailContainer .eqLogicAction span,
-.eqLogicThumbnailContainer .eqLogicDisplayCard span {
-    display: block;
-}
