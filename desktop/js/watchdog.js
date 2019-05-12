@@ -295,6 +295,7 @@ $("body").delegate(".listCmdInfo", 'click', function() {
   var expression = $(this).closest('expressionn');
   	var type = $(this).attr('data-type');	  
   	var el = $(this).closest('.' + type).find('.cmdAttr[data-l1key=configuration][data-l2key=controle]');
+  	var el_name = $(this).closest('.' + type).find('.cmdAttr[data-l1key=name]');
 
 
   
@@ -305,6 +306,30 @@ $("body").delegate(".listCmdInfo", 'click', function() {
 
  jeedom.cmd.getSelectModal({cmd: {}}, function (result) {
 	 var date = new Date();
+
+// on va trouver le nom de l'équipement dans result.human
+// exemple :
+// #[Controle Installation][Apple TV][Statut]# doit donner Apple TV
+
+chaine=result.human;
+for (var i = 0; i < chaine.length; i++) {
+	test=chaine.substring(i, i+2);
+  if (test=="]["){
+	  chaine=chaine.substring(i+2);
+	  break;
+  }}
+for (var i = 0; i < chaine.length; i++) {
+	test=chaine.substring(i, i+2);
+  if (test=="]["){
+	  chaine=chaine.substring(0,i);
+	  break;
+  }}
+
+
+   // $sub = substr($str, strpos($str,$from)+strlen($from),strlen($str));
+ //   $testreturn= substr($sub,0,strpos($sub,$to));
+
+
 
 	
 	//vient de desktop/js/scneario.js
@@ -404,7 +429,7 @@ $("body").delegate(".listCmdInfo", 'click', function() {
 		
         message +='<table border=0><tr><td>';
 		
-        message +='<div class="form-group"> <input type="radio" value=2 name="choix" class="conditionAttr form-control" data-l1key="radio"></td><TD>' +
+        message +='<div class="form-group"> <input type="radio" value=2 checked="checked" name="choix" class="conditionAttr form-control" data-l1key="radio"></td><TD>' +
         '<label class="col-xs-12 control-label" >Tester si '+result.human+' {{est}}</label><br>' +
         '            <div class="col-xs-7">' +
         '                 <input class="conditionAttr" data-l1key="operator" value="==" style="display : none;" />' +
@@ -421,6 +446,12 @@ $("body").delegate(".listCmdInfo", 'click', function() {
         message +='</TD></TR></table><hr>';
 		
 		//message +="<hr>OU";
+		//message += chaine+"--"+json_encode(result);
+        message += '<div class="form-group"> ' +
+        '             <div class="col-xs-12">' +
+        '  <input type="checkbox" style="margin-top : 11px;margin-right : 10px;" class="conditionAttr" data-l1key="configuration" data-l2key="assistName" > Mettre <b>'+chaine+'</b> comme nom au contrôle' +
+        '       </div>' +
+        '</div><hr>';
 		
         message += '<div class="form-group"> ' +
         '<label class="col-xs-5 control-label" >{{Ensuite}}</label>' +
@@ -431,8 +462,9 @@ $("body").delegate(".listCmdInfo", 'click', function() {
         '                  <option value="OU">{{ou}}</option>' +
         '            </select>' +
         '       </div>' +
-        '</div>' +
-        '</div> </div>' ;
+        '</div>';		
+		
+         message += '</div> </div>' ;
 		
 		
         message += '</form> </div>  </div>';
@@ -505,8 +537,11 @@ chaineExpressionTest=condition;
 			  else
 			  {
 				  el.value(condition);
+				// Si la case à cocher qui permet de mettre automatiquement le nom de l'équipement est cochée
+				if($('.conditionAttr[data-l1key=configuration][data-l2key=assistName]').value() == '1')
+				  el_name.value(chaine);
+
 				  chaineExpressionTest="";
-				  //$('.eqLogicAttr[data-l1key=configuration][data-l2key=nameOn]').value("");	
 			  
 
 			  }
