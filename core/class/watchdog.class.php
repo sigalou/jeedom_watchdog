@@ -56,6 +56,10 @@ class watchdog extends eqLogic {
     public function preInsert() {
  	log::add('watchdog','debug','[eqLogic] preInsert de '.$this->getName());        
 
+
+		$this->setIsEnable(1);
+		$this->setIsVisible(1);
+		$this->setConfiguration('autorefresh', '*/5 * * * *');
     }
 
     public function postInsert() {
@@ -132,22 +136,26 @@ class watchdog extends eqLogic {
 	}
 		
 	public function trigger($passe) {
- 	log::add('watchdog','debug','******************[eqLogic] triggerPasse à '.$passe.' de '.$this->getName());   
-	
-        foreach ($this->getConfiguration("watchdogAction") as $action) {
-			try {
-			        $options = [];
-                    if (isset($action['options'])) $options = $action['options'];
-			if (($action['actionType'] == $passe) && $options['enable'] == '1'){
-				log::add('watchdog','debug','Lancement de : '.$action['cmd']);   
-				scenarioExpression::createAndExec('action', $action['cmd'], $options);
-			}					
-			} catch (Exception $e) {
-				log::add('watchdog', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
-			}
+		// La fonction trigger est appellé sur le résultat général des controles, on ne fait rien si on est en mode "Actions sur chaque cvontrole indépendamment"
+	$typeControl= $this->getConfiguration('typeControl');
+		if ($typeControl !="") {
 			
+			log::add('watchdog','debug','******************[eqLogic] triggerPasse à '.$passe.' de '.$this->getName());   
+			
+				foreach ($this->getConfiguration("watchdogAction") as $action) {
+					try {
+							$options = [];
+							if (isset($action['options'])) $options = $action['options'];
+					if (($action['actionType'] == $passe) && $options['enable'] == '1'){
+						log::add('watchdog','debug','Lancement de : '.$action['cmd']);   
+						scenarioExpression::createAndExec('action', $action['cmd'], $options);
+					}					
+					} catch (Exception $e) {
+						log::add('watchdog', 'error', __('function trigger : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
+					}
+					
+				}
 		}
-	
 	}
 
 
@@ -176,7 +184,9 @@ class watchdog extends eqLogic {
 			}
 		}
 	}
-	
+	    public function execute($_options = array()) {
+ 	log::add('watchdog','debug','[eqLogic] execute de '.$this->getName());        
+    }
 
     /*
      * Non obligatoire mais permet de modifier l'affichage du widget si vous en avez besoin
@@ -230,6 +240,37 @@ public function faireTestExpression($_string) {
 }
 
 
+	public function triggerEquip($passe) {
+	$eqLogic = $this->getEqLogic();
+	$typeControl= $eqLogic->getConfiguration('typeControl');
+		if ($typeControl == "") {
+		// La fonction trigger est appellé sur le résultat général des controles, on ne fait rien si on est en mode "Actions sur chaque cvontrole indépendamment"
+			
+	log::add('watchdog','debug','******************[TriggerEquip] '.$this->getName().' à '.$passe);   
+			
+				foreach ($eqLogic->getConfiguration("watchdogAction") as $action) {
+					try {
+							$options = [];
+							if (isset($action['options'])) $options = $action['options'];
+					if (($action['actionType'] == $passe) && $options['enable'] == '1'){
+								// On va remplacer #name# par le nom du controle dans tous les champs du array "options"
+								foreach ($options as $key => $option) {
+									$options[$key]=str_replace("#name#", $this->getName(), $option);
+								}
+
+						// Rustine pour l'envoi à Pushover, l'option enable:1 donne un message d'erreur, donc je force enable à 0 (cette valeur vient de la case à cocher)
+						$options['enable'] = 0;
+						
+						log::add('watchdog','debug','Exécution de la commande ' . $action['cmd'] . " avec comme option(s) : ". json_encode($options));
+						scenarioExpression::createAndExec('action', $action['cmd'], $options);
+					}					
+					} catch (Exception $e) {
+						log::add('watchdog', 'error', __('function trigger : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
+					}
+					
+				}
+		}
+	}
 
 
     /*     * *********************Methode d'instance************************* */
@@ -255,7 +296,8 @@ public function faireTestExpression($_string) {
 			if ($resultatPrecedent != $resultat)
 			{
 			// Si le résultat a changé, il faut actualiser le calcul du résultat global, pour cela, on utilise la variable cmd.configuration.aChange qui traitera le calcul dans postSave
-			$this->setConfiguration('aChange', true);	
+			$this->setConfiguration('aChange', true);
+			$this->triggerEquip($resultat);			
 			}
 			
     }

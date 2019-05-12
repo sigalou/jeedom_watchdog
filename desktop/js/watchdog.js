@@ -67,8 +67,14 @@ function addAction(_action) {
     //div += '</div>';
     div += '<div class="col-sm-2">';
     //div += '<i class="fa fa-arrows-v pull-left" style="margin-top : 9px; margin-right: 10px; "></i>';
-    div += '<input type="checkbox" class="expressionAttr" data-l1key="options" data-l2key="enable" checked title="{{Décocher pour desactiver l\'action}}" />';
-    //div += '<input type="checkbox" class="expressionAttr" data-l1key="options" data-l2key="background" title="{{Cocher pour que la commande s\'éxecute en parrallele des autres actions}}" />';
+    div += '<input type="checkbox" style="margin-top : 11px;margin-right : 10px;" class="expressionAttr" data-l1key="options" data-l2key="enable" checked title="{{Décocher pour désactiver l\'action}}" />';
+    div += '<input type="checkbox" style="margin-top : 11px;margin-right : 10px;" class="expressionAttr" data-l1key="options" data-l2key="background" title="Cocher pour que la commande s\'exécute en parallèle des autres actions" />';
+
+    /*div += '<select class="expressionAttr form-control input-sm" data-l1key="actionQuoi" style="width:calc(100% - 50px);display:inline-block">';
+    div += '<option value="Un">{{Un contrôle}}</option>';
+    div += '<option value="Tous">{{Tous les contrôles}}</option>';
+    div += '</select><br>';
+    div += '<input type="checkbox" style="visibility:hidden" >';*/
     div += '<select class="expressionAttr form-control input-sm" data-l1key="actionType" style="width:calc(100% - 50px);display:inline-block">';
     div += '<option value="True">{{Passe à True}}</option>';
     div += '<option value="False">{{Passe à False}}</option>';
@@ -200,9 +206,15 @@ function printEqLogic(_eqLogic) {
 //console.dir(_eqLogic.configuration.watchdogAction);; 
 
 
+//typeControl = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo1]').value()+" secondes"; 
+typeControl = _eqLogic.configuration.typeControl;
+dernierEtat = "(actuellement à "+_eqLogic.configuration.dernierEtat+")";
 
 
-$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> {{Actions à executer quand le contrôle passe à TRUE}}</legend>');
+if (typeControl == "")
+$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> {{Actions à executer quand un des contrôles passe à True}}</legend>');
+else
+$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> Actions à executer quand le résultat global des contrôles passe à True '+dernierEtat+'</legend>');
 
         // On va lister en premier les actions qui se déclencheront quand on passera de false à true
 		for (var i in _eqLogic.configuration.watchdogAction) {
@@ -210,7 +222,11 @@ $('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> {{Actions à 
 			addAction(_eqLogic.configuration.watchdogAction[i])
         }
 		
-$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> {{Actions à executer quand le contrôle passe à FALSE}}</legend>');
+if (typeControl == "")
+$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> {{Actions à executer quand un des contrôles passe à False}}</legend>');
+else
+$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> Actions à executer quand le résultat global des contrôles passe à False '+dernierEtat+'</legend>');
+
         // puis les actions qui se déclencheront quand on passera de true à false
         for (var i in _eqLogic.configuration.watchdogAction) {
 			if (_eqLogic.configuration.watchdogAction[i].actionType == "False")

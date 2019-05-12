@@ -5,6 +5,10 @@ if (!isConnect('admin')) {
 $plugin = plugin::byId('watchdog');
 sendVarToJS('eqType', $plugin->getId());
 $eqLogics = eqLogic::byType($plugin->getId());
+
+// https://jeedom-facile.fr/index.php/2018/12/18/la-surveillance-de-vos-equipements-domotiques/
+// http://sarakha63-domotique.fr/surveillance-equipement-z-wave-xiaomi-blea/
+
 ?>
 
 <div class="row row-overflow">
@@ -27,6 +31,9 @@ $eqLogics = eqLogic::byType($plugin->getId());
 <div class="eqLogicThumbnailContainer">
     <?php
 foreach ($eqLogics as $eqLogic) {
+	
+	$typeControl= $eqLogic->getConfiguration('typeControl');
+	
 	$opacity = ($eqLogic->getIsEnable()) ? '' : 'disableCard';
 	echo '<div class="eqLogicDisplayCard cursor '.$opacity.'" data-eqLogic_id="' . $eqLogic->getId() . '">';
 	echo '<img src="' . $plugin->getPathImgIcon() . '"/>';
@@ -58,19 +65,23 @@ foreach ($eqLogics as $eqLogic) {
   <li role="presentation"><a href="#infocmd" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-cogs"></i> {{Commandes}}</a></li>
 </ul>
 
-
-  <div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
+  <div class="tab-content">
+<!--   <div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;"> -->
     <div role="tabpanel" class="tab-pane active" id="eqlogictab">
-      <br/>
-    <form class="form-horizontal">
+    <form class="form-horizontal"><br>
         <fieldset>
+		
+<br><legend><i class="fa animal-dog56"></i> {{Identification et options du watchdog}}</legend>
+
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{Nom de l'équipement watchdog}}</label>
+                <label class="col-sm-3 control-label">{{Nom du watchdog}}</label>
                 <div class="col-sm-3">
                     <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
                     <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l'équipement watchdog}}"/>
                 </div>
             </div>
+			
+			
             <div class="form-group">
                 <label class="col-sm-3 control-label" >{{Objet parent}}</label>
                 <div class="col-sm-3">
@@ -96,15 +107,15 @@ foreach (object::all() as $object) {
                   ?>
                </div>
            </div>
-		   
+
 	<div class="form-group">
 		<label class="col-sm-3 control-label"></label>
 		<div class="col-sm-9">
-			<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" checked/>{{Activer}}</label>
-			<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked/>{{Visible}}</label>
+			<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" checked >{{Activer}}</label>
+			<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked >{{Visible}}</label>
 		</div>
+	</div>
 	<br><br>
-	
 	
 			<div class="form-group">
 			<label class="col-xs-3 control-label">{{Auto-actualisation (cron)}}</label>
@@ -118,13 +129,30 @@ foreach (object::all() as $object) {
 				</div>
 			</div>
 			
-                <div class="form-group">
-                  <label class="col-xs-3 control-label">{{Dernier état connu}}</label> 
-                  <div class="col-sm-8"> 
-                    <span style="position:relative;top:+5px;left:+5px;" class="eqLogicAttr" data-l1key="configuration" data-l2key="dernierEtat"> </span>
-                  </div>
-                </div>
-      </div>
+			
+			
+			
+
+
+	
+<br><legend><i class="fa fa-list-alt"></i> {{Mode de fonctionnement}}</legend>
+	<div class="alert alert-info">
+	Il existe trois modes de fonctionnement  : <br>
+	* Actions sur chaque contrôle indépendamment : Ce mode teste indépendamment chaque contrôle et déclenche les actions quand ce contrôle a changé d'état<br>
+	* Actions sur l'ensemble des contôles (avec méthode OU) : Ce mode teste le résultat global des contrôles en y appliquant un test "OU" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.<br>
+	* Actions sur l'ensemble des contôles (avec méthode ET) : Ce mode teste le résultat global des contrôles en y appliquant un test "ET" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.	</div>				
+			<div class="form-group">
+                <label class="col-sm-3 control-label" >{{Mode de fonctionnement des contrôles}}</label>
+                <div class="col-sm-3">
+                    <select id="sel_object" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="typeControl">
+<option value="">{{Actions sur chaque contrôle indépendamment}}</option>
+<option value="OU">{{Actions sur l'ensemble des contôles (avec méthode OU)}}</option>
+<option value="ET">{{Actions sur l'ensemble des contôles (avec méthode ET)}}</option>
+                   </select>
+               </div>
+           </div>
+		
+			
 	
 	
 </fieldset>
@@ -132,8 +160,8 @@ foreach (object::all() as $object) {
 </div>
       <div role="tabpanel" class="tab-pane" id="controlestab">
 
-<a class="btn btn-success btn-sm bt_addControle pull-right" data-type="action" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Ajouter un contrôle}}</a><br><br>
-<br><legend><i class="fa fa-tachometer"></i> {{Contrôle à effectuer}}</legend>
+<br><legend><i class="fa fa-tachometer"></i> {{Contrôles à effectuer}}</legend>
+<a class="btn btn-success btn-sm bt_addControle pull-left" data-type="action" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Ajouter un contrôle}}</a><br>
 <table id="table_controles" class="table  table-condensed ui-sortable table_controles">
 
     <thead>
@@ -148,15 +176,22 @@ foreach (object::all() as $object) {
     </tbody>
 
 </table>
+<?php
+if ($typeControl!="")
+{?>
 <br>
-<br><legend><i class="fa loisir-weightlift"></i> {{Résultat du contrôle}}</legend>
+<br><legend><i class="fa loisir-weightlift"></i> {{Résultat global des contrôles, méthode <?php print $typeControl;?>}}</legend>
 <table id="table_controles_resultat" class="table  table-condensed ui-sortable table_controles_resultat">
 
 
 </table>
+<?php } ?>
 <br>
 <legend><i class="fa fa-clock-o"></i> {{Configuration des tempos}}</legend>
-
+<div class="alert alert-info">
+        Les tempos peuvent être utilisées pour faire des tests lors d'un contôle  : <br/>
+        #tempo1# = Valeur en secondes  => mettre #tempo1# pour récupérer la valeur
+        </div>
 <table border="0">
 <tbody>
 <tr>
@@ -179,9 +214,16 @@ foreach (object::all() as $object) {
 </table>
 
 </div>
-       <div role="tabpanel" class="tab-pane" id="infocmd">  
-
-		<a class="btn btn-success btn-sm bt_addAction pull-right" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une commande}}</a><br><br>
+       <div role="tabpanel" class="tab-pane" id="infocmd">
+	   <?php
+if ($typeControl=="")
+{?>
+<div class="alert alert-info">
+        En mode "Actions sur chaque contrôle indépendamment"  : <br/>
+        #name# = Nom du contrôle qui a déclenché l'action => mettre #name# pour récupérer la valeur
+        </div>
+		<?php } ?>
+		<a class="btn btn-success btn-sm bt_addAction pull-left" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une commande}}</a><br><br>
 		
 		<form class="form-horizontal">
 			<div id="table_actions"></div>
