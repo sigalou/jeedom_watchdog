@@ -129,7 +129,13 @@ foreach (object::all() as $object) {
 				</div>
 			</div>
 			
-			
+			<div class="form-group">
+			<label class="col-xs-3 control-label">{{Dernier lancement}}</label>
+				<div class="col-xs-3">
+					<input type="text" disabled class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="dernierLancement">
+
+				</div>
+			</div>			
 			
 			
 
@@ -144,7 +150,7 @@ foreach (object::all() as $object) {
 			<div class="form-group">
                 <label class="col-sm-3 control-label" >{{Mode de fonctionnement des contrôles}}</label>
                 <div class="col-sm-3">
-                    <select id="sel_object" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="typeControl">
+                    <select style="width: 420px;" id="sel_object" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="typeControl">
 <option value="">{{Actions sur chaque contrôle indépendamment}}</option>
 <option value="OU">{{Actions sur l'ensemble des contôles (avec méthode OU)}}</option>
 <option value="ET">{{Actions sur l'ensemble des contôles (avec méthode ET)}}</option>
