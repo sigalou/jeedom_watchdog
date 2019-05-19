@@ -142,11 +142,6 @@ foreach (object::all() as $object) {
 
 	
 <br><legend><i class="fa fa-list-alt"></i> {{Mode de fonctionnement}}</legend>
-	<div class="alert alert-info">
-	Il existe trois modes de fonctionnement  : <br>
-	* Actions sur chaque contrôle indépendamment : Ce mode teste indépendamment chaque contrôle et déclenche les actions quand ce contrôle a changé d'état<br>
-	* Actions sur l'ensemble des contôles (avec méthode OU) : Ce mode teste le résultat global des contrôles en y appliquant un test "OU" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.<br>
-	* Actions sur l'ensemble des contôles (avec méthode ET) : Ce mode teste le résultat global des contrôles en y appliquant un test "ET" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.	</div>				
 			<div class="form-group">
                 <label class="col-sm-3 control-label" >{{Mode de fonctionnement des contrôles}}</label>
                 <div class="col-sm-3">
@@ -155,10 +150,15 @@ foreach (object::all() as $object) {
 <option value="OU">{{Actions sur l'ensemble des contôles (avec méthode OU)}}</option>
 <option value="ET">{{Actions sur l'ensemble des contôles (avec méthode ET)}}</option>
                    </select>
-               </div>
+               </div><br><br>
+		   	
            </div>
 		
-			
+<div class="alert alert-info">
+	Il existe trois modes de fonctionnement  : <br>
+	* Actions sur chaque contrôle indépendamment : Ce mode teste indépendamment chaque contrôle et déclenche les actions quand ce contrôle a changé d'état<br>
+	* Actions sur l'ensemble des contôles (avec méthode OU) : Ce mode teste le résultat global des contrôles en y appliquant un test "OU" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.<br>
+	* Actions sur l'ensemble des contôles (avec méthode ET) : Ce mode teste le résultat global des contrôles en y appliquant un test "ET" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.	</div>			
 	
 	
 </fieldset>

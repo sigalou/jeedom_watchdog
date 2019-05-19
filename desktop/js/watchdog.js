@@ -335,7 +335,7 @@ for (var i = 0; i < chaine.length; i++) {
 	//vient de desktop/js/scneario.js
 	
      message = 'Aucun choix possible';
-	
+	/*
       if(result.cmd.subType == 'numeric'){
         message = '<div class="row">  ' +
         '<div class="col-md-12"> ' +
@@ -397,10 +397,10 @@ for (var i = 0; i < chaine.length; i++) {
         '</div> </div>' +
         '</form> </div>  </div>';
       }
-	  
+	  */
 	  // bouton radio https://forum.tomshardware.fr/threads/d%C3%A9sactiver-un-bouton-radio-en-fonction-dun-autre.530697/
 	  
-      if(result.cmd.subType == 'binary'){
+     // if(result.cmd.subType == 'binary'){
         message = '<div class="row">  ' +
         '<div class="col-md-12"> ' +
         '<form class="form-horizontal" onsubmit="return false;"> ';
@@ -468,7 +468,7 @@ for (var i = 0; i < chaine.length; i++) {
 		
 		
         message += '</form> </div>  </div>';
-      }
+     // }
 
       
       bootbox.dialog({
