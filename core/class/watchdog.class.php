@@ -162,6 +162,7 @@ class watchdog extends eqLogic {
 								// On va remplacer #name# par le nom du controle dans tous les champs du array "options"
 								foreach ($options as $key => $option) {
 									$options[$key]=str_replace("#name#", $this->getName(), $option);
+									$options[$key]=str_replace("#title#", $watchdog->getName(), $option);
 								}
 						log::add('watchdog','debug','Exécution de la commande ' . $action['cmd'] . " avec comme option(s) : ". json_encode($options));
 						scenarioExpression::createAndExec('action', $action['cmd'], $options);
