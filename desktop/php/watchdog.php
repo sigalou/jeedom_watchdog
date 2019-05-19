@@ -16,15 +16,17 @@ $eqLogics = eqLogic::byType($plugin->getId());
   <legend><i class="fas fa-cog"></i>  {{Gestion}}</legend>
   <div class="eqLogicThumbnailContainer">
       <div class="cursor eqLogicAction logoPrimary" data-action="add">
-        <i class="fas fa-plus-circle"></i>
+        <i class="fas fa-plus-circle" style="font-size : 5em;color:#a15bf7;"></i>
         <br>
-        <span>{{Ajouter}}</span>
+        <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#a15bf7">{{Ajouter}}</span>
     </div>
-      <div class="cursor eqLogicAction logoSecondary" data-action="gotoPluginConf">
-      <i class="fa fa-wrench"></i>
-    <br>
-    <span>{{Configuration}}</span>
-  </div>
+	
+<div class="cursor eqLogicAction" data-action="gotoPluginConf" style="background-color : #ffffff; height : 140px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
+        <center>
+          <i class="fas fa-wrench" style="font-size : 5em;color:#767676;"></i>
+        </center>
+        <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#767676"><center>{{Configuration}}</center></span>
+      </div>
   </div>
   <legend><i class="fas fa-table"></i> {{Mes watchdogs}}</legend>
 	   <input class="form-control" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
