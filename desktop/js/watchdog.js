@@ -401,17 +401,63 @@ for (var i = 0; i < chaine.length; i++) {
 	  // bouton radio https://forum.tomshardware.fr/threads/d%C3%A9sactiver-un-bouton-radio-en-fonction-dun-autre.530697/
 	  
      // if(result.cmd.subType == 'binary'){
-        message = '<div class="row">  ' +
-        '<div class="col-md-12"> ' +
-        '<form class="form-horizontal" onsubmit="return false;"> ';
-		
-        message +='<table border=0><tr><td>';
+		 
+		 
+message = '<form class="form-horizontal" onsubmit="return false;">  <div class="panel-group" id="accordion">    ';
+
+
+message += '<div class="panel panel-default">      <div class="panel-heading">        <h4 class="panel-title">            <label for="r11" style="width: 100%;">              <input type="radio" class="conditionAttr" data-l1key="radio" id="r11" value=2 name="choix" checked="checked" required />';
+message += ' Tester un changement d\'état de l\'équipement';
+message += '<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"></a>            </label>        </h4>      </div>      <div id="collapseOne" class="panel-collapse collapse in">        <div class="panel-body">          <p>';
+
+message += 'Tester si '+result.human+' {{est}}'+
+        '            <div class="col-xs-7">' +
+        '                 <input class="conditionAttr" data-l1key="operator" value="==" style="display : none;" />' +
+        '                  <select class="conditionAttr form-control" data-l1key="operande">' +
+        '                       <option value="1">{{Ouvert}}</option>' +
+        '                       <option value="0">{{Fermé}}</option>' +
+        '                       <option value="1">{{Allumé}}</option>' +
+        '                       <option value="0">{{Eteint}}</option>' +
+        '                       <option value="1">{{Déclenché}}</option>' +
+        '                       <option value="0">{{Au repos}}</option>' +
+        '                       </select>' +
+        '                    </div>' +
+        '                 </div>';
+message += '</p>        </div>      </div>   '; 
+
 			tempo1 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo1]').value()+" secondes"; 
 			if (tempo1==" secondes") tempo1='à configurer';
 			tempo2 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo2]').value()+" secondes"; 
 			if (tempo2==" secondes") tempo2='à configurer';
 			tempo3 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo3]').value()+" secondes"; 
 			if (tempo3==" secondes") tempo3='à configurer';
+
+message += '<div class="panel panel-default">      <div class="panel-heading">        <h4 class=panel-title>            <label for="r12" style="width: 100%;">              <input type="radio" id="r12" value=1 name="choix" required />';
+message += " Tester la date de la dernière collecte";
+message += '<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"></a>            </label>        </h4>      </div>      <div id="collapseTwo" class="panel-collapse collapse">        <div class="panel-body">          <p>'+
+'Tester si le délai depuis la dernière mise à jour de <br>'+result.human+' est supérieur à :'+
+        '            <div class="col-xs-7">' +
+		        '              <select class="conditionAttr form-control" data-l1key="choixtempo">' +
+        '                       <option value="1">Tempo1 ('+tempo1+')</option>' +
+        '                       <option value="2">Tempo2 ('+tempo2+')</option>' +
+        '                       <option value="3">Tempo3 ('+tempo3+')</option>' +
+        '                       </select>' +
+        '                    </div>' +
+'</p>        </div>      </div>    </div>';
+
+message += '<script>$("#r11").on("click", function(){  $(this).parent().find("a").trigger("click")});$("#r12").on("click", function(){  $(this).parent().find("a").trigger("click")})</script>';
+		 
+		 
+		 
+		 
+		 
+		 /*
+		 
+        message += '<div class="row">  ' +
+        '<div class="col-md-12"> ' +
+        '<form class="form-horizontal" onsubmit="return false;"> ';
+		
+        message +='<table border=0><tr><td>';
         message +='<div class="form-group"> <input type="radio" value=1 name="choix"></td><TD>' +
         '<label class="col-xs-12 control-label" >Tester si le délai depuis la dernière mise à jour de : <br>'+result.human+' est supérieur à :</label>' +
         '            <div class="col-xs-7">' +
@@ -427,7 +473,7 @@ for (var i = 0; i < chaine.length; i++) {
 		
 		message +="<hr>OU<hr>";
 		
-        message +='<table border=0><tr><td>';
+        //message +='<table border=0><tr><td>';
 		
         message +='<div class="form-group"> <input type="radio" value=2 checked="checked" name="choix" class="conditionAttr form-control" data-l1key="radio"></td><TD>' +
         '<label class="col-xs-12 control-label" >Tester si '+result.human+' {{est}}</label><br>' +
@@ -443,10 +489,15 @@ for (var i = 0; i < chaine.length; i++) {
         '                       </select>' +
         '                    </div>' +
         '                 </div>';
-        message +='</TD></TR></table><hr>';
+        //message +='</TD></TR></table><hr>';
 		
 		//message +="<hr>OU";
 		//message += chaine+"--"+json_encode(result);
+		*/
+		
+		
+		
+		
         message += '<div class="form-group"> ' +
         '             <div class="col-xs-12">' +
         '  <input type="checkbox" style="margin-top : 11px;margin-right : 10px;" class="conditionAttr" data-l1key="configuration" data-l2key="assistName" > Mettre <b>'+chaine+'</b> comme nom au contrôle' +
@@ -467,9 +518,9 @@ for (var i = 0; i < chaine.length; i++) {
          message += '</div> </div>' ;
 		
 		
-        message += '</form> </div>  </div>';
+        message += '</form> ';
      // }
-
+//console.log(message);
       
       bootbox.dialog({
         title: "{{Quel test faire ?}}",
@@ -489,6 +540,8 @@ for (var i = 0; i < chaine.length; i++) {
 				
               var condition = result.human;
 			  var test=result.cmd.subType;
+			  
+			  console.dir($('.conditionAttr[data-l1key=radio]').value());
 			  
 			  if($('.conditionAttr[data-l1key=radio]').value() != '1'){
 				  
