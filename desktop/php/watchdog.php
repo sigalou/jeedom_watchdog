@@ -149,8 +149,8 @@ foreach (object::all() as $object) {
                 <div class="col-sm-3">
                     <select style="width: 420px;" id="sel_object" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="typeControl">
 <option value="">{{Actions sur chaque contrôle indépendamment}}</option>
-<option value="OU">{{Actions sur l'ensemble des contôles (avec méthode OU)}}</option>
-<option value="ET">{{Actions sur l'ensemble des contôles (avec méthode ET)}}</option>
+<option value="OU">{{Actions sur l'ensemble des contrôles (avec méthode OU)}}</option>
+<option value="ET">{{Actions sur l'ensemble des contrôles (avec méthode ET)}}</option>
                    </select>
                </div><br><br>
 		   	
@@ -159,8 +159,8 @@ foreach (object::all() as $object) {
 <div class="alert alert-info">
 	Il existe trois modes de fonctionnement  : <br>
 	* Actions sur chaque contrôle indépendamment : Ce mode teste indépendamment chaque contrôle et déclenche les actions quand ce contrôle a changé d'état<br>
-	* Actions sur l'ensemble des contôles (avec méthode OU) : Ce mode teste le résultat global des contrôles en y appliquant un test "OU" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.<br>
-	* Actions sur l'ensemble des contôles (avec méthode ET) : Ce mode teste le résultat global des contrôles en y appliquant un test "ET" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.	</div>			
+	* Actions sur l'ensemble des contrôles (avec méthode OU) : Ce mode teste le résultat global des contrôles en y appliquant un test "OU" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.<br>
+	* Actions sur l'ensemble des contrôles (avec méthode ET) : Ce mode teste le résultat global des contrôles en y appliquant un test "ET" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.	</div>			
 	
 	
 </fieldset>
