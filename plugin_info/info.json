@@ -9,8 +9,8 @@
 	"hasDependency" : false,
 	"hasOwnDeamon" : false,
 	"maxDependancyInstallTime" : 0,
-	"changelog" : "https://jeedom.github.io/plugin-watchdog/#language#/changelog",
-	"documentation" : "https://jeedom.github.io/plugin-watchdog/#language#/",
+	"changelog" : "http://sigalou-domotique.fr/plugin-jeedom-watchdog/69-watchdog-changelog",
+	"documentation" : "http://sigalou-domotique.fr/plugin-jeedom-watchdog/68-watchdog-documentation",
 	"link" : {
 		"forum":"Lien vers le forum",
 		"video" : "Lien vers une video"
