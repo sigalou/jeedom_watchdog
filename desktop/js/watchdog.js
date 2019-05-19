@@ -213,9 +213,9 @@ dernierEtat = "(actuellement à "+_eqLogic.configuration.dernierEtat+")";
 
 
 if (typeControl == "")
-$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> {{Actions à executer quand un des contrôles passe à True}}</legend>');
+$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> {{Actions à exécuter quand un des contrôles passe à True}}</legend>');
 else
-$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> Actions à executer quand le résultat global des contrôles passe à True '+dernierEtat+'</legend>');
+$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> Actions à exécuter quand le résultat global des contrôles passe à True '+dernierEtat+'</legend>');
 
         // On va lister en premier les actions qui se déclencheront quand on passera de false à true
 		for (var i in _eqLogic.configuration.watchdogAction) {
@@ -224,9 +224,9 @@ $('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> Actions à ex
         }
 		
 if (typeControl == "")
-$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> {{Actions à executer quand un des contrôles passe à False}}</legend>');
+$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> {{Actions à exécuter quand un des contrôles passe à False}}</legend>');
 else
-$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> Actions à executer quand le résultat global des contrôles passe à False '+dernierEtat+'</legend>');
+$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> Actions à exécuter quand le résultat global des contrôles passe à False '+dernierEtat+'</legend>');
 
         // puis les actions qui se déclencheront quand on passera de true à false
         for (var i in _eqLogic.configuration.watchdogAction) {
@@ -234,7 +234,7 @@ $('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> Actions à ex
 			addAction(_eqLogic.configuration.watchdogAction[i])
         } 
 
-$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> {{Actions à executer AVANT d\'effectuer le contrôle}}</legend>');
+$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> {{Actions à exécuter AVANT d\'effectuer le contrôle}}</legend>');
 
         // puis les actions qui se déclencheront quand on passera de true à false
         for (var i in _eqLogic.configuration.watchdogAction) {
