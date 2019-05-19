@@ -194,7 +194,6 @@ if ($typeControl!="")
 
 </table>
 <?php } ?>
-<br>
 <legend><i class="fa fa-clock-o"></i> {{Configuration des tempos}}</legend>
 <div class="alert alert-info">
         Les tempos peuvent être utilisées pour faire des tests lors d'un contôle  : <br/>

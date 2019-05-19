@@ -78,6 +78,7 @@ function addAction(_action) {
     div += '<select class="expressionAttr form-control input-sm" data-l1key="actionType" style="width:calc(100% - 50px);display:inline-block">';
     div += '<option value="True">{{Passe à True}}</option>';
     div += '<option value="False">{{Passe à False}}</option>';
+    div += '<option value="Avant">{{Avant le contrôle}}</option>';
     div += '</select>';
     div += '</div>';
     //div += '<div class="col-sm-1">';
@@ -231,7 +232,16 @@ $('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> Actions à ex
         for (var i in _eqLogic.configuration.watchdogAction) {
 			if (_eqLogic.configuration.watchdogAction[i].actionType == "False")
 			addAction(_eqLogic.configuration.watchdogAction[i])
-        }    
+        } 
+
+$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> {{Actions à executer AVANT d\'effectuer le contrôle}}</legend>');
+
+        // puis les actions qui se déclencheront quand on passera de true à false
+        for (var i in _eqLogic.configuration.watchdogAction) {
+			if (_eqLogic.configuration.watchdogAction[i].actionType == "Avant")
+			addAction(_eqLogic.configuration.watchdogAction[i])
+        } 
+		
 	}
 		
     jeedom.cmd.displayActionsOption({

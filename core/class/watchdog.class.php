@@ -151,6 +151,29 @@ class watchdog extends eqLogic {
     }
 	
 	public function lancerControle($watchdog) {
+		
+		log::add('watchdog', 'debug', 'Avant de lancer le contrôle on lance les commandes d\'avant contrôle.');
+		
+				foreach ($watchdog->getConfiguration("watchdogAction") as $action) {
+					try {
+							$options = [];
+							if (isset($action['options'])) $options = $action['options'];
+					if (($action['actionType'] == "Avant") && $options['enable'] == '1'){
+								// On va remplacer #name# par le nom du controle dans tous les champs du array "options"
+								foreach ($options as $key => $option) {
+									$options[$key]=str_replace("#name#", $this->getName(), $option);
+								}
+						log::add('watchdog','debug','Exécution de la commande ' . $action['cmd'] . " avec comme option(s) : ". json_encode($options));
+						scenarioExpression::createAndExec('action', $action['cmd'], $options);
+					}					
+					} catch (Exception $e) {
+						log::add('watchdog', 'error', __('function trigger : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
+					}
+					
+				}		
+		
+		log::add('watchdog', 'debug', 'Après les commandes d\'avant contrôle, on boucle pour lancer les commandes.');
+		
 		//set_boucleEnCours("7888885613");
 		foreach ($watchdog->getCmd('info') as $cmd) {
 					log::add('watchdog', 'debug', 'lancerControle '.$cmd->getName());
@@ -316,8 +339,6 @@ public function faireTestExpression($_string) {
 									$options[$key]=str_replace("#name#", $this->getName(), $option);
 								}
 
-						// Rustine pour l'envoi à Pushover, l'option enable:1 donne un message d'erreur, donc je force enable à 0 (cette valeur vient de la case à cocher)
-						//$options['enable'] = "0";
 						
 						log::add('watchdog','debug','Exécution de la commande ' . $action['cmd'] . " avec comme option(s) : ". json_encode($options));
 						scenarioExpression::createAndExec('action', $action['cmd'], $options);
