@@ -19,8 +19,12 @@ var chaineExpressionTest="";
 $("#table_controles").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_actions").sortable({axis: "y", cursor: "move", items: ".watchdogAction", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
+window.onload = function (){ $(".bt_masqueCalculs").hide();};
+
+
 //console.log("--------- Lancement ---------");
 
+  //--A METTRE APRES CHARGEMENT
 
 // BOUTONS -------------
 
@@ -37,6 +41,17 @@ $('.bt_addControle').off('click').on('click',function(){
   addCmdToTable({}, 'info');
 });
 
+$('.bt_afficheCalculs').off('click').on('click',function(){
+  $(".calcul").show();
+  $(".bt_masqueCalculs").show();
+  $(".bt_afficheCalculs").hide();
+  });
+
+$('.bt_masqueCalculs').off('click').on('click',function(){
+  $(".calcul").hide();
+  $(".bt_masqueCalculs").hide();
+  $(".bt_afficheCalculs").show();
+});
 $('.bt_addAction').off('click').on('click',function(){
 //console.log("--------- bt_addAction");
 $('#table_actions').append('</center><br><legend><i class="fa fa-cogs"></i> {{Nouvelle action}}</legend><center>');
@@ -59,14 +74,14 @@ function addAction(_action) {
         _action.options = {};
     }
     var input = '';
-    var div = '<div class="watchdogAction">';
+    var div = '<div class="watchdogAction ">';
 		
     div += '<div class="form-group ">';
     //Suppression du nom, pas utile
 	//div += '<div class="col-sm-1">';	
 	//div += '<input class="expressionAttr form-control input-sm" data-l1key="name" style="width : 80px;" placeholder="{{Nom}}">';
     //div += '</div>';
-    div += '<div class="col-sm-2">';
+    div += '<div class="col-sm-2 ">';
     //div += '<i class="fa fa-arrows-v pull-left" style="margin-top : 9px; margin-right: 10px; "></i>';
     div += '<input type="checkbox" style="margin-top : 11px;margin-right : 10px;" class="expressionAttr" data-l1key="options" data-l2key="enable" checked title="{{Décocher pour désactiver l\'action}}" />';
     div += '<input type="checkbox" style="margin-top : 11px;margin-right : 10px;" class="expressionAttr" data-l1key="options" data-l2key="background" title="Cocher pour que la commande s\'exécute en parallèle des autres actions" />';
@@ -89,12 +104,12 @@ function addAction(_action) {
     div += '<div class="input-group">';
     div += '<span class="input-group-btn">';
 
-    div += '<a class="btn btn-default bt_removeAction btn-sm" data-type="watchdogAction"><i class="fa fa-minus-circle"></i></a>';
+    div += '<a class="btn btn-info bt_removeAction btn-sm" data-type="watchdogAction"><i class="fa fa-minus-circle"></i></a>';
     div += '</span>';
     div += '<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd" data-type="watchdogAction" />';
     div += '<span class="input-group-btn">';
-    div += '<a class="btn btn-success btn-sm listAction" data-type="watchdogAction" title="{{Sélectionner un mot-clé}}"><i class="fa fa-tasks"></i></a>';
-    div += '<a class="btn btn-success btn-sm listCmdAction" data-type="watchdogAction"><i class="fa fa-list-alt"></i></a>';
+    div += '<a class="btn btn-info btn-sm listAction" data-type="watchdogAction" title="{{Sélectionner un mot-clé}}"><i class="fa fa-tasks"></i></a>';
+    div += '<a class="btn btn-info btn-sm listCmdAction" data-type="watchdogAction"><i class="fa fa-list-alt"></i></a>';
     div += '</span>';
     div += '</div>';
     div += '</div>';
@@ -137,10 +152,34 @@ function addCmdToTable(_cmd, type) {
 		_cmd.subType = "watchdog";	
 
 
+		console.log($('.cmdAttr[data-l1key=configuration][data-l2key=resultat]').value());
+		console.log(_cmd.configuration.resultat);
 		//var tr = '<tr class="cmd ' + _cmd.type + '" data-cmd_id="' + init(_cmd.id) + '">';
-		var tr = '<tr class="cmd info" >';
+		switch (_cmd.configuration.resultat) {
+		  case 'True':
+			var couleur = 'success';
+			break;
+		  case 'False':
+			var couleur = 'danger';
+			break;
+		  default:
+			var couleur = 'warning';
+		}
+			
+		
+		//var tr = '<tr class="cmd info" >';
+			var tr = '<tr class="cmd  bg-'+couleur+'" >';
 		
 		tr += '<td>';
+		
+		
+		
+		// Mettre le bouton moins à gauche
+   // tr += '<a class="btn btn-info btn-sm" pull-right data-action="remove" cmdAction><i class="fa fa-minus-circle"></i></a>';
+   //*************************************************
+   
+   
+   
 		tr += '<span class="cmdAttr" data-l1key="id" style="display:none;"></span>';
 		tr += '<input class="cmdAttr form-control input-sm" data-l1key="name" style="width : 140px;" placeholder="{{Nom}}">';
 		tr += '<span style="display:none;" class="type" type="' + init(_cmd.type) + '">' + jeedom.cmd.availableType() + '</span>';
@@ -148,15 +187,22 @@ function addCmdToTable(_cmd, type) {
 		tr += '</td>';
 		 tr += '<td>';
 		tr += ' <input class="cmdAttr form-control input-sm"  data-type="' + _cmd.type + '" data-l1key="configuration" data-l2key="controle"  style="margin-bottom : 5px;width : 80%; display : inline-block;" >';
-		tr += '<a class="btn btn-success btn-sm cursor listCmdInfo" data-type="' + _cmd.type + '"  style="margin-left : 5px;"><i class="fa fa-list-alt "></i></a>';
+		tr += '<a class="btn btn-info btn-sm cursor listCmdInfo" data-type="' + _cmd.type + '"  style="margin-left : 5px;"><i class="fa fa-list-alt "></i></a>';
+		tr += '<div hidden class="calcul"><small><i>';
+		tr += '<span style="margin-top : 9px; margin-left: 10px; " class="cmdAttr" data-l1key="configuration" data-l2key="calcul"></span></i></small></div>';
 		tr += '</td>';   
 		 tr += '<td>';
-		tr += '<span class="cmdAttr" style="font-weight: bold;" data-l1key="configuration" data-l2key="resultat"></span>';
-		tr += '</td>'; 	tr += '<td>';
+//		 		echo '<td><span class="label label-'.$couleur.'" style="font-size : 1em; cursor : default;">' .$datecreation.'</span></td>';
+
+		tr += '<span class="cmdAttr label label-'+couleur+'" style="font-weight: bold;" data-l1key="configuration" data-l2key="resultat"></span>';
+		//tr += '<span class="cmdAttr" style="font-weight: bold;" data-l1key="configuration" data-l2key="resultat"></span>';
+		tr += '</td>'; 	
+		tr += '<td>';
 
 		tr += '<i class="fa fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i>';
 		tr += '</td>';
 		tr += '</tr>';
+		//tr += '<tr class="bg-warning"><td class="bg-warning">frgthjkl</td></tr>';
 		$('#table_controles tbody').append(tr);
 		$('#table_controles tbody tr:last').setValues(_cmd, '.cmdAttr');
 		if (isset(_cmd.type)) {
@@ -214,9 +260,9 @@ dernierEtat = "(actuellement à "+_eqLogic.configuration.dernierEtat+")";
 
 
 if (typeControl == "")
-$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> {{Actions à executer quand un des contrôles passe à True}}</legend>');
+$('#table_actions').append('<br><div class="bg-success"><legend><i class="fa fa-cogs"></i> {{Actions à executer quand un des contrôles passe à True}}</legend>');
 else
-$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> Actions à executer quand le résultat global des contrôles passe à True '+dernierEtat+'</legend>');
+$('#table_actions').append('<br><div class="bg-success"><legend><i class="fa fa-cogs"></i> Actions à executer quand le résultat global des contrôles passe à True '+dernierEtat+'</legend>');
 
         // On va lister en premier les actions qui se déclencheront quand on passera de false à true
 		for (var i in _eqLogic.configuration.watchdogAction) {
@@ -224,18 +270,22 @@ $('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> Actions à ex
 			addAction(_eqLogic.configuration.watchdogAction[i])
         }
 		
+//$('#table_actions').append('</div>');
+		
 if (typeControl == "")
-$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> {{Actions à executer quand un des contrôles passe à False}}</legend>');
+$('#table_actions').append('<br><div class="bg-danger"><legend><i class="fa fa-cogs"></i> {{Actions à executer quand un des contrôles passe à False}}</legend>');
 else
-$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> Actions à executer quand le résultat global des contrôles passe à False '+dernierEtat+'</legend>');
+$('#table_actions').append('<br><div class="bg-danger"><legend><i class="fa fa-cogs"></i> Actions à executer quand le résultat global des contrôles passe à False '+dernierEtat+'</legend>');
 
         // puis les actions qui se déclencheront quand on passera de true à false
         for (var i in _eqLogic.configuration.watchdogAction) {
 			if (_eqLogic.configuration.watchdogAction[i].actionType == "False")
 			addAction(_eqLogic.configuration.watchdogAction[i])
         } 
+		
+//$('#table_actions').append('</div>');
 
-$('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> {{Actions à executer AVANT d\'effectuer le contrôle}}</legend>');
+$('#table_actions').append('<br><div class="bg-info"><legend><i class="fa fa-cogs"></i> {{Actions à executer AVANT d\'effectuer le contrôle}}</legend>');
 
         // puis les actions qui se déclencheront quand on passera de true à false
         for (var i in _eqLogic.configuration.watchdogAction) {

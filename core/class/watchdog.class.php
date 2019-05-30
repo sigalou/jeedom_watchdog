@@ -346,6 +346,8 @@ public function faireTestExpression($_string) {
 			$_string = str_replace("#tempo3#", $tempo3, $_string);
 
 	//$_boucleEnCours="8541";
+		$this->setConfiguration('calcul', scenarioExpression::setTags(jeedom::fromHumanReadable($_string)));
+		
 		$return = evaluate(scenarioExpression::setTags(jeedom::fromHumanReadable($_string), $scenario, true));
 				if (is_bool($return)) {
 					if ($return) $return = 'True';
@@ -358,7 +360,7 @@ public function faireTestExpression($_string) {
 		
 		
 		
-		
+
 		log::add('watchdog','debug','Controle : ' . $_string.' => Resultat : ' . $return);
 		return $return;
 }

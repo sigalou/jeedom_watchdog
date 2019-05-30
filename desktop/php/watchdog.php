@@ -170,10 +170,9 @@ foreach (object::all() as $object) {
       <div role="tabpanel" class="tab-pane" id="controlestab">
 
 <br><legend><i class="fa fa-tachometer"></i> {{Contrôles à effectuer}}</legend>
-<a class="btn btn-success btn-sm bt_addControle pull-left" data-type="action" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Ajouter un contrôle}}</a><br>
-
+<a class="btn btn-success btn-sm bt_addControle pull-left" data-type="action" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Ajouter un contrôle}}</a>
+<a id="afficheCalculs" class="btn btn-info btn-sm bt_afficheCalculs pull-right" data-type="action" style="margin-top:5px;"><i class="fa techno-robot30"></i> {{Afficher les calculs}}</a><a id="masqueCalculs" class="btn btn-warning btn-sm bt_masqueCalculs pull-right" data-type="action" style="margin-top:5px;"><i class="fa techno-robot30"></i> {{Masquer les calculs}}</a><br>
 <table id="table_controles" class="table  table-condensed ui-sortable table_controles">
-
     <thead>
         <tr>
             <th style="width: 200px;">{{Nom}}</th>
