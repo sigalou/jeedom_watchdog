@@ -250,11 +250,54 @@ class watchdog extends eqLogic {
     }
 
     /*
+	https://www.nextdom.org/knowledge-base/ajouter-un-template-a-votre-plugin/
      * Non obligatoire mais permet de modifier l'affichage du widget si vous en avez besoin
-      public function toHtml($_version = 'dashboard') {
-
-      }
      */
+	 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	public function toHtml($_version = 'dashboard') {
+		 	log::add('watchdog','debug','***************************************************************************Début génération Widget');        
+
+	$replace = $this->preToHtml($_version);
+		 	log::add('watchdog','debug','***********************************>>**************************************'.json_encode($replace));        
+			if (!is_array($replace)) {
+				return $replace;
+			}
+			$version = jeedom::versionAlias($_version);
+			if ($this->getDisplay('hideOn' . $version) == 1) {
+				return '';
+			}
+	/* ------------ Ajouter votre code ici ------------*/
+	
+	foreach ($this->getCmd('info') as $cmd) {
+		 	log::add('watchdog','debug','dans boucle génération Widget');        
+            $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
+            $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
+            $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
+            $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
+            if ($cmd->getLogicalId() == 'encours'){
+                $replace['#thumbnail#'] = $cmd->getDisplay('icon');
+            }
+            if ($cmd->getIsHistorized() == 1) {
+                $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
+            }
+        }
+	
+		 	log::add('watchdog','debug','***************************************************************************'.json_encode($replace));        
+	
+	/* ------------ N'ajouter plus de code apres ici------------ */
+		 	log::add('watchdog','debug','***************************************************************************Fin génération Widget');        
+
+	return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'watchdog', 'watchdog')));
+	}
+
 
     /*
      * Non obligatoire mais ca permet de déclencher une action après modification de variable de configuration
@@ -338,6 +381,9 @@ public function faireTestExpression($_string) {
 								// On va remplacer #name# par le nom du controle dans tous les champs du array "options"
 								foreach ($options as $key => $option) {
 									$options[$key]=str_replace("#name#", $this->getName(), $option);
+								}
+								foreach ($options as $key => $option) {
+									$options[$key]=str_replace("#title#", $eqLogic->getName(), $option);
 								}
 
 						

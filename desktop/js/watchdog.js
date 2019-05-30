@@ -19,18 +19,19 @@ var chaineExpressionTest="";
 $("#table_controles").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_actions").sortable({axis: "y", cursor: "move", items: ".watchdogAction", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
-console.log("--------- Lancement ---------");
+//console.log("--------- Lancement ---------");
 
 
 // BOUTONS -------------
 
  $("body").delegate('.bt_removeAction', 'click', function () {
+//$("bt_removeAction").off('click').on("click", function () {
+//console.log("--------- bt_removeAction");
     var type = $(this).attr('data-type');
     $(this).closest('.' + type).remove();
 });
 
 $('.bt_addControle').off('click').on('click',function(){
-//console.log("--------- bt_addControle");
 //console.log ("Valeur de data-type:"+$(this).attr('data-type'));
   //addCmdToTable({}, $(this).attr('data-type'));
   addCmdToTable({}, 'info');
@@ -49,7 +50,7 @@ $('#bt_cronGenerator').off('click').on('click',function(){
 });
 
 function addAction(_action) {
-	console.log("--------- addAction");
+	//console.log("--------- addAction");
 
     if (!isset(_action)) {
         _action = {};
@@ -118,7 +119,7 @@ function addAction(_action) {
  */
 function addCmdToTable(_cmd, type) {
 	
-		console.log("--------- addCmdToTable");
+		//console.log("--------- addCmdToTable");
 
 	// On est sur les commandes INFO -- Onglet Equipements à surveiller
 
@@ -169,7 +170,7 @@ function addCmdToTable(_cmd, type) {
 
 function saveEqLogic(_eqLogic) {
 	
-console.log("--------- saveEqLogic");
+//console.log("--------- saveEqLogic");
 
     if (!isset(_eqLogic.configuration)) {
         _eqLogic.configuration = {};
@@ -180,9 +181,9 @@ console.log("--------- saveEqLogic");
 }
 
 function printEqLogic(_eqLogic) {
-	console.log("--------- printEqLogic");
-			console.log("_eqLogic");
-			console.dir (_eqLogic);
+	//console.log("--------- printEqLogic
+			//console.log("_eqLogic");
+		//	console.dir (_eqLogic);
 
 // on remplit la table du résultat global
     $('#table_controles_resultat').empty();
@@ -259,12 +260,12 @@ $('#table_actions').append('<br><legend><i class="fa fa-cogs"></i> {{Actions à 
     });
 	
 }
-			
 
 // --Boutons
  /**************** Commun ***********/
  $("body").delegate(".listCmdAction", 'click', function () {
-console.log("--------- listCmdAction");
+
+//console.log("--------- listCmdAction");
     var type = $(this).attr('data-type');
     var el = $(this).closest('.' + type).find('.expressionAttr[data-l1key=cmd]');
  //   var el = $(this).closest('.' + type).find('.expressionAttr[data-l1key=configuration][data-l2key=commande]');
@@ -278,7 +279,7 @@ console.log("--------- listCmdAction");
 });
 
 $("body").delegate(".listAction", 'click', function () {
-	console.log("--------- listAction");
+	//console.log("--------- listAction");
   var type = $(this).attr('data-type');
   var el = $(this).closest('.' + type).find('.expressionAttr[data-l1key=cmd]');
 	//var el = $(this).closest('.' + type).find('.expressionAttr[data-l1key=configuration][data-l2key=commande]');
@@ -298,8 +299,10 @@ $("body").delegate(".listAction", 'click', function () {
 //-------------------------------------
 
 
-$("body").delegate(".listCmdInfo", 'click', function() {
-	console.log("--------- listCmdInfo");
+//$("body").delegate(".listCmdInfo", 'click', function() {
+$("#table_controles").off('click').on('click', ".listCmdInfo",function() {
+	
+	//console.log("--------- listCmdInfo");
 
   var eldebut = $(this);
   var expression = $(this).closest('expressionn');
@@ -312,309 +315,370 @@ $("body").delegate(".listCmdInfo", 'click', function() {
   if (expression.find('.cmdAttr[data-l1key=type]').value() == 'action') {
     type = 'action';
   }
-  
-
- jeedom.cmd.getSelectModal({cmd: {}}, function (result) {
-	 var date = new Date();
-
-// on va trouver le nom de l'équipement dans result.human
-// exemple :
-// #[Controle Installation][Apple TV][Statut]# doit donner Apple TV
-
-chaine=result.human;
-for (var i = 0; i < chaine.length; i++) {
-	test=chaine.substring(i, i+2);
-  if (test=="]["){
-	  chaine=chaine.substring(i+2);
-	  break;
-  }}
-for (var i = 0; i < chaine.length; i++) {
-	test=chaine.substring(i, i+2);
-  if (test=="]["){
-	  chaine=chaine.substring(0,i);
-	  break;
-  }}
-
-
-   // $sub = substr($str, strpos($str,$from)+strlen($from),strlen($str));
- //   $testreturn= substr($sub,0,strpos($sub,$to));
 
 
 
-	
-	//vient de desktop/js/scneario.js
-	
-     message = 'Aucun choix possible';
-	/*
-      if(result.cmd.subType == 'numeric'){
-        message = '<div class="row">  ' +
-        '<div class="col-md-12"> ' +
-        '<form class="form-horizontal" onsubmit="return false;"> ' +
-        '<div class="form-group"> ' +
-        '<label class="col-xs-5 control-label" >'+result.human+' {{est}}</label>' +
-        '             <div class="col-xs-3">' +
-        '                <select class="conditionAttr form-control" data-l1key="operator">' +
-        '                    <option value="==">{{égal}}</option>' +
-        '                  <option value=">">{{supérieur}}</option>' +
-        '                  <option value="<">{{inférieur}}</option>' +
-        '                 <option value="!=">{{différent}}</option>' +
-        '            </select>' +
-        '       </div>' +
-        '      <div class="col-xs-4">' +
-        '         <input type="number" class="conditionAttr form-control" data-l1key="operande" />' +
-        '    </div>' +
-        '</div>' +
-        '<div class="form-group"> ' +
-        '<label class="col-xs-5 control-label" >{{Ensuite}}</label>' +
-        '             <div class="col-xs-3">' +
-        '                <select class="conditionAttr form-control" data-l1key="next">' +
-        '                    <option value="">rien</option>' +
-        '                  <option value="ET">{{et}}</option>' +
-        '                  <option value="OU">{{ou}}</option>' +
-        '            </select>' +
-        '       </div>' +
-        '</div>' +
-        '</div> </div>' +
-        '</form> </div>  </div>';
-      }
-      if(result.cmd.subType == 'string'){
-        message = '<div class="row">  ' +
-        '<div class="col-md-12"> ' +
-        '<form class="form-horizontal" onsubmit="return false;"> ' +
-        '<div class="form-group"> ' +
-        '<label class="col-xs-5 control-label" >'+result.human+' {{est}}</label>' +
-        '             <div class="col-xs-3">' +
-        '                <select class="conditionAttr form-control" data-l1key="operator">' +
-        '                    <option value="==">{{égale}}</option>' +
-        '                  <option value="matches">{{contient}}</option>' +
-        '                 <option value="!=">{{différent}}</option>' +
-        '            </select>' +
-        '       </div>' +
-        '      <div class="col-xs-4">' +
-        '         <input class="conditionAttr form-control" data-l1key="operande" />' +
-        '    </div>' +
-        '</div>' +
-        '<div class="form-group"> ' +
-        '<label class="col-xs-5 control-label" >{{Ensuite}}</label>' +
-        '             <div class="col-xs-3">' +
-        '                <select class="conditionAttr form-control" data-l1key="next">' +
-        '                    <option value="">{{rien}}</option>' +
-        '                  <option value="ET">{{et}}</option>' +
-        '                  <option value="OU">{{ou}}</option>' +
-        '            </select>' +
-        '       </div>' +
-        '</div>' +
-        '</div> </div>' +
-        '</form> </div>  </div>';
-      }
-	  */
-	  // bouton radio https://forum.tomshardware.fr/threads/d%C3%A9sactiver-un-bouton-radio-en-fonction-dun-autre.530697/
-	  
-     // if(result.cmd.subType == 'binary'){
-		 
-		 
-message = '<form class="form-horizontal" onsubmit="return false;">  <div class="panel-group" id="accordion">    ';
+							message = '<form class="form-horizontal" onsubmit="return false;">  <div class="panel-group" id="accordion">    ';
+							message += '<div class="panel panel-default">      <div class="panel-heading">        <h4 class="panel-title">            <label for="r11" style="width: 100%;">              <input type="radio" class="conditionAttr" data-l1key="radio" id="r11" value=2 name="choix" checked="checked" required />';
+							message += ' Surveiller un équipement';
+							message += '<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"></a>            </label>        </h4>      </div>      <div id="collapseOne" class="panel-collapse collapse in">        <div class="panel-body">          <p>';
+							message += 'Par exemple : <b>[Cuisine][Détecteur de Présence]</b></div>';
+							message += '</p>        </div>      </div>   '; 
+							tempo1 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo1]').value()+" secondes"; 
+							if (tempo1==" secondes") tempo1='à configurer';
+							tempo2 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo2]').value()+" secondes"; 
+							if (tempo2==" secondes") tempo2='à configurer';
+							tempo3 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo3]').value()+" secondes"; 
+							if (tempo3==" secondes") tempo3='à configurer';
+							message += '<div class="panel panel-default">      <div class="panel-heading">        <h4 class=panel-title>            <label for="r12" style="width: 100%;">              <input type="radio" id="r12" value=1 name="choix" required />';
+							message += " Surveiller la commande d'un équipement";
+							message += '<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"></a>            </label>        </h4>      </div>      <div id="collapseTwo" class="panel-collapse collapse">        <div class="panel-body">          <p>'+
+							'Par exemple : <b>[Cuisine][Détecteur de Présence][Présent]</b></div></p>        </div>      </div>    </div>';
+							message += '<script>$("#r11").on("click", function(){  $(this).parent().find("a").trigger("click")});$("#r12").on("click", function(){  $(this).parent().find("a").trigger("click")})</script>';
+							message += '</div> </div>' ;
+							message += '</form> ';
 
-
-message += '<div class="panel panel-default">      <div class="panel-heading">        <h4 class="panel-title">            <label for="r11" style="width: 100%;">              <input type="radio" class="conditionAttr" data-l1key="radio" id="r11" value=2 name="choix" checked="checked" required />';
-message += ' Tester un changement d\'état de l\'équipement';
-message += '<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"></a>            </label>        </h4>      </div>      <div id="collapseOne" class="panel-collapse collapse in">        <div class="panel-body">          <p>';
-
-message += 'Tester si '+result.human+' {{est}}'+
-        '            <div class="col-xs-7">' +
-        '                 <input class="conditionAttr" data-l1key="operator" value="==" style="display : none;" />' +
-        '                  <select class="conditionAttr form-control" data-l1key="operande">' +
-        '                       <option value="1">{{Ouvert}}</option>' +
-        '                       <option value="0">{{Fermé}}</option>' +
-        '                       <option value="1">{{Allumé}}</option>' +
-        '                       <option value="0">{{Eteint}}</option>' +
-        '                       <option value="1">{{Déclenché}}</option>' +
-        '                       <option value="0">{{Au repos}}</option>' +
-        '                       </select>' +
-        '                    </div>' +
-        '                 </div>';
-message += '</p>        </div>      </div>   '; 
-
-			tempo1 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo1]').value()+" secondes"; 
-			if (tempo1==" secondes") tempo1='à configurer';
-			tempo2 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo2]').value()+" secondes"; 
-			if (tempo2==" secondes") tempo2='à configurer';
-			tempo3 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo3]').value()+" secondes"; 
-			if (tempo3==" secondes") tempo3='à configurer';
-
-message += '<div class="panel panel-default">      <div class="panel-heading">        <h4 class=panel-title>            <label for="r12" style="width: 100%;">              <input type="radio" id="r12" value=1 name="choix" required />';
-message += " Tester la date de la dernière collecte";
-message += '<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"></a>            </label>        </h4>      </div>      <div id="collapseTwo" class="panel-collapse collapse">        <div class="panel-body">          <p>'+
-'Tester si le délai depuis la dernière mise à jour de <br>'+result.human+' est supérieur à :'+
-        '            <div class="col-xs-7">' +
-		        '              <select class="conditionAttr form-control" data-l1key="choixtempo">' +
-        '                       <option value="1">Tempo1 ('+tempo1+')</option>' +
-        '                       <option value="2">Tempo2 ('+tempo2+')</option>' +
-        '                       <option value="3">Tempo3 ('+tempo3+')</option>' +
-        '                       </select>' +
-        '                    </div>' +
-'</p>        </div>      </div>    </div>';
-
-message += '<script>$("#r11").on("click", function(){  $(this).parent().find("a").trigger("click")});$("#r12").on("click", function(){  $(this).parent().find("a").trigger("click")})</script>';
-		 
-		 
-		 
-		 
-		 
-		 /*
-		 
-        message += '<div class="row">  ' +
-        '<div class="col-md-12"> ' +
-        '<form class="form-horizontal" onsubmit="return false;"> ';
-		
-        message +='<table border=0><tr><td>';
-        message +='<div class="form-group"> <input type="radio" value=1 name="choix"></td><TD>' +
-        '<label class="col-xs-12 control-label" >Tester si le délai depuis la dernière mise à jour de : <br>'+result.human+' est supérieur à :</label>' +
-        '            <div class="col-xs-7">' +
-		        '              <select class="conditionAttr form-control" data-l1key="choixtempo">' +
-        '                       <option value="1">Tempo1 ('+tempo1+')</option>' +
-        '                       <option value="2">Tempo2 ('+tempo2+')</option>' +
-        '                       <option value="3">Tempo3 ('+tempo3+')</option>' +
-        '                       </select>' +
-        '                    </div>' +
-        '                    </div>' +
-        '                 </div>';	
-        message +='</TD></TR></table>';
-		
-		message +="<hr>OU<hr>";
-		
-        //message +='<table border=0><tr><td>';
-		
-        message +='<div class="form-group"> <input type="radio" value=2 checked="checked" name="choix" class="conditionAttr form-control" data-l1key="radio"></td><TD>' +
-        '<label class="col-xs-12 control-label" >Tester si '+result.human+' {{est}}</label><br>' +
-        '            <div class="col-xs-7">' +
-        '                 <input class="conditionAttr" data-l1key="operator" value="==" style="display : none;" />' +
-        '                  <select class="conditionAttr form-control" data-l1key="operande">' +
-        '                       <option value="1">{{Ouvert}}</option>' +
-        '                       <option value="0">{{Fermé}}</option>' +
-        '                       <option value="1">{{Allumé}}</option>' +
-        '                       <option value="0">{{Eteint}}</option>' +
-        '                       <option value="1">{{Déclenché}}</option>' +
-        '                       <option value="0">{{Au repos}}</option>' +
-        '                       </select>' +
-        '                    </div>' +
-        '                 </div>';
-        //message +='</TD></TR></table><hr>';
-		
-		//message +="<hr>OU";
-		//message += chaine+"--"+json_encode(result);
-		*/
-		
-		
-		
-		
-        message += '<div class="form-group"> ' +
-        '             <div class="col-xs-12">' +
-        '  <input type="checkbox" style="margin-top : 11px;margin-right : 10px;" class="conditionAttr" data-l1key="configuration" data-l2key="assistName" > Mettre <b>'+chaine+'</b> comme nom au contrôle' +
-        '       </div>' +
-        '</div><hr>';
-		
-        message += '<div class="form-group"> ' +
-        '<label class="col-xs-5 control-label" >{{Ensuite}}</label>' +
-        '             <div class="col-xs-3">' +
-        '                <select class="conditionAttr form-control" data-l1key="next">' +
-        '                  <option value="">{{rien}}</option>' +
-        '                  <option value="ET">{{et}}</option>' +
-        '                  <option value="OU">{{ou}}</option>' +
-        '            </select>' +
-        '       </div>' +
-        '</div>';		
-		
-         message += '</div> </div>' ;
-		
-		
-        message += '</form> ';
-     // }
-//console.log(message);
-      
-      bootbox.dialog({
-        title: "{{Quel test faire ?}}",
-        message: message,
-        buttons: {
-          "Annuler": {
-            className: "btn-default",
-            callback: function () {
-              //expression.find('.watchdogMasterEqLogicAttr[data-l1key=expression]').atCaret('insert', result.human);
-			 //el.closest('.watchdogMasterEqLogic').find('.watchdogMasterEqLogicAttr[data-l1key=eqLogic]').value(result.human); C'est pour mettre la résultat précédent
-            }
-          },
-          success: {
-            label: "Valider",
-            className: "btn-primary",
-            callback: function () {
-				
-              var condition = result.human;
-			  var test=result.cmd.subType;
-			  
-			  console.dir($('.conditionAttr[data-l1key=radio]').value());
-			  
-			  if($('.conditionAttr[data-l1key=radio]').value() != '1'){
-				  
-				  //On regarde quel ets le tempo sélectionné 
-				  switch ($('.conditionAttr[data-l1key=choixtempo]').value()) {
-						  case '2':
-							choixtempo="#tempo2#";
-							break;
-						  case '3':
-							choixtempo="#tempo3#";
-							break;
-						  default:
-							choixtempo="#tempo1#";
+// Lancement de l'écran numéro 1/3	
+				  bootbox.dialog({
+					title: "{{Que voulez-vous surveiller ?}}",
+					message: message,
+					buttons: {
+					  "Annuler": {
+						className: "btn-default",
+						callback: function () {
+						  //expression.find('.watchdogMasterEqLogicAttr[data-l1key=expression]').atCaret('insert', result.human);
+						 //el.closest('.watchdogMasterEqLogic').find('.watchdogMasterEqLogicAttr[data-l1key=eqLogic]').value(result.human); C'est pour mettre la résultat précédent
 						}
-				  
-				  
-				  // On est dans le cas : Tester le délai depuis la dernière mise à jour de xxx ou aucune case
-  	  condition = '(#timestamp# - strtotime(collectdate(' + condition+"))) > "+choixtempo;
-			  }
-			  else
-			  {		  
-				  condition += ' ' + $('.conditionAttr[data-l1key=operator]').value();
-				  if(result.cmd.subType == 'string'){
-					if($('.conditionAttr[data-l1key=operator]').value() == 'matches'){
-					  condition += ' "/' + $('.conditionAttr[data-l1key=operande]').value()+'/"';
-					}else{
-					  condition += ' "' + $('.conditionAttr[data-l1key=operande]').value()+'"';
+					  },
+					  success: {
+						label: "Valider",
+						className: "btn-primary",
+						callback: function () {
+							
+					  
+					  
+	if ($('.conditionAttr[data-l1key=radio]').value() == "1")
+		{
+		//------------L'utilisateur demande a choisir l'équipement --
+		// Lancement de l'écran numéro 2/3	
+			 jeedom.eqLogic.getSelectModal({cmd: {}}, function (result) {
+					var date = new Date();
+
+					// on va trouver le nom de l'équipement dans result.human
+					// exemple :
+					// #[Controle Installation][Apple TV]# doit donner Apple TV
+
+					chaine=result.human;
+					for (var i = 0; i < chaine.length; i++) {
+						test=chaine.substring(i, i+2);
+					  if (test=="]["){
+						  chaine=chaine.substring(i+2);
+						  break;
+					  }}
+					for (var i = 0; i < chaine.length; i++) {
+						test=chaine.substring(i, i+2);
+					  if (test=="]#"){
+						  chaine=chaine.substring(0,i);
+						  break;
+					  }}
+						
+					//vient de desktop/js/scneario.js
+					// Texte de l'écran numéro 3/3	
+									tempo1 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo1]').value()+" secondes"; 
+									if (tempo1==" secondes") tempo1='à configurer';
+									tempo2 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo2]').value()+" secondes"; 
+									if (tempo2==" secondes") tempo2='à configurer';
+									tempo3 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo3]').value()+" secondes"; 
+									if (tempo3==" secondes") tempo3='à configurer';							 
+									message = '<form class="form-horizontal" onsubmit="return false;">  <div class="panel-group" id="accordion">    ';
+									message += '<div class="panel panel-default">      <div class="panel-heading">        <h4 class="panel-title">            <label for="r13" style="width: 100%;">              <input type="radio" class="conditionAttr" data-l1key="radio" id="r11" value=2 name="choix" checked="checked" required />';
+									message += ' Tester la dernière communication avec l\'équipement';
+									message += '<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"></a>            </label>        </h4>      </div>      <div id="collapseOne" class="panel-collapse collapse in">';
+									
+									//message += '</p>        </div>      </div>   '; 
+
+									//message += '<div class="panel panel-default">      <div class="panel-heading">        <h4 class=panel-title>            <label for="r12" style="width: 100%;">              <input type="radio" id="r12" value=1 name="choix" required />';
+									//message += " Tester la dernière communication avec l\'équipement";
+									//message += '<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"></a>            </label>        </h4>      </div>      <div id="collapseTwo" class="panel-collapse collapse">';
+									message += '<div class="panel-body">          <p>'+
+									'Tester si le délai depuis la dernière communicvation avec <br><b>'+result.human+'</b> est supérieur à :'+
+									'            <div class="col-xs-7">' +
+									'              <select class="conditionAttr form-control" data-l1key="choixtempo">' +
+									'                       <option value="1">Tempo1 ('+tempo1+')</option>' +
+									'                       <option value="2">Tempo2 ('+tempo2+')</option>' +
+									'                       <option value="3">Tempo3 ('+tempo3+')</option>' +
+									'                       </select>' +
+									'                    </div>' +
+									'</p>        </div>      </div>    </div>';
+									//message += '<script>$("#r11").on("click", function(){  $(this).parent().find("a").trigger("click")});$("#r12").on("click", function(){  $(this).parent().find("a").trigger("click")})</script>';
+									message += '<div class="form-group"> ' +
+									'             <div class="col-xs-12">' +
+									'  <input type="checkbox" style="margin-top : 11px;margin-right : 10px;" class="conditionAttr" data-l1key="configuration" data-l2key="assistName" > Mettre <b>'+chaine+'</b> comme nom au contrôle' +
+									'       </div>' +
+									'</div><hr>';
+									message += '<div class="form-group"> ' +
+									'<label class="col-xs-5 control-label" >{{Ensuite}}</label>' +
+									'             <div class="col-xs-3">' +
+									'                <select class="conditionAttr form-control" data-l1key="next">' +
+									'                  <option value="">{{rien}}</option>' +
+									'                  <option value="ET">{{et}}</option>' +
+									'                  <option value="OU">{{ou}}</option>' +
+									'            </select>' +
+									'       </div>' +
+									'</div>';		
+									message += '</div> </div>' ;
+									message += '</form> ';
+
+					// Lancement de l'écran numéro 3/3	
+
+						  
+						  bootbox.dialog({
+							title: "{{Quel test faire ?}}",
+							message: message,
+							buttons: {
+							  "Annuler": {
+								className: "btn-default",
+								callback: function () {
+								  //expression.find('.watchdogMasterEqLogicAttr[data-l1key=expression]').atCaret('insert', result.human);
+								 //el.closest('.watchdogMasterEqLogic').find('.watchdogMasterEqLogicAttr[data-l1key=eqLogic]').value(result.human); C'est pour mettre la résultat précédent
+								}
+							  },
+							  success: {
+								label: "Valider",
+								className: "btn-primary",
+								callback: function () {
+									
+								  var condition = result.human;
+								  //var test=result.cmd.subType;
+								  
+								  console.dir($('.conditionAttr[data-l1key=radio]').value());
+								  
+									  
+									  //On regarde quel ets le tempo sélectionné 
+									  switch ($('.conditionAttr[data-l1key=choixtempo]').value()) {
+											  case '2':
+												choixtempo="#tempo2#";
+												break;
+											  case '3':
+												choixtempo="#tempo3#";
+												break;
+											  default:
+												choixtempo="#tempo1#";
+											}
+									  
+									  
+									  // On est dans le cas : Tester le délai depuis la dernière mise à jour de xxx ou aucune case
+								  condition = '(#timestamp# - strtotime(lastCommunication(' + condition+"))) > "+choixtempo;
+
+								
+
+								valeurprecedente = chaineExpressionTest
+								//valeurprecedente = $('.eqLogicAttr[data-l1key=configuration][data-l2key=nameOn]').value();
+								condition=valeurprecedente+condition;
+								chaineExpressionTest=condition;
+								//$('.eqLogicAttr[data-l1key=configuration][data-l2key=nameOn]').value(condition);				  
+								
+								  if($('.conditionAttr[data-l1key=next]').value() != ''){
+									eldebut.click();
+									//rempliCondition(); //on reboucle pour une autre condition
+								  }
+								  else
+								  {
+									  el.value(condition);
+									// Si la case à cocher qui permet de mettre automatiquement le nom de l'équipement est cochée
+									if($('.conditionAttr[data-l1key=configuration][data-l2key=assistName]').value() == '1')
+									  el_name.value(chaine);
+
+									  chaineExpressionTest="";
+								  
+
+								  }
+								  
+								  //el.value(condition);
+							   }
+							  },
+							}
+						  }); // fin de bootbox.dialog(
+					  });	// fin de jeedom.cmd.getSelectModal			
+			
+		}
+	else {
+ 		//------------L'utilisateur demande a choisir la commande de l'équipement --
+		// Lancement de l'écran numéro 2/3	
+			 jeedom.cmd.getSelectModal({cmd: {}}, function (result) {
+					var date = new Date();
+
+					// on va trouver le nom de l'équipement dans result.human
+					// exemple :
+					// #[Controle Installation][Apple TV][Statut]# doit donner Apple TV
+
+					chaine=result.human;
+					for (var i = 0; i < chaine.length; i++) {
+						test=chaine.substring(i, i+2);
+					  if (test=="]["){
+						  chaine=chaine.substring(i+2);
+						  break;
+					  }}
+					for (var i = 0; i < chaine.length; i++) {
+						test=chaine.substring(i, i+2);
+					  if (test=="]["){
+						  chaine=chaine.substring(0,i);
+						  break;
+					  }}
+						
+					//vient de desktop/js/scneario.js
+					// Texte de l'écran numéro 3/3	
+							 
+									message = '<form class="form-horizontal" onsubmit="return false;">  <div class="panel-group" id="accordion">    ';
+									message += '<div class="panel panel-default">      <div class="panel-heading">        <h4 class="panel-title">            <label for="r11" style="width: 100%;">              <input type="radio" class="conditionAttr" data-l1key="radio" id="r11" value=2 name="choix" checked="checked" required />';
+									message += ' Tester un changement d\'état de la commande';
+									message += '<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"></a>            </label>        </h4>      </div>      <div id="collapseOne" class="panel-collapse collapse in">        <div class="panel-body">          <p>';
+									message += 'Tester si <b>'+result.human+' </b>est'+
+									'            <div class="col-xs-7">' +
+									'                 <input class="conditionAttr" data-l1key="operator" value="==" style="display : none;" />' +
+									'                  <select class="conditionAttr form-control" data-l1key="operande">' +
+									'                       <option value="1">{{Ouvert}}</option>' +
+									'                       <option value="0">{{Fermé}}</option>' +
+									'                       <option value="1">{{Allumé}}</option>' +
+									'                       <option value="0">{{Eteint}}</option>' +
+									'                       <option value="1">{{Déclenché}}</option>' +
+									'                       <option value="0">{{Au repos}}</option>' +
+									'                       </select>' +
+									'                    </div>' +
+									'                 </div>';
+									message += '</p>        </div>      </div>   '; 
+									tempo1 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo1]').value()+" secondes"; 
+									if (tempo1==" secondes") tempo1='à configurer';
+									tempo2 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo2]').value()+" secondes"; 
+									if (tempo2==" secondes") tempo2='à configurer';
+									tempo3 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo3]').value()+" secondes"; 
+									if (tempo3==" secondes") tempo3='à configurer';
+									message += '<div class="panel panel-default">      <div class="panel-heading">        <h4 class=panel-title>            <label for="r12" style="width: 100%;">              <input type="radio" id="r12" value=1 name="choix" required />';
+									message += " Tester la date de la dernière collecte";
+									message += '<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"></a>            </label>        </h4>      </div>      <div id="collapseTwo" class="panel-collapse collapse">        <div class="panel-body">          <p>'+
+									'Tester si le délai depuis la dernière mise à jour de <br><b>'+result.human+'</b> est supérieur à :'+
+									'            <div class="col-xs-7">' +
+									'              <select class="conditionAttr form-control" data-l1key="choixtempo">' +
+									'                       <option value="1">Tempo1 ('+tempo1+')</option>' +
+									'                       <option value="2">Tempo2 ('+tempo2+')</option>' +
+									'                       <option value="3">Tempo3 ('+tempo3+')</option>' +
+									'                       </select>' +
+									'                    </div>' +
+									'</p>        </div>      </div>    </div>';
+									message += '<script>$("#r11").on("click", function(){  $(this).parent().find("a").trigger("click")});$("#r12").on("click", function(){  $(this).parent().find("a").trigger("click")})</script>';
+									message += '<div class="form-group"> ' +
+									'             <div class="col-xs-12">' +
+									'  <input type="checkbox" style="margin-top : 11px;margin-right : 10px;" class="conditionAttr" data-l1key="configuration" data-l2key="assistName" > Mettre <b>'+chaine+'</b> comme nom au contrôle' +
+									'       </div>' +
+									'</div><hr>';
+									message += '<div class="form-group"> ' +
+									'<label class="col-xs-5 control-label" >{{Ensuite}}</label>' +
+									'             <div class="col-xs-3">' +
+									'                <select class="conditionAttr form-control" data-l1key="next">' +
+									'                  <option value="">{{rien}}</option>' +
+									'                  <option value="ET">{{et}}</option>' +
+									'                  <option value="OU">{{ou}}</option>' +
+									'            </select>' +
+									'       </div>' +
+									'</div>';		
+									message += '</div> </div>' ;
+									message += '</form> ';
+
+					// Lancement de l'écran numéro 3/3	
+
+						  
+						  bootbox.dialog({
+							title: "{{Quel test faire ?}}",
+							message: message,
+							buttons: {
+							  "Annuler": {
+								className: "btn-default",
+								callback: function () {
+								  //expression.find('.watchdogMasterEqLogicAttr[data-l1key=expression]').atCaret('insert', result.human);
+								 //el.closest('.watchdogMasterEqLogic').find('.watchdogMasterEqLogicAttr[data-l1key=eqLogic]').value(result.human); C'est pour mettre la résultat précédent
+								}
+							  },
+							  success: {
+								label: "Valider",
+								className: "btn-primary",
+								callback: function () {
+									
+								  var condition = result.human;
+								  var test=result.cmd.subType;
+								  
+								  console.dir($('.conditionAttr[data-l1key=radio]').value());
+								  
+								  if($('.conditionAttr[data-l1key=radio]').value() != '1'){
+									  
+									  //On regarde quel ets le tempo sélectionné 
+									  switch ($('.conditionAttr[data-l1key=choixtempo]').value()) {
+											  case '2':
+												choixtempo="#tempo2#";
+												break;
+											  case '3':
+												choixtempo="#tempo3#";
+												break;
+											  default:
+												choixtempo="#tempo1#";
+											}
+									  
+									  
+									  // On est dans le cas : Tester le délai depuis la dernière mise à jour de xxx ou aucune case
+								  condition = '(#timestamp# - strtotime(collectdate(' + condition+"))) > "+choixtempo;
+								  }
+								  else
+								  {		  
+									  condition += ' ' + $('.conditionAttr[data-l1key=operator]').value();
+									  if(result.cmd.subType == 'string'){
+										if($('.conditionAttr[data-l1key=operator]').value() == 'matches'){
+										  condition += ' "/' + $('.conditionAttr[data-l1key=operande]').value()+'/"';
+										}else{
+										  condition += ' "' + $('.conditionAttr[data-l1key=operande]').value()+'"';
+										}
+									  }else{
+										condition += ' ' + $('.conditionAttr[data-l1key=operande]').value();
+									  }
+									  condition += ' ' + $('.conditionAttr[data-l1key=next]').value()+' ';
+								  }
+								
+
+								valeurprecedente = chaineExpressionTest
+								//valeurprecedente = $('.eqLogicAttr[data-l1key=configuration][data-l2key=nameOn]').value();
+								condition=valeurprecedente+condition;
+								chaineExpressionTest=condition;
+								//$('.eqLogicAttr[data-l1key=configuration][data-l2key=nameOn]').value(condition);				  
+								
+								  if($('.conditionAttr[data-l1key=next]').value() != ''){
+									eldebut.click();
+									//rempliCondition(); //on reboucle pour une autre condition
+								  }
+								  else
+								  {
+									  el.value(condition);
+									// Si la case à cocher qui permet de mettre automatiquement le nom de l'équipement est cochée
+									if($('.conditionAttr[data-l1key=configuration][data-l2key=assistName]').value() == '1')
+									  el_name.value(chaine);
+
+									  chaineExpressionTest="";
+								  
+
+								  }
+								  
+								  //el.value(condition);
+							   }
+							  },
+							}
+						  }); // fin de bootbox.dialog(
+					  });	// fin de jeedom.cmd.getSelectModal
+		}
+  
+  // Début Fermeture des parenthèses et accolades du premier bootbox.dialog
+					   }
+					  },
 					}
-				  }else{
-					condition += ' ' + $('.conditionAttr[data-l1key=operande]').value();
-				  }
-				  condition += ' ' + $('.conditionAttr[data-l1key=next]').value()+' ';
-			  }
-			
-
-valeurprecedente = chaineExpressionTest
-//valeurprecedente = $('.eqLogicAttr[data-l1key=configuration][data-l2key=nameOn]').value();
-condition=valeurprecedente+condition;
-chaineExpressionTest=condition;
-//$('.eqLogicAttr[data-l1key=configuration][data-l2key=nameOn]').value(condition);				  
-			
-              if($('.conditionAttr[data-l1key=next]').value() != ''){
-                eldebut.click();
-				//rempliCondition(); //on reboucle pour une autre condition
-              }
-			  else
-			  {
-				  el.value(condition);
-				// Si la case à cocher qui permet de mettre automatiquement le nom de l'équipement est cochée
-				if($('.conditionAttr[data-l1key=configuration][data-l2key=assistName]').value() == '1')
-				  el_name.value(chaine);
-
-				  chaineExpressionTest="";
-			  
-
-			  }
-			  
- 			  //el.value(condition);
-           }
-          },
-        }
-      });
-  });	
+				  });
+// Fin Fermeture des parenthèses et accolades du premier bootbox.dialog
+  
   
   });
 
