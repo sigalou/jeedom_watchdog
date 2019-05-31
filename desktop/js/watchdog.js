@@ -19,12 +19,13 @@ var chaineExpressionTest="";
 $("#table_controles").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_actions").sortable({axis: "y", cursor: "move", items: ".watchdogAction", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
-window.onload = function (){ $(".bt_masqueCalculs").hide();};
 
+$(document).ready(function(){ //lancé quand toute la page est chargée
+	$(".bt_masqueCalculs").hide();
+	});
 
 //console.log("--------- Lancement ---------");
 
-  //--A METTRE APRES CHARGEMENT
 
 // BOUTONS -------------
 
@@ -192,9 +193,7 @@ function addCmdToTable(_cmd, type) {
 		tr += '<span style="margin-top : 9px; margin-left: 10px; " class="cmdAttr" data-l1key="configuration" data-l2key="calcul"></span></i></small></div>';
 		tr += '</td>';   
 		 tr += '<td>';
-//		 		echo '<td><span class="label label-'.$couleur.'" style="font-size : 1em; cursor : default;">' .$datecreation.'</span></td>';
-
-		tr += '<span class="cmdAttr label label-'+couleur+'" style="font-weight: bold;" data-l1key="configuration" data-l2key="resultat"></span>';
+		tr += '<span class="cmdAttr label label-'+couleur+'" style="font-weight: bold;" data-l1key="configuration" data-l2key="resultat"><i class="fa fa-list-alt "></i></span>';
 		//tr += '<span class="cmdAttr" style="font-weight: bold;" data-l1key="configuration" data-l2key="resultat"></span>';
 		tr += '</td>'; 	
 		tr += '<td>';
