@@ -169,7 +169,11 @@ function addCmdToTable(_cmd, type) {
 			
 		
 		//var tr = '<tr class="cmd info" >';
+<<<<<<< HEAD
 			var tr = '<tr class="cmd info bg-'+couleur+'" >'; //la couleur ne foncitonne pas à cause de info mais on ne peut pas supprimer info
+=======
+			var tr = '<tr class="cmd  bg-'+couleur+'" >';
+>>>>>>> 035ea0b7495160be751d7a009286ffabb19b0de5
 		
 		tr += '<td>';
 		
@@ -193,7 +197,11 @@ function addCmdToTable(_cmd, type) {
 		tr += '<span style="margin-top : 9px; margin-left: 10px; " class="cmdAttr" data-l1key="configuration" data-l2key="calcul"></span></i></small></div>';
 		tr += '</td>';   
 		 tr += '<td>';
+<<<<<<< HEAD
 		tr += '<span class="cmdAttr label label-'+couleur+'" style="font-weight: bold;" data-l1key="configuration" data-l2key="resultat"><i class="fa fa-question-circle"></i></span>';
+=======
+		tr += '<span class="cmdAttr label label-'+couleur+'" style="font-weight: bold;" data-l1key="configuration" data-l2key="resultat"><i class="fa fa-list-alt "></i></span>';
+>>>>>>> 035ea0b7495160be751d7a009286ffabb19b0de5
 		//tr += '<span class="cmdAttr" style="font-weight: bold;" data-l1key="configuration" data-l2key="resultat"></span>';
 		tr += '</td>'; 	
 		tr += '<td>';
@@ -533,8 +541,11 @@ $("#table_controles").off('click').on('click', ".listCmdInfo",function() {
 								  }
 								  else
 								  {
+<<<<<<< HEAD
 									  console.log("condition="+condition);
 									  console.log("chaine="+chaine);
+=======
+>>>>>>> 035ea0b7495160be751d7a009286ffabb19b0de5
 									  el.value(condition);
 									// Si la case à cocher qui permet de mettre automatiquement le nom de l'équipement est cochée
 									if($('.conditionAttr[data-l1key=configuration][data-l2key=assistName]').value() == '1')
