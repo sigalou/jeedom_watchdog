@@ -8,6 +8,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 
 // https://jeedom-facile.fr/index.php/2018/12/18/la-surveillance-de-vos-equipements-domotiques/
 // http://sarakha63-domotique.fr/surveillance-equipement-z-wave-xiaomi-blea/
+// 
 
 ?>
 
@@ -63,8 +64,8 @@ foreach ($eqLogics as $eqLogic) {
  <ul class="nav nav-tabs" role="tablist">
   <li role="presentation"><a href="#" class="eqLogicAction" aria-controls="home" role="tab" data-toggle="tab" data-action="returnToThumbnailDisplay"><i class="fa fa-arrow-circle-left"></i></a></li>
   <li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Watchdog}}</a></li>
-  <li role="presentation"><a href="#controlestab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-tachometer"></i> {{Equipements à surveiller}}</a></li>
-  <li role="presentation"><a href="#infocmd" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-cogs"></i> {{Commandes}}</a></li>
+  <li role="presentation"><a href="#controlestab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-tachometer"></i> {{Equipements ou Commandes à surveiller}}</a></li>
+  <li role="presentation"><a href="#infocmd" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-cogs"></i> {{Actions}}</a></li>
 </ul>
 
   <div class="tab-content">
@@ -169,9 +170,9 @@ foreach (object::all() as $object) {
       <div role="tabpanel" class="tab-pane" id="controlestab">
 
 <br><legend><i class="fa fa-tachometer"></i> {{Contrôles à effectuer}}</legend>
-<a class="btn btn-success btn-sm bt_addControle pull-left" data-type="action" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Ajouter un contrôle}}</a><br>
+<a class="btn btn-success btn-sm bt_addControle pull-left" data-type="action" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Ajouter un contrôle}}</a>
+<a id="afficheCalculs" class="btn btn-info btn-sm bt_afficheCalculs pull-right" data-type="action" style="margin-top:5px;"><i class="fa techno-robot30"></i> {{Afficher les calculs}}</a><a id="masqueCalculs" class="btn btn-warning btn-sm bt_masqueCalculs pull-right" data-type="action" style="margin-top:5px;"><i class="fa techno-robot30"></i> {{Masquer les calculs}}</a><br>
 <table id="table_controles" class="table  table-condensed ui-sortable table_controles">
-
     <thead>
         <tr>
             <th style="width: 200px;">{{Nom}}</th>
@@ -221,7 +222,7 @@ if ($typeControl!="")
 </table>
 
 </div>
-       <div role="tabpanel" class="tab-pane" id="infocmd">
+       <div role="tabpanel" class="tab-pane" id="infocmd"><BR>
 	   <?php
 if ($typeControl=="")
 {?>
@@ -230,7 +231,7 @@ if ($typeControl=="")
         #name# = Nom du contrôle qui a déclenché l'action => mettre #name# pour récupérer la valeur
         </div>
 		<?php } ?>
-		<a class="btn btn-success btn-sm bt_addAction pull-left" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une commande}}</a><br><br>
+		<a class="btn btn-success btn-sm bt_addAction pull-left" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une action}}</a><br><br>
 		
 		<form class="form-horizontal">
 			<div id="table_actions"></div>
