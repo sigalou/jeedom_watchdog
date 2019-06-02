@@ -162,10 +162,12 @@ class watchdog extends eqLogic {
 								// On va remplacer #name# par le nom du controle dans tous les champs du array "options"
 								foreach ($options as $key => $option) {
 									$options[$key]=str_replace("#name#", $this->getName(), $option);
-									$options[$key]=str_replace("#title#", $watchdog->getName(), $option);
 								}
-						log::add('watchdog','debug','Exécution de la commande ' . $action['cmd'] . " avec comme option(s) : ". json_encode($options));
-						scenarioExpression::createAndExec('action', $action['cmd'], $options);
+								foreach ($options as $key => $option) {
+									$options[$key]=str_replace("#title#", $watchdog->getName(), $option);
+								}						
+		log::add('watchdog','debug','Exécution de la commande ' . $action['cmd'] . " avec comme option(s) : ". json_encode($options));
+					scenarioExpression::createAndExec('action', $action['cmd'], $options);
 					}					
 					} catch (Exception $e) {
 						log::add('watchdog', 'error', __('function trigger : Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
@@ -223,6 +225,9 @@ class watchdog extends eqLogic {
 		foreach (self::byType('watchdog') as $watchdog) {
 			$autorefresh = $watchdog->getConfiguration('autorefresh');
 			$watchdog->setConfiguration('dernierLancement','CRON '.date("d.m.Y")." ".date("H:i:s"));
+			//ESSAI
+			//$watchdog->setConfiguration("watchdogAction", 'CRON '.date("d.m.Y")." ".date("H:i:s"));
+			
 			if ($watchdog->getIsEnable() == 1 && $autorefresh != '') {
 				try {
 					$c = new Cron\CronExpression($autorefresh, new Cron\FieldFactory);
@@ -369,7 +374,7 @@ public function faireTestExpression($_string) {
 	public function triggerEquip($passe) {
 	$eqLogic = $this->getEqLogic();
 	$typeControl= $eqLogic->getConfiguration('typeControl');
-	
+	$ideqLogic=$eqLogic->getId();
 		if ($typeControl == "") {
 		// La fonction trigger est appellé sur le résultat général des controles, on ne fait rien si on n'est pas en mode "Actions sur chaque cvontrole indépendamment"
 			
@@ -388,6 +393,10 @@ public function faireTestExpression($_string) {
 									$options[$key]=str_replace("#title#", $eqLogic->getName(), $option);
 								}
 
+						
+						if ($options['log'] == '1')
+						log::add('watchdog_'.$ideqLogic, 'info', $options['title'].' : ' . $options['message']);
+						
 						
 						log::add('watchdog','debug','Exécution de la commande ' . $action['cmd'] . " avec comme option(s) : ". json_encode($options));
 						scenarioExpression::createAndExec('action', $action['cmd'], $options);

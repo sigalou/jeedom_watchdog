@@ -49,15 +49,22 @@ foreach ($eqLogics as $eqLogic) {
 </div>
 
 <div class="col-xs-12 eqLogic" style="display: none;">
+
+
+<!-- Methode récupérée de Jeedouino, Merci !! -->
+
 		<div class="input-group pull-right" style="display:inline-flex">
-			<span class="input-group-btn">
-				<a class="btn btn-default btn-sm eqLogicAction roundedLeft" data-action="configure"><i class="fa fa-cogs"></i> {{Configuration avancée}}</a><a class="btn btn-default btn-sm eqLogicAction" data-action="copy"><i class="fas fa-copy"></i> {{Dupliquer}}</a><a class="btn btn-sm btn-success eqLogicAction" data-action="save"><i class="fas fa-check-circle"></i> {{Sauvegarder}}</a><a class="btn btn-danger btn-sm eqLogicAction roundedRight" data-action="remove"><i class="fas fa-minus-circle"></i> {{Supprimer}}</a>
-			</span>
+			
+			<a href="http://sigalou-domotique.fr/plugin-jeedom-watchdog/"  style="margin-right:5px" target="_blank" class="btn btn-success eqLogicAction "  title="{{Lien vers la Documentation du plugin}}"><i class="fa fa-book"></i> </a>
+			<a class="btn btn-info eqLogicAction  bt_plugin_view_log"  style="margin-right:5px" title="{{Logs du Watchdog}}"><i class="fa fa-file"></i> </a>
+			<a class="btn btn-default eqLogicAction "  style="margin-right:5px" data-action="configure" title="{{Configuration avancée du Watchdog}}"><i class="fa fa-cogs"></i> </a>
+			<a class="btn btn-warning eqLogicAction " style="margin-right:5px" data-action="copy" title="{{Dupliquer cet équipement}}"><i class="fa fa-files-o"></i> </a>
+			<a class="btn btn-danger eqLogicAction " style="margin-right:5px" data-action="remove" title="{{Supprimer le Watchdog}}"><i class="fa fa-minus-circle"></i> </a>
+			<a class="btn btn-success eqLogicAction "  style="margin-right:5px" data-action="save"  title="{{Sauver et Contrôler}}"><i class="fa fa-check-circle"></i> {{Sauver / Contrôler}}</a>
+			
 		</div>
 		
-		
-		
-		
+
 	      <!-- Liste des onglets -->
 	
 		
@@ -222,23 +229,25 @@ if ($typeControl!="")
 </table>
 
 </div>
+
+
+
        <div role="tabpanel" class="tab-pane" id="infocmd"><BR>
-	   <?php
-if ($typeControl=="")
-{?>
-<div class="alert alert-info">
-        En mode "Actions sur chaque contrôle indépendamment"  : <br/>
-        #name# = Nom du contrôle qui a déclenché l'action => mettre #name# pour récupérer la valeur
-        </div>
-		<?php } ?>
+							<?php if ($typeControl=="")
+							{?>
+							<div class="alert alert-info">
+							En mode "Actions sur chaque contrôle indépendamment"  : <br/>
+							#name# = Nom du contrôle qui a déclenché l'action => mettre #name# pour récupérer la valeur
+							</div>
+							<?php } ?>
 		<a class="btn btn-success btn-sm bt_addAction pull-left" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une action}}</a><br><br>
 		
 		<form class="form-horizontal">
 			<div id="table_actions"></div>
 		</form>
-		
-		
        </div>
+	   
+	   
 </div>
 </div>
 

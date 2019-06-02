@@ -57,12 +57,20 @@ $('.bt_addAction').off('click').on('click',function(){
 //console.log("--------- bt_addAction");
 $('#table_actions').append('</center><br><legend><i class="fa fa-cogs"></i> {{Nouvelle action}}</legend><center>');
   addAction({}, "watchdogAction");
+  addLog();
 });
 
 $('#bt_cronGenerator').off('click').on('click',function(){
     jeedom.getCronSelectModal({},function (result) {
         $('.eqLogicAttr[data-l1key=configuration][data-l2key=autorefresh]').value(result.value);
     });
+});
+
+
+$('.bt_plugin_view_log').on('click',function(){
+   $('#md_modal').dialog({title: "{{Log de }}"+$('.eqLogicAttr[data-l1key=name]').value()});
+   $("#md_modal").load('index.php?v=d&modal=log.display&log=watchdog_'+$('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
+
 });
 
 function addAction(_action) {
@@ -84,18 +92,19 @@ function addAction(_action) {
     //div += '</div>';
     div += '<div class="col-sm-2 ">';
     //div += '<i class="fa fa-arrows-v pull-left" style="margin-top : 9px; margin-right: 10px; "></i>';
-    div += '<input type="checkbox" style="margin-top : 11px;margin-right : 10px;" class="expressionAttr" data-l1key="options" data-l2key="enable" checked title="{{Décocher pour désactiver l\'action}}" />';
-    div += '<input type="checkbox" style="margin-top : 11px;margin-right : 10px;" class="expressionAttr" data-l1key="options" data-l2key="background" title="Cocher pour que la commande s\'exécute en parallèle des autres actions" />';
+    div += '<input type="checkbox" style="margin-top : 11px;margin-right : 5px;" class="expressionAttr" data-l1key="options" data-l2key="enable" checked title="{{Décocher pour désactiver l\'action}}" />';
+    div += '<input type="checkbox" style="margin-top : 11px;margin-right : 5px;" class="expressionAttr" data-l1key="options" data-l2key="background" title="Cocher pour que la commande s\'exécute en parallèle des autres actions" />';
+    div += '<input type="checkbox" class="expressionAttr tooltipstered" style="margin-top : 11px;margin-right : 5px;" data-l1key="options" data-l2key="log" checked title="Cocher pour que l\'action soit enregistrée dans le log du Watchdog" />';
 
     /*div += '<select class="expressionAttr form-control input-sm" data-l1key="actionQuoi" style="width:calc(100% - 50px);display:inline-block">';
     div += '<option value="Un">{{Un contrôle}}</option>';
     div += '<option value="Tous">{{Tous les contrôles}}</option>';
     div += '</select><br>';
     div += '<input type="checkbox" style="visibility:hidden" >';*/
-    div += '<select class="expressionAttr form-control input-sm" data-l1key="actionType" style="width:calc(100% - 50px);display:inline-block">';
-    div += '<option value="True">{{Passe à True}}</option>';
-    div += '<option value="False">{{Passe à False}}</option>';
-    div += '<option value="Avant">{{Avant le contrôle}}</option>';
+    div += '<select class="expressionAttr form-control input-sm" data-l1key="actionType" style="width:calc(100% - 70px);display:inline-block">';
+    div += '<option style="background: #dff0d8; color: #00000;" value="True">{{Passe à True}}</option>';
+    div += '<option style="background: #f2dede; color: #00000;" value="False">{{Passe à False}}</option>';
+    div += '<option style="background: #d9edf7; color: #00000;" value="Avant">{{Avant le contrôle}}</option>';
     div += '</select>';
     div += '</div>';
     //div += '<div class="col-sm-1">';
@@ -226,9 +235,9 @@ function saveEqLogic(_eqLogic) {
 }
 
 function printEqLogic(_eqLogic) {
-	//console.log("--------- printEqLogic
-			//console.log("_eqLogic");
-		//	console.dir (_eqLogic);
+	console.log("--------- printEqLogic");
+	console.log("_eqLogic");
+	console.dir (_eqLogic);
 
 // on remplit la table du résultat global
     $('#table_controles_resultat').empty();
@@ -244,6 +253,23 @@ function printEqLogic(_eqLogic) {
 		tr += '</td>';
 		tr += '</tr>';
 	$('#table_controles_resultat').append(tr);
+
+// On remplit la table_log
+
+    actionOptions = [];
+    $('#table_log').empty();
+
+
+$('#table_log').append('<br><div class="bg-success"><legend><i class="fa fa-cogs"></i> {{Coucou titre}}</legend>');
+
+    if (isset(_eqLogic.configuration.watchdogLog)) {
+		
+$('#table_log').append('<br><div class="bg-success"><legend><i class="fa fa-cogs"></i> {{Coucou titre}}</legend>');
+		
+		
+	}
+
+
 
 // On remplit la table_actions
     actionOptions = [];
