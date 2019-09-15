@@ -58,7 +58,7 @@ foreach ($eqLogics as $eqLogic) {
 			<a href="http://sigalou-domotique.fr/plugin-jeedom-watchdog/"  style="margin-right:5px" target="_blank" class="btn btn-success eqLogicAction "  title="{{Lien vers la Documentation du plugin}}"><i class="fa fa-book"></i> </a>
 			<a class="btn btn-info eqLogicAction  bt_plugin_view_log"  style="margin-right:5px" title="{{Logs du Watchdog}}"><i class="fa fa-file"></i> </a>
 			<a class="btn btn-default eqLogicAction "  style="margin-right:5px" data-action="configure" title="{{Configuration avancée du Watchdog}}"><i class="fa fa-cogs"></i> </a>
-			<a class="btn btn-warning eqLogicAction " style="margin-right:5px" data-action="copy" title="{{Dupliquer cet équipement}}"><i class="fa fa-files-o"></i> </a>
+			<a class="btn btn-warning eqLogicAction " style="margin-right:5px" data-action="copy" title="{{Dupliquer cet équipement}}"><i class="fa fa-copy"></i> </a>
 			<a class="btn btn-danger eqLogicAction " style="margin-right:5px" data-action="remove" title="{{Supprimer le Watchdog}}"><i class="fa fa-minus-circle"></i> </a>
 			<a class="btn btn-success eqLogicAction "  style="margin-right:5px" data-action="save"  title="{{Sauver et Contrôler}}"><i class="fa fa-check-circle"></i> {{Sauver / Contrôler}}</a>
 			
@@ -98,7 +98,7 @@ foreach ($eqLogics as $eqLogic) {
                     <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
                         <option value="">{{Aucun}}</option>
                         <?php
-foreach (object::all() as $object) {
+foreach (jeeObject::all() as $object) {
 	echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
 }
 ?>
@@ -157,8 +157,8 @@ foreach (object::all() as $object) {
                 <div class="col-sm-3">
                     <select style="width: 420px;" id="sel_object" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="typeControl">
 <option value="">{{Actions sur chaque contrôle indépendamment}}</option>
-<option value="OU">{{Actions sur l'ensemble des contôles (avec méthode OU)}}</option>
-<option value="ET">{{Actions sur l'ensemble des contôles (avec méthode ET)}}</option>
+<option value="OU">{{Actions sur l'ensemble des contrôles (avec méthode OU)}}</option>
+<option value="ET">{{Actions sur l'ensemble des contrôles (avec méthode ET)}}</option>
                    </select>
                </div><br><br>
 		   	
@@ -167,8 +167,8 @@ foreach (object::all() as $object) {
 <div class="alert alert-info">
 	Il existe trois modes de fonctionnement  : <br>
 	* Actions sur chaque contrôle indépendamment : Ce mode teste indépendamment chaque contrôle et déclenche les actions quand ce contrôle a changé d'état<br>
-	* Actions sur l'ensemble des contôles (avec méthode OU) : Ce mode teste le résultat global des contrôles en y appliquant un test "OU" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.<br>
-	* Actions sur l'ensemble des contôles (avec méthode ET) : Ce mode teste le résultat global des contrôles en y appliquant un test "ET" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.	</div>			
+	* Actions sur l'ensemble des contrôles (avec méthode OU) : Ce mode teste le résultat global des contrôles en y appliquant un test "OU" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.<br>
+	* Actions sur l'ensemble des contrôles (avec méthode ET) : Ce mode teste le résultat global des contrôles en y appliquant un test "ET" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.	</div>			
 	
 	
 </fieldset>
@@ -204,7 +204,7 @@ if ($typeControl!="")
 <?php } ?>
 <legend><i class="fa fa-clock-o"></i> {{Configuration des tempos}}</legend>
 <div class="alert alert-info">
-        Les tempos peuvent être utilisées pour faire des tests lors d'un contôle  : <br/>
+        Les tempos peuvent être utilisées pour faire des tests lors d'un contrôle  : <br/>
         #tempo1# = Valeur en secondes  => mettre #tempo1# pour récupérer la valeur
         </div>
 <table border="0">
