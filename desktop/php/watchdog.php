@@ -57,10 +57,10 @@ foreach ($eqLogics as $eqLogic) {
 			
 			<a href="http://sigalou-domotique.fr/plugin-jeedom-watchdog/"  style="margin-right:5px" target="_blank" class="btn btn-success eqLogicAction "  title="{{Lien vers la Documentation du plugin}}"><i class="fa fa-book"></i> </a>
 			<a class="btn btn-info eqLogicAction  bt_plugin_view_log"  style="margin-right:5px" title="{{Logs du Watchdog}}"><i class="fa fa-file"></i> </a>
-			<a class="btn btn-default eqLogicAction "  style="margin-right:5px" data-action="configure" title="{{Configuration avancée du Watchdog}}"><i class="fa fa-cogs"></i> </a>
-			<a class="btn btn-warning eqLogicAction " style="margin-right:5px" data-action="copy" title="{{Dupliquer cet équipement}}"><i class="fa fa-files-o"></i> </a>
-			<a class="btn btn-danger eqLogicAction " style="margin-right:5px" data-action="remove" title="{{Supprimer le Watchdog}}"><i class="fa fa-minus-circle"></i> </a>
-			<a class="btn btn-success eqLogicAction "  style="margin-right:5px" data-action="save"  title="{{Sauver et Contrôler}}"><i class="fa fa-check-circle"></i> {{Sauver / Contrôler}}</a>
+			<a class="btn btn-default eqLogicAction "  style="margin-right:5px" data-action="configure" title="{{Configuration avancée du Watchdog}}"><i class="fas fa-cogs"></i> </a>
+			<a class="btn btn-warning eqLogicAction " style="margin-right:5px" data-action="copy" title="{{Dupliquer cet équipement}}"><i class="fas fa-copy"></i> </a>
+			<a class="btn btn-danger eqLogicAction " style="margin-right:5px" data-action="remove" title="{{Supprimer le Watchdog}}"><i class="fas fa-minus-circle"></i> </a>
+			<a class="btn btn-success eqLogicAction "  style="margin-right:5px" data-action="save"  title="{{Sauver et Contrôler}}"><i class="fas fa-check-circle"></i> {{Sauver / Contrôler}}</a>
 			
 		</div>
 		
@@ -201,7 +201,7 @@ if ($typeControl!="")
 <legend><i class="fa fa-clock-o"></i> {{Configuration des tempos}}</legend>
 <div class="alert alert-info">
         Les tempos peuvent être utilisées pour faire des tests lors d'un contôle  : <br/>
-        #tempo1# = Valeur en secondes  => mettre #tempo1# pour récupérer la valeur
+        #tempo1# = Valeur en secondes. Mettre #tempo1# pour récupérer la valeur
         </div>
 <table border="0">
 <tbody>
@@ -233,7 +233,8 @@ if ($typeControl!="")
 							{?>
 							<div class="alert alert-info">
 							En mode "Actions sur chaque contrôle indépendamment"  : <br/>
-							#controlname# = Nom du contrôle qui a déclenché l'action => mettre #controlname# pour récupérer la valeur
+							#controlname# = Nom du contrôle qui a déclenché l'action. Mettre #controlname# pour récupérer la valeur<br/>
+							#title# = Nom du Watchdog. Mettre #title# pour récupérer la valeur
 							</div>
 							<?php } ?>
 		<a class="btn btn-success btn-sm bt_addAction pull-left" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une action}}</a><br><br>

@@ -78,7 +78,7 @@ $('.bt_masqueCalculs').off('click').on('click',function(){
 });
 $('.bt_addAction').off('click').on('click',function(){
 //console.log("--------- bt_addAction");
-$('#table_actions').append('</center><br><legend><i class="fa fa-cogs"></i> {{Nouvelle action}}</legend><center>');
+$('#table_actions').append('</center><br><div class="alert alert-info"><legend><i class="fa fa-cogs"></i> {{Nouvelle action}}</legend><center>');
   addAction({}, "watchdogAction");
   addLog();
 });
@@ -308,9 +308,9 @@ dernierEtat = "(actuellement à "+_eqLogic.configuration.dernierEtat+")";
 
 
 if (typeControl == "")
-$('#table_actions').append('<br><div class="bg-success"><legend><i class="fa fa-cogs"></i> {{Actions à executer quand un des contrôles passe à True}}</legend>');
+$('#table_actions').append('<br><div class="alert alert-success"><legend><i class="fas fa-cogs"></i> {{Actions à executer quand un des contrôles passe à True}}</legend>');
 else
-$('#table_actions').append('<br><div class="bg-success"><legend><i class="fa fa-cogs"></i> Actions à executer quand le résultat global des contrôles passe à True '+dernierEtat+'</legend>');
+$('#table_actions').append('<br><div class="alert alert-success"><legend><i class="fas fa-cogs"></i> Actions à executer quand le résultat global des contrôles passe à True '+dernierEtat+'</legend>');
 
         // On va lister en premier les actions qui se déclencheront quand on passera de false à true
 		for (var i in _eqLogic.configuration.watchdogAction) {
@@ -321,9 +321,9 @@ $('#table_actions').append('<br><div class="bg-success"><legend><i class="fa fa-
 //$('#table_actions').append('</div>');
 		
 if (typeControl == "")
-$('#table_actions').append('<br><div class="bg-danger"><legend><i class="fa fa-cogs"></i> {{Actions à executer quand un des contrôles passe à False}}</legend>');
+$('#table_actions').append('<br><div class="alert alert-warning"><legend><i class="fa fa-cogs"></i> {{Actions à executer quand un des contrôles passe à False}}</legend>');
 else
-$('#table_actions').append('<br><div class="bg-danger"><legend><i class="fa fa-cogs"></i> Actions à executer quand le résultat global des contrôles passe à False '+dernierEtat+'</legend>');
+$('#table_actions').append('<br><div class="alert alert-warning"><legend><i class="fa fa-cogs"></i> Actions à executer quand le résultat global des contrôles passe à False '+dernierEtat+'</legend>');
 
         // puis les actions qui se déclencheront quand on passera de true à false
         for (var i in _eqLogic.configuration.watchdogAction) {
@@ -333,7 +333,7 @@ $('#table_actions').append('<br><div class="bg-danger"><legend><i class="fa fa-c
 		
 //$('#table_actions').append('</div>');
 
-$('#table_actions').append('<br><div class="bg-info"><legend><i class="fa fa-cogs"></i> {{Actions à executer AVANT d\'effectuer le contrôle}}</legend>');
+$('#table_actions').append('<br><div class="alert alert-info"><legend><i class="fa fa-cogs"></i> {{Actions à executer AVANT d\'effectuer le contrôle}}</legend>');
 
         // puis les actions qui se déclencheront quand on passera de true à false
         for (var i in _eqLogic.configuration.watchdogAction) {
