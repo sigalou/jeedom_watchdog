@@ -159,9 +159,9 @@ class watchdog extends eqLogic {
 							$options = [];
 							if (isset($action['options'])) $options = $action['options'];
 					if (($action['actionType'] == "Avant") && $options['enable'] == '1'){
-								// On va remplacer #name# par le nom du controle dans tous les champs du array "options"
+								// On va remplacer #controlname# par le nom du controle dans tous les champs du array "options"
 								foreach ($options as $key => $option) {
-									$options[$key]=str_replace("#name#", $this->getName(), $option);
+									$options[$key]=str_replace("#controlname#", $this->getName(), $option);
 								}
 								foreach ($options as $key => $option) {
 									$options[$key]=str_replace("#title#", $watchdog->getName(), $option);
@@ -179,7 +179,7 @@ class watchdog extends eqLogic {
 		
 		//set_boucleEnCours("7888885613");
 		foreach ($watchdog->getCmd('info') as $cmd) {
-					log::add('watchdog', 'debug', 'lancerControle '.$cmd->getName());
+					//log::add('watchdog', 'debug', 'lancerControle '.$cmd->getName());
 					//2 lignes inutiles car le controle se fait déja au moment de preSave
 					//$resultat=$cmd->faireTestExpression($cmd->getConfiguration('controle'));
 					//$cmd->setConfiguration('resultat', $resultat);
@@ -366,7 +366,10 @@ public function faireTestExpression($_string) {
 		
 		
 
-		log::add('watchdog','debug','Controle : ' . $_string.' => Resultat : ' . $return);
+		//log::add('watchdog','debug','Controle : ' . $_string.' => Resultat : ' . $return);
+		//log::add('watchdog','debug','Controle : ' . jeedom::fromHumanReadable($_string, true).' => Resultat : ' . $return);
+		//log::add('watchdog','debug','Controle : ' . jeedom::fromHumanReadable($_string, false).' => Resultat : ' . $return);
+		//log::add('watchdog','debug','Controle : ' . scenarioExpression::setTags(jeedom::fromHumanReadable($_string)).' => Resultat : ' . $return);
 		return $return;
 }
 
@@ -385,9 +388,9 @@ public function faireTestExpression($_string) {
 							$options = [];
 							if (isset($action['options'])) $options = $action['options'];
 					if (($action['actionType'] == $passe) && $options['enable'] == '1'){
-								// On va remplacer #name# par le nom du controle dans tous les champs du array "options"
+								// On va remplacer #controlname# par le nom du controle dans tous les champs du array "options"
 								foreach ($options as $key => $option) {
-									$options[$key]=str_replace("#name#", $this->getName(), $option);
+									$options[$key]=str_replace("#controlname#", $this->getName(), $option);
 								}
 								foreach ($options as $key => $option) {
 									$options[$key]=str_replace("#title#", $eqLogic->getName(), $option);
@@ -433,10 +436,18 @@ public function faireTestExpression($_string) {
 			$dernierLancement=$eqLogic->getConfiguration('dernierLancement');
 			$dernierLancement=substr($dernierLancement, 0, 4);
 		//---------------------------------------------------
-
+				//log::add('watchdog','debug','************* : ' . json_encode($eqLogic));
 				
 				$resultatPrecedent=$this->getConfiguration('resultat');
+				//log::add('watchdog','debug','Controle2 : ' . $this->getConfiguration('controle').' => Resultat : ' . $return);
+				//log::add('watchdog','debug','calcul : ' . $this->getConfiguration('calcul').' => calcul : ' . $return);
 				$resultat=self::faireTestExpression($this->getConfiguration('controle'));
+				
+				//$macmd = cmd::byId(str_replace('#', '', $this->getId()));
+				//log::add('watchdog','debug','*************2 : ' . json_encode($macmd));
+				//log::add('watchdog','debug','[Contrôle*ID] '.$this->getName().' : ' . $macmd->getConfiguration('controle').' => Resultat : ' . $resultat);
+				log::add('watchdog','debug','[Contrôle] '.$this->getName().' : ' . $this->getConfiguration('controle').' => Resultat : ' . $resultat);
+
 				$this->setConfiguration('resultat', $resultat);
 				
 				if ($resultatPrecedent != $resultat)

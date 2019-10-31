@@ -42,12 +42,35 @@ $('.bt_addControle').off('click').on('click',function(){
   addCmdToTable({}, 'info');
 });
 
+
+$('.listCmdInfoVacances').off('click').on('click',function(){
+    var type = $(this).attr('data-type');
+ // var el = $(this).closest('.' + type).find('.expressionAttr[data-l1key=cmd]');
+	var el = $(this).closest('.' + type).find('.eqLogicAttr[data-l1key=configuration][data-l2key=modevacances]');
+console.log("--------- type");
+console.dir(type);
+console.log("--------- el");
+console.dir(el);
+    jeedom.cmd.getSelectModal({cmd: {type: 'action'}}, function (result) {
+        el.value(result.human);
+        jeedom.cmd.displayActionOption(el.value(), '', function (html) {
+            el.closest('.' + type).find('.actionOptions').html(html);
+            taAutosize();
+        });
+    });
+	
+	el.value("coucou");
+console.log("--------- coucou");
+	
+	
+});
+  
 $('.bt_afficheCalculs').off('click').on('click',function(){
   $(".calcul").show();
   $(".bt_masqueCalculs").show();
   $(".bt_afficheCalculs").hide();
   });
-
+  
 $('.bt_masqueCalculs').off('click').on('click',function(){
   $(".calcul").hide();
   $(".bt_masqueCalculs").hide();
@@ -162,8 +185,8 @@ function addCmdToTable(_cmd, type) {
 		_cmd.subType = "watchdog";	
 
 
-		console.log($('.cmdAttr[data-l1key=configuration][data-l2key=resultat]').value());
-		console.log(_cmd.configuration.resultat);
+		//console.log($('.cmdAttr[data-l1key=configuration][data-l2key=resultat]').value());
+		//console.log(_cmd.configuration.resultat);
 		//var tr = '<tr class="cmd ' + _cmd.type + '" data-cmd_id="' + init(_cmd.id) + '">';
 		switch (_cmd.configuration.resultat) {
 		  case 'True':
@@ -526,7 +549,7 @@ $("#table_controles").off('click').on('click', ".listCmdInfo",function() {
 								  var condition = result.human;
 								  //var test=result.cmd.subType;
 								  
-								  console.dir($('.conditionAttr[data-l1key=radio]').value());
+								  //console.dir($('.conditionAttr[data-l1key=radio]').value());
 								  
 									  
 									  //On regarde quel ets le tempo sélectionné 
@@ -559,8 +582,8 @@ $("#table_controles").off('click').on('click', ".listCmdInfo",function() {
 								  }
 								  else
 								  {
-									  console.log("condition="+condition);
-									  console.log("chaine="+chaine);
+									 // console.log("condition="+condition);
+									 // console.log("chaine="+chaine);
 									  el.value(condition);
 									// Si la case à cocher qui permet de mettre automatiquement le nom de l'équipement est cochée
 									if($('.conditionAttr[data-l1key=configuration][data-l2key=assistName]').value() == '1')
@@ -683,7 +706,7 @@ $("#table_controles").off('click').on('click', ".listCmdInfo",function() {
 								  var condition = result.human;
 								  var test=result.cmd.subType;
 								  
-								  console.dir($('.conditionAttr[data-l1key=radio]').value());
+								 // console.dir($('.conditionAttr[data-l1key=radio]').value());
 								  
 								  if($('.conditionAttr[data-l1key=radio]').value() != '1'){
 									  

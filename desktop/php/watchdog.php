@@ -98,7 +98,7 @@ foreach ($eqLogics as $eqLogic) {
                     <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
                         <option value="">{{Aucun}}</option>
                         <?php
-foreach (object::all() as $object) {
+foreach (jeeObject::all() as $object) {
 	echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
 }
 ?>
@@ -147,10 +147,6 @@ foreach (object::all() as $object) {
 				</div>
 			</div>			
 			
-			
-
-
-	
 <br><legend><i class="fa fa-list-alt"></i> {{Mode de fonctionnement}}</legend>
 			<div class="form-group">
                 <label class="col-sm-3 control-label" >{{Mode de fonctionnement des contrôles}}</label>
@@ -237,7 +233,7 @@ if ($typeControl!="")
 							{?>
 							<div class="alert alert-info">
 							En mode "Actions sur chaque contrôle indépendamment"  : <br/>
-							#name# = Nom du contrôle qui a déclenché l'action => mettre #name# pour récupérer la valeur
+							#controlname# = Nom du contrôle qui a déclenché l'action => mettre #controlname# pour récupérer la valeur
 							</div>
 							<?php } ?>
 		<a class="btn btn-success btn-sm bt_addAction pull-left" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une action}}</a><br><br>
