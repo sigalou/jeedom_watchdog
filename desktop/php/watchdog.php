@@ -16,18 +16,25 @@ $eqLogics = eqLogic::byType($plugin->getId());
    <div class="col-xs-12 eqLogicThumbnailDisplay">
   <legend><i class="fas fa-cog"></i>  {{Gestion}}</legend>
   <div class="eqLogicThumbnailContainer">
-      <div class="cursor eqLogicAction logoPrimary" data-action="add">
-        <i class="fas fa-plus-circle" style="font-size : 5em;color:#a15bf7;"></i>
-        <br>
-        <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#a15bf7">{{Ajouter}}</span>
-    </div>
+
 	
-<div class="cursor eqLogicAction" data-action="gotoPluginConf" style="background-color : #ffffff; height : 140px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
-        <center>
-          <i class="fas fa-wrench" style="font-size : 5em;color:#767676;"></i>
-        </center>
-        <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#767676"><center>{{Configuration}}</center></span>
-      </div>
+	
+			<!-- Bouton de scan des objets -->
+      <div class="cursor eqLogicAction logoPrimary" data-action="add">
+			<i class="fas fa-plus-circle" style="font-size : 5em;color:#a15bf7;"></i>
+			<br />
+			<span style="color:#a15bf7">{{Ajouter}}</span>
+		</div>
+			<!-- Bouton d accès à la configuration -->
+		<div class="cursor eqLogicAction logoSecondary" data-action="gotoPluginConf">
+			<i class="fas fa-wrench" style="font-size : 5em;color:#a15bf7;"></i>
+			<br />
+			<span style="color:#a15bf7">{{Configuration}}</span>
+		</div>
+	
+	
+	
+
   </div>
   <legend><i class="fas fa-table"></i> {{Mes watchdogs}}</legend>
 	   <input class="form-control" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
@@ -71,7 +78,7 @@ foreach ($eqLogics as $eqLogic) {
  <ul class="nav nav-tabs" role="tablist">
   <li role="presentation"><a href="#" class="eqLogicAction" aria-controls="home" role="tab" data-toggle="tab" data-action="returnToThumbnailDisplay"><i class="fa fa-arrow-circle-left"></i></a></li>
   <li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Watchdog}}</a></li>
-  <li role="presentation"><a href="#controlestab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-tachometer"></i> {{Equipements ou Commandes à surveiller}}</a></li>
+  <li role="presentation"><a href="#controlestab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fas fa-stethoscope"></i></i> {{Equipements ou Commandes à surveiller}}</a></li>
   <li role="presentation"><a href="#infocmd" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-cogs"></i> {{Actions}}</a></li>
 </ul>
 
@@ -81,7 +88,7 @@ foreach ($eqLogics as $eqLogic) {
     <form class="form-horizontal"><br>
         <fieldset>
 		
-<br><legend><i class="fa animal-dog56"></i> {{Identification et options du watchdog}}</legend>
+<br><legend><i class="fa animal-dog56" style="font-size : 3em;color:#a15bf7;"></i> <span style="color:#a15bf7">{{Identification et options du watchdog}}</span></legend>
 
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{Nom du watchdog}}</label>
@@ -147,7 +154,7 @@ foreach (jeeObject::all() as $object) {
 				</div>
 			</div>			
 			
-<br><legend><i class="fa fa-list-alt"></i> {{Mode de fonctionnement}}</legend>
+<br><legend><i class="fa fa-list-alt" style="font-size : 2em;color:#a15bf7;"></i> <span style="color:#a15bf7">{{Mode de fonctionnement}}</span></legend>
 			<div class="form-group">
                 <label class="col-sm-3 control-label" >{{Mode de fonctionnement des contrôles}}</label>
                 <div class="col-sm-3">
@@ -160,7 +167,7 @@ foreach (jeeObject::all() as $object) {
 		   	
            </div>
 		
-<div class="alert alert-info">
+<div class="alert bg-success">
 	Il existe trois modes de fonctionnement  : <br>
 	* Actions sur chaque contrôle indépendamment : Ce mode teste indépendamment chaque contrôle et déclenche les actions quand ce contrôle a changé d'état<br>
 	* Actions sur l'ensemble des contôles (avec méthode OU) : Ce mode teste le résultat global des contrôles en y appliquant un test "OU" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.<br>
@@ -170,24 +177,23 @@ foreach (jeeObject::all() as $object) {
 </fieldset>
 </form>
 </div>
-      <div role="tabpanel" class="tab-pane" id="controlestab">
 
-<br><legend><i class="fa fa-tachometer"></i> {{Contrôles à effectuer}}</legend>
-<a class="btn btn-success btn-sm bt_addControle pull-left" data-type="action" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Ajouter un contrôle}}</a>
-<a id="afficheCalculs" class="btn btn-info btn-sm bt_afficheCalculs pull-right" data-type="action" style="margin-top:5px;"><i class="fa techno-robot30"></i> {{Afficher les calculs}}</a><a id="masqueCalculs" class="btn btn-warning btn-sm bt_masqueCalculs pull-right" data-type="action" style="margin-top:5px;"><i class="fa techno-robot30"></i> {{Masquer les calculs}}</a><br>
-<table id="table_controles" class="table  table-condensed ui-sortable table_controles">
+<div role="tabpanel" class="tab-pane" id="controlestab">
+<legend><i class="fas fa-stethoscope" style="font-size : 2em;color:#a15bf7;"></i> <span style="color:#a15bf7">{{Contrôles à effectuer}}</span></legend>
+<table id="table_controles" class="table table-condensed ui-sortable table_controles">
     <thead>
         <tr>
             <th style="width: 200px;">{{Nom}}</th>
-			<th>{{Controle}}</th>
+			<th>{{Contrôle}}</th>
 			<th style="width: 100px;">{{Résultat}}</th>
 			<th style="width: 100px;"{{Action}}</</th>
         </tr>
     </thead>
-    <tbody>
-    </tbody>
-
+    <tbody></tbody>
 </table>
+<a class="btn btn-success btn-sm bt_addControle pull-left" data-type="action" style="margin-top:-15px;"><i class="fa fa-plus-circle"></i> {{Ajouter un contrôle}}</a>
+<a id="afficheCalculs" class="btn btn-info btn-sm bt_afficheCalculs pull-right" data-type="action" style="margin-top:-15px;"><i class="fas fa-square-root-alt"></i> {{Afficher les calculs}}</a><a id="masqueCalculs" class="btn btn-warning btn-sm bt_masqueCalculs pull-right" data-type="action" style="margin-top:5px;"><i class="fas fa-square-root-alt"></i> {{Masquer les calculs}}</a>
+<br>
 <?php
 if ($typeControl!="")
 {?>
@@ -198,11 +204,8 @@ if ($typeControl!="")
 
 </table>
 <?php } ?>
-<legend><i class="fa fa-clock-o"></i> {{Configuration des tempos}}</legend>
-<div class="alert alert-info">
-        Les tempos peuvent être utilisées pour faire des tests lors d'un contôle  : <br/>
-        #tempo1# = Valeur en secondes. Mettre #tempo1# pour récupérer la valeur
-        </div>
+<legend><i class="fas fa-hourglass-half" style="font-size : 2em;color:#a15bf7;"></i> <span style="color:#a15bf7">{{Configuration des tempos}}</span></legend>
+
 <table border="0">
 <tbody>
 <tr>
@@ -222,29 +225,29 @@ if ($typeControl!="")
 <td><em>(en secondes)</em></td>
 </tr>
 </tbody>
-</table>
-
+</table><br>
+<div class="alert bg-success">
+        Les tempos peuvent être utilisées pour faire des tests lors d'un contôle  : <br/>
+        #tempo1# = Valeur en secondes. Mettre #tempo1# pour récupérer la valeur
+        </div>
 </div>
 
 
 
-       <div role="tabpanel" class="tab-pane" id="infocmd"><BR>
-							<?php if ($typeControl=="")
-							{?>
-							<div class="alert alert-info">
-							En mode "Actions sur chaque contrôle indépendamment"  : <br/>
-							#controlname# = Nom du contrôle qui a déclenché l'action. Mettre #controlname# pour récupérer la valeur<br/>
-							#title# = Nom du Watchdog. Mettre #title# pour récupérer la valeur
-							</div>
-							<?php } ?>
-		<a class="btn btn-success btn-sm bt_addAction pull-left" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Ajouter une action}}</a><br><br>
-		
+       <div role="tabpanel" class="tab-pane" id="infocmd">
 		<form class="form-horizontal">
 			<div id="table_actions"></div>
 		</form>
-       </div>
+	<br><a class="btn btn-success btn-sm bt_addAction pull-left" ><i class="fa fa-plus-circle"></i>Ajouter une action</a><br><br>	   
+<?php if ($typeControl=="")
+							{?>
+							<br><br><div class="alert bg-success">
+							<b>#controlname#</b> = Nom du contrôle qui a déclenché l'action. Mettre #controlname# dans <b>Titre</b> ou dans <b>Message</b> pour y récupérer la valeur<br/>
+							<b>#title#</b> = Nom du Watchdog. Mettre #title# dans <b>Titre</b> ou dans <b>Message</b> pour y récupérer la valeur
+							</div>
+							<?php } ?>
 	   
-	   
+</div>
 </div>
 </div>
 

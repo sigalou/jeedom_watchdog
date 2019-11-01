@@ -78,9 +78,9 @@ $('.bt_masqueCalculs').off('click').on('click',function(){
 });
 $('.bt_addAction').off('click').on('click',function(){
 //console.log("--------- bt_addAction");
-$('#table_actions').append('</center><br><div class="alert alert-info"><legend><i class="fa fa-cogs"></i> {{Nouvelle action}}</legend><center>');
-  addAction({}, "watchdogAction");
-  addLog();
+$('#table_actions').append('</center><legend><i class="fa fa-cogs" style="font-size : 2em;color:#a15bf7;"></i><span style="color:#a15bf7"> {{Nouvelle action}}</span></legend><center>');
+  addAction({}, "watchdogAction", "Nouvelle");
+  //addLog();
 });
 
 $('#bt_cronGenerator').off('click').on('click',function(){
@@ -96,7 +96,7 @@ $('.bt_plugin_view_log').on('click',function(){
 
 });
 
-function addAction(_action) {
+function addAction(_action, type) {
 	//console.log("--------- addAction");
 
     if (!isset(_action)) {
@@ -105,52 +105,52 @@ function addAction(_action) {
     if (!isset(_action.options)) {
         _action.options = {};
     }
-    var input = '';
-    var div = '<div class="watchdogAction ">';
-		
-    div += '<div class="form-group ">';
-    //Suppression du nom, pas utile
-	//div += '<div class="col-sm-1">';	
-	//div += '<input class="expressionAttr form-control input-sm" data-l1key="name" style="width : 80px;" placeholder="{{Nom}}">';
-    //div += '</div>';
-    div += '<div class="col-sm-2 ">';
-    //div += '<i class="fa fa-arrows-v pull-left" style="margin-top : 9px; margin-right: 10px; "></i>';
-    div += '<input type="checkbox" style="margin-top : 11px;margin-right : 5px;" class="expressionAttr" data-l1key="options" data-l2key="enable" checked title="{{Décocher pour désactiver l\'action}}" />';
-    div += '<input type="checkbox" style="margin-top : 11px;margin-right : 5px;" class="expressionAttr" data-l1key="options" data-l2key="background" title="Cocher pour que la commande s\'exécute en parallèle des autres actions" />';
-    div += '<input type="checkbox" class="expressionAttr tooltipstered" style="margin-top : 11px;margin-right : 5px;" data-l1key="options" data-l2key="log" checked title="Cocher pour que l\'action soit enregistrée dans le log du Watchdog" />';
+	
+	
 
-    /*div += '<select class="expressionAttr form-control input-sm" data-l1key="actionQuoi" style="width:calc(100% - 50px);display:inline-block">';
-    div += '<option value="Un">{{Un contrôle}}</option>';
-    div += '<option value="Tous">{{Tous les contrôles}}</option>';
-    div += '</select><br>';
-    div += '<input type="checkbox" style="visibility:hidden" >';*/
-    div += '<select class="expressionAttr form-control input-sm" data-l1key="actionType" style="width:calc(100% - 70px);display:inline-block">';
+			switch (type) {
+		  case 'True':
+			var couleur = 'success';
+			break;
+		  case 'False':
+			var couleur = 'warning';
+			break;
+		  default:
+			var couleur = 'info';
+		}
+
+    var input = '';
+    var div = '<div class="watchdogAction  alert-'+couleur+'">';
+	div += '<div class="form-group ">';
+    div += '<div class="col-sm-2">';
+	    div += '<input type="checkbox" style="margin-top : 11px;margin-right : 5px;margin-left : 5px;" class="expressionAttr" data-l1key="options" data-l2key="enable" checked title="{{Décocher pour désactiver l\'action}}" />';
+    div += '<input type="checkbox" style="margin-top : 11px;margin-right : 5px;" class="expressionAttr" data-l1key="options" data-l2key="background" title="Cocher pour que la commande s\'exécute en parallèle des autres actions" />';
+/*    div += '<input type="checkbox" class="expressionAttr tooltipstered" style="margin-top : 11px;margin-right : 5px;" data-l1key="options" data-l2key="log" checked title="Cocher pour que l\'action soit enregistrée dans le log du Watchdog" />';
+*/    div += '<select class="expressionAttr form-control input-sm" data-l1key="actionType" style="margin-bottom: 10px;width:calc(100% - 70px);display:inline-block">';
     div += '<option style="background: #dff0d8; color: #00000;" value="True">{{Passe à True}}</option>';
     div += '<option style="background: #f2dede; color: #00000;" value="False">{{Passe à False}}</option>';
     div += '<option style="background: #d9edf7; color: #00000;" value="Avant">{{Avant le contrôle}}</option>';
     div += '</select>';
     div += '</div>';
-    //div += '<div class="col-sm-1">';
-    //div += '<label class="checkbox-inline"><input type="checkbox" class="expressionAttr" data-l1key="actionSens"/>{{Inverser}}</label>';
-    //div += '</div>';
-    div += '<div class="col-sm-5">';
-    div += '<div class="input-group">';
+    div += '<div class="col-sm-5" style="margin-top : 5px;">';
+    div += '<div class="input-group" >';
     div += '<span class="input-group-btn">';
 
-    div += '<a class="btn btn-info bt_removeAction btn-sm" data-type="watchdogAction"><i class="fa fa-minus-circle"></i></a>';
+    div += '<a class="btn btn-danger bt_removeAction btn-sm" data-type="watchdogAction"><i class="fa fa-minus-circle"></i></a>';
     div += '</span>';
     div += '<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd" data-type="watchdogAction" />';
     div += '<span class="input-group-btn">';
-    div += '<a class="btn btn-info btn-sm listAction" data-type="watchdogAction" title="{{Sélectionner un mot-clé}}"><i class="fa fa-tasks"></i></a>';
-    div += '<a class="btn btn-info btn-sm listCmdAction" data-type="watchdogAction"><i class="fa fa-list-alt"></i></a>';
+    div += '<a class="btn btn-primary btn-sm listAction" data-type="watchdogAction" title="{{Sélectionner un mot-clé}}"><i class="fa fa-tasks"></i></a>';
+    div += '<a class="btn btn-primary btn-sm listCmdAction" data-type="watchdogAction"><i class="fa fa-list-alt"></i></a>';
     div += '</span>';
     div += '</div>';
     div += '</div>';
     var actionOption_id = uniqId();
 	//console.log(uniqId());
-    div += '<div class="col-sm-5 actionOptions" id="'+actionOption_id+'">';
+    div += '<div style="margin-top : 5px;margin-bottom : 5px; margin-left : -5px;" class="col-sm-5  actionOptions" id="'+actionOption_id+'">';
     div += '</div>';
-    div += '</div><hr>';
+    div += '</div>';
+
         $('#table_actions').append(div);
         $('#table_actions .watchdogAction:last').setValues(_action, '.expressionAttr');
 
@@ -191,17 +191,20 @@ function addCmdToTable(_cmd, type) {
 		switch (_cmd.configuration.resultat) {
 		  case 'True':
 			var couleur = 'success';
+			var icon='<i class="far fa-thumbs-up"></i>';
 			break;
 		  case 'False':
-			var couleur = 'danger';
+			var couleur = 'warning';
+			var icon='<i class="far fa-thumbs-down"></i>';
 			break;
 		  default:
-			var couleur = 'warning';
+			var couleur = 'info';
+			var icon='<i class="far fa-question-circle"></i>';
 		}
 			
 		
 		//var tr = '<tr class="cmd info" >';
-			var tr = '<tr class="cmd info bg-'+couleur+'" >'; //la couleur ne foncitonne pas à cause de info mais on ne peut pas supprimer info
+			var tr = '<tr class="cmd" >'; //la couleur ne foncitonne pas à cause de info mais on ne peut pas supprimer info
 		
 		tr += '<td>';
 		
@@ -224,8 +227,8 @@ function addCmdToTable(_cmd, type) {
 		tr += '<div hidden class="calcul"><small><i>';
 		tr += '<span style="margin-top : 9px; margin-left: 10px; " class="cmdAttr" data-l1key="configuration" data-l2key="calcul"></span></i></small></div>';
 		tr += '</td>';   
-		 tr += '<td>';
-		tr += '<span class="cmdAttr label label-'+couleur+'" style="font-weight: bold;" data-l1key="configuration" data-l2key="resultat"><i class="fa fa-question-circle"></i></span>';
+		 tr += '<td><span class="cmdAttr label label-'+couleur+'" >'+icon+'</span>';
+		tr += '<span class="cmdAttr label label-'+couleur+'" style="font-weight: bold;" data-l1key="configuration" data-l2key="resultat"></span>';
 		//tr += '<span class="cmdAttr" style="font-weight: bold;" data-l1key="configuration" data-l2key="resultat"></span>';
 		tr += '</td>'; 	
 		tr += '<td>';
@@ -258,9 +261,9 @@ function saveEqLogic(_eqLogic) {
 }
 
 function printEqLogic(_eqLogic) {
-	console.log("--------- printEqLogic");
-	console.log("_eqLogic");
-	console.dir (_eqLogic);
+	//console.log("--------- printEqLogic");
+	//console.log("_eqLogic");
+	//console.dir (_eqLogic);
 
 // on remplit la table du résultat global
     $('#table_controles_resultat').empty();
@@ -308,37 +311,37 @@ dernierEtat = "(actuellement à "+_eqLogic.configuration.dernierEtat+")";
 
 
 if (typeControl == "")
-$('#table_actions').append('<br><div class="alert alert-success"><legend><i class="fas fa-cogs"></i> {{Actions à executer quand un des contrôles passe à True}}</legend>');
+$('#table_actions').append('<legend><i class="far fa-thumbs-up" style="font-size : 2em;color:#a15bf7;"></i><span style="color:#a15bf7"> {{Actions à exécuter quand un des contrôles passe à True}}</span></legend>');
 else
-$('#table_actions').append('<br><div class="alert alert-success"><legend><i class="fas fa-cogs"></i> Actions à executer quand le résultat global des contrôles passe à True '+dernierEtat+'</legend>');
+$('#table_actions').append('<legend><i class="far fa-thumbs-up" style="font-size : 2em;color:#a15bf7;"></i><span style="color:#a15bf7"> Actions à exécuter quand le résultat global des contrôles passe à True '+dernierEtat+'</span></legend>');
 
         // On va lister en premier les actions qui se déclencheront quand on passera de false à true
 		for (var i in _eqLogic.configuration.watchdogAction) {
 			if (_eqLogic.configuration.watchdogAction[i].actionType == "True")
-			addAction(_eqLogic.configuration.watchdogAction[i])
+			addAction(_eqLogic.configuration.watchdogAction[i], "True")
         }
 		
 //$('#table_actions').append('</div>');
 		
 if (typeControl == "")
-$('#table_actions').append('<br><div class="alert alert-warning"><legend><i class="fa fa-cogs"></i> {{Actions à executer quand un des contrôles passe à False}}</legend>');
+$('#table_actions').append('<legend><i class="far fa-thumbs-down" style="font-size : 2em;color:#a15bf7;"></i> <span style="color:#a15bf7">{{Actions à exécuter quand un des contrôles passe à False}}</span></legend>');
 else
-$('#table_actions').append('<br><div class="alert alert-warning"><legend><i class="fa fa-cogs"></i> Actions à executer quand le résultat global des contrôles passe à False '+dernierEtat+'</legend>');
+$('#table_actions').append('<legend><i class="far fa-thumbs-down" style="font-size : 2em;color:#a15bf7;"></i><span style="color:#a15bf7"> Actions à exécuter quand le résultat global des contrôles passe à False '+dernierEtat+'</span></legend>');
 
         // puis les actions qui se déclencheront quand on passera de true à false
         for (var i in _eqLogic.configuration.watchdogAction) {
 			if (_eqLogic.configuration.watchdogAction[i].actionType == "False")
-			addAction(_eqLogic.configuration.watchdogAction[i])
+			addAction(_eqLogic.configuration.watchdogAction[i], "False")
         } 
 		
 //$('#table_actions').append('</div>');
 
-$('#table_actions').append('<br><div class="alert alert-info"><legend><i class="fa fa-cogs"></i> {{Actions à executer AVANT d\'effectuer le contrôle}}</legend>');
+$('#table_actions').append('<legend><i class="fa fa-cogs" style="font-size : 2em;color:#a15bf7;"></i> <span style="color:#a15bf7">{{Actions à exécuter AVANT d\'effectuer le contrôle}}</span></legend>');
 
         // puis les actions qui se déclencheront quand on passera de true à false
         for (var i in _eqLogic.configuration.watchdogAction) {
 			if (_eqLogic.configuration.watchdogAction[i].actionType == "Avant")
-			addAction(_eqLogic.configuration.watchdogAction[i])
+			addAction(_eqLogic.configuration.watchdogAction[i], "Avant")
         } 
 		
 	}
