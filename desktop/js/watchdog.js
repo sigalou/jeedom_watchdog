@@ -203,8 +203,8 @@ function addCmdToTable(_cmd, type) {
 		}
 			
 		
-		//var tr = '<tr class="cmd info" >';
-			var tr = '<tr class="cmd" >'; //la couleur ne foncitonne pas à cause de info mais on ne peut pas supprimer info
+		//var tr = '<tr class="cmd info" >';88
+			var tr = '<tr class="cmd info" >'; //la couleur ne foncitonne pas à cause de info mais on ne peut pas supprimer info
 		
 		tr += '<td>';
 		
