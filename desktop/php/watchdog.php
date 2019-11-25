@@ -226,7 +226,7 @@ if ($typeControl!="")
 </tr>
 </tbody>
 </table><br>
-<div class="alert-ino bg-success">
+<div class="alert-info bg-success">
         Les tempos peuvent être utilisées pour faire des tests lors d'un contôle  : <br/>
         #tempo1# = Valeur en secondes. Mettre #tempo1# pour récupérer la valeur
         </div>
