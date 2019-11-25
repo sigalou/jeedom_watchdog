@@ -167,7 +167,7 @@ foreach (jeeObject::all() as $object) {
 		   	
            </div>
 		
-<div class="alert bg-success">
+<div class="alert-info bg-success">
 	Il existe trois modes de fonctionnement  : <br>
 	* Actions sur chaque contrôle indépendamment : Ce mode teste indépendamment chaque contrôle et déclenche les actions quand ce contrôle a changé d'état<br>
 	* Actions sur l'ensemble des contôles (avec méthode OU) : Ce mode teste le résultat global des contrôles en y appliquant un test "OU" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.<br>
@@ -226,7 +226,7 @@ if ($typeControl!="")
 </tr>
 </tbody>
 </table><br>
-<div class="alert bg-success">
+<div class="alert-ino bg-success">
         Les tempos peuvent être utilisées pour faire des tests lors d'un contôle  : <br/>
         #tempo1# = Valeur en secondes. Mettre #tempo1# pour récupérer la valeur
         </div>
@@ -241,7 +241,7 @@ if ($typeControl!="")
 	<br><a class="btn btn-success btn-sm bt_addAction pull-left" ><i class="fa fa-plus-circle"></i>Ajouter une action</a><br><br>	   
 <?php if ($typeControl=="")
 							{?>
-							<br><br><div class="alert bg-success">
+							<br><br><div class="alert-info bg-success">
 							<b>#controlname#</b> = Nom du contrôle qui a déclenché l'action. Mettre #controlname# dans <b>Titre</b> ou dans <b>Message</b> pour y récupérer la valeur<br/>
 							<b>#title#</b> = Nom du Watchdog. Mettre #title# dans <b>Titre</b> ou dans <b>Message</b> pour y récupérer la valeur
 							</div>
