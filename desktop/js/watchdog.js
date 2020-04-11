@@ -47,9 +47,9 @@ $('.listCmdInfoVacances').off('click').on('click',function(){
     var type = $(this).attr('data-type');
  // var el = $(this).closest('.' + type).find('.expressionAttr[data-l1key=cmd]');
 	var el = $(this).closest('.' + type).find('.eqLogicAttr[data-l1key=configuration][data-l2key=modevacances]');
-console.log("--------- type");
+//console.log("--------- type");
 console.dir(type);
-console.log("--------- el");
+//console.log("--------- el");
 console.dir(el);
     jeedom.cmd.getSelectModal({cmd: {type: 'action'}}, function (result) {
         el.value(result.human);
@@ -60,7 +60,7 @@ console.dir(el);
     });
 	
 	el.value("coucou");
-console.log("--------- coucou");
+//console.log("--------- coucou");
 	
 	
 });
@@ -191,15 +191,15 @@ function addCmdToTable(_cmd, type) {
 		switch (_cmd.configuration.resultat) {
 		  case 'True':
 			var couleur = 'success';
-			var icon='<i class="far fa-thumbs-up"></i>';
+			var icon='<i class="far fa-thumbs-up"  style="color: #ffffff!important;"></i>';
 			break;
 		  case 'False':
 			var couleur = 'warning';
-			var icon='<i class="far fa-thumbs-down"></i>';
+			var icon='<i class="far fa-thumbs-down" style="color: #ffffff!important;"></i>';
 			break;
 		  default:
 			var couleur = 'info';
-			var icon='<i class="far fa-question-circle"></i>';
+			var icon='<i class="far fa-question-circle" style="color: #ffffff!important;"></i>';
 		}
 			
 		
@@ -223,7 +223,7 @@ function addCmdToTable(_cmd, type) {
 		tr += '</td>';
 		 tr += '<td>';
 		tr += ' <input class="cmdAttr form-control input-sm"  data-type="' + _cmd.type + '" data-l1key="configuration" data-l2key="controle"  style="margin-bottom : 5px;width : 80%; display : inline-block;" >';
-		tr += '<a class="btn btn-info btn-sm cursor listCmdInfo" data-type="' + _cmd.type + '"  style="margin-left : 5px;"><i class="fa fa-list-alt "></i></a>';
+		tr += '<a class="btn btn-info btn-sm cursor listCmdInfo" data-type="' + _cmd.type + '"  style="margin-left : 5px;"><i class="fa fa-list-alt" style="color: #ffffff!important;"></i></a>';
 		tr += '<div hidden class="calcul"><small><i>';
 		tr += '<span style="margin-top : 9px; margin-left: 10px; " class="cmdAttr" data-l1key="configuration" data-l2key="calcul"></span></i></small></div>';
 		tr += '</td>';   
@@ -417,26 +417,62 @@ $("#table_controles").off('click').on('click', ".listCmdInfo",function() {
     type = 'action';
   }
 
-
-
-							message = '<form class="form-horizontal" onsubmit="return false;">  <div class="panel-group" id="accordion">    ';
-							message += '<div class="panel panel-default">      <div class="panel-heading">        <h4 class="panel-title">            <label for="r11" style="width: 100%;">              <input type="radio" class="conditionAttr" data-l1key="radio" id="r11" value=2 name="choix" checked="checked" required />';
-							message += ' Surveiller un équipement';
-							message += '<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"></a>            </label>        </h4>      </div>      <div id="collapseOne" class="panel-collapse collapse in">        <div class="panel-body">          <p>';
-							message += 'Par exemple : <b>[Cuisine][Détecteur de Présence]</b></div>';
-							message += '</p>        </div>      </div>   '; 
 							tempo1 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo1]').value()+" secondes"; 
 							if (tempo1==" secondes") tempo1='à configurer';
 							tempo2 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo2]').value()+" secondes"; 
 							if (tempo2==" secondes") tempo2='à configurer';
 							tempo3 = $('.eqLogicAttr[data-l1key=configuration][data-l2key=tempo3]').value()+" secondes"; 
 							if (tempo3==" secondes") tempo3='à configurer';
-							message += '<div class="panel panel-default">      <div class="panel-heading">        <h4 class=panel-title>            <label for="r12" style="width: 100%;">              <input type="radio" id="r12" value=1 name="choix" required />';
-							message += " Surveiller la commande d'un équipement";
-							message += '<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"></a>            </label>        </h4>      </div>      <div id="collapseTwo" class="panel-collapse collapse">        <div class="panel-body">          <p>'+
-							'Par exemple : <b>[Cuisine][Détecteur de Présence][Présent]</b></div></p>        </div>      </div>    </div>';
-							message += '<script>$("#r11").on("click", function(){  $(this).parent().find("a").trigger("click")});$("#r12").on("click", function(){  $(this).parent().find("a").trigger("click")})</script>';
-							message += '</div> </div>' ;
+
+
+							message = '<form class="form-horizontal" onsubmit="return false;">';
+							message += '	<div class="panel-group" id="accordion">';
+							
+							message += '		<div class="panel panel-default">';
+							message += '			<div class="panel-heading">';
+							message += '				<h4 class="panel-title"><label for="r11" style="width: 100%;"><input type="radio" class="conditionAttr" data-l1key="radio" id="r11" value=2 name="choix" checked="checked" required/>';
+							message += '				Surveiller un équipement <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"></a></label></h4>';
+							message += '			</div>';
+							message += '			<div id="collapseOne" class="panel-collapse collapse in">';
+							message += '				<div class="panel-body">';
+							message += '					<p>';
+							message += '						 Par exemple : <b>[Cuisine][Détecteur de Présence]</b>';
+							message += '					</div>';
+							message += '				</p>';
+							message += '			</div>';
+							message += '		</div>';
+							
+						
+							message += '		<div class="panel panel-default">';
+							message += '			<div class="panel-heading">';
+							message += '				<h4 class=panel-title><label for="r12" style="width: 100%;"><input type="radio" class="conditionAttr" data-l1key="radio" id="r12" value=1 name="choix" required/>';
+							message += '				Surveiller la commande d\'un équipement <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"></a></label></h4>';
+							message += '			</div>';
+							message += '			<div id="collapseTwo" class="panel-collapse collapse">';
+							message += '				<div class="panel-body">';
+							message += '					<p>';
+							message += '						'+ 'Par exemple : <b>[Cuisine][Détecteur de Présence][Présent]</b>';
+							message += '					</div>';
+							message += '				</p>';
+							message += '			</div>';
+							message += '		</div>';
+							
+							
+							message += '		<div class="panel panel-default">';
+							message += '			<div class="panel-heading">';
+							message += '				<h4 class=panel-title><label for="r13" style="width: 100%;"><input type="radio" class="conditionAttr" data-l1key="radio" id="r13" value=3 name="choix" required/>';
+							message += '				Surveiller la config IP de Jeedom<a data-toggle="collapse" data-parent="#accordion" href="#collapseTree"></a></label></h4>';
+							message += '			</div>';
+							message += '		</div>';							
+							
+						
+							
+							message += '<script>';
+							message += '	$("#r11").on("click", function(){  $(this).parent().find("a").trigger("click")});';
+							message += '	$("#r12").on("click", function(){  $(this).parent().find("a").trigger("click")});';
+							message += '</script>';
+							message += '		</div>' ;
+							message += '			</div>' ;
 							message += '</form> ';
 
 // Lancement de l'écran numéro 1/3	
@@ -456,9 +492,8 @@ $("#table_controles").off('click').on('click', ".listCmdInfo",function() {
 						className: "btn-primary",
 						callback: function () {
 							
-					  
-					  
-	if ($('.conditionAttr[data-l1key=radio]').value() == "1")
+	//if ($('.conditionAttr[data-l1key=radio]').value() == "1")
+	if ($('#r11').value() == "1")
 		{
 		//------------L'utilisateur demande a choisir l'équipement --
 		// Lancement de l'écran numéro 2/3	
@@ -605,7 +640,11 @@ $("#table_controles").off('click').on('click', ".listCmdInfo",function() {
 					  });	// fin de jeedom.cmd.getSelectModal			
 			
 		}
-	else {
+			
+	else if ($('#r12').value() == "1")
+
+	{
+
  		//------------L'utilisateur demande a choisir la commande de l'équipement --
 		// Lancement de l'écran numéro 2/3	
 			 jeedom.cmd.getSelectModal({cmd: {}}, function (result) {
@@ -773,6 +812,11 @@ $("#table_controles").off('click').on('click', ".listCmdInfo",function() {
 							}
 						  }); // fin de bootbox.dialog(
 					  });	// fin de jeedom.cmd.getSelectModal
+		}
+		else {
+		//------------L'utilisateur demande a choisir le controle de l'IP --
+		var currentLocationhostname = window.location.hostname;
+			el.value('#internalAddr# = "'+currentLocationhostname+'"');
 		}
   
   // Début Fermeture des parenthèses et accolades du premier bootbox.dialog

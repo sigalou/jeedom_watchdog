@@ -349,6 +349,10 @@ public function faireTestExpression($_string) {
 			$_string = str_replace("#tempo1#", $tempo1, $_string);
 			$_string = str_replace("#tempo2#", $tempo2, $_string);
 			$_string = str_replace("#tempo3#", $tempo3, $_string);
+		//---------------------------------------------------
+			$_string = str_replace("#internalAddr#", '"'.config::byKey('internalAddr').'"', $_string);
+			
+			
 
 	//$_boucleEnCours="8541";
 		$this->setConfiguration('calcul', scenarioExpression::setTags(jeedom::fromHumanReadable($_string)));
