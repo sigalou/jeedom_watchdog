@@ -43,14 +43,51 @@ $('.bt_addControle').off('click').on('click',function(){
 });
 
 
+$('#div_pageContainer').on( 'click','.cmdAction[data-action=testaction]',function (event) {
+var id_action = $(this).attr('id_action');
+
+  $.ajax({
+      type: "POST", 
+      url: "plugins/watchdog/core/ajax/watchdog.ajax.php", 
+      data:
+      {
+          action: "testaction",
+		  //albums: json_encode(albums),
+		  id: $('.eqLogicAttr[data-l1key=id]').value(),
+		  id_action: id_action
+      },
+      dataType: 'json',
+      error: function (request, status, error)
+      {
+          //window.location.reload();
+          //handleAjaxError(request, status, error);
+      },
+      success: function (data)
+      { 
+          
+		  /*if (data.state != 'ok') {
+              $('#div_alert').showAlert({message: data.result, level: 'danger'});
+              return;
+          }*/
+          //window.location.reload();
+      }
+  });
+
+
+
+
+
+
+});
+
 $('.listCmdInfoVacances').off('click').on('click',function(){
     var type = $(this).attr('data-type');
  // var el = $(this).closest('.' + type).find('.expressionAttr[data-l1key=cmd]');
 	var el = $(this).closest('.' + type).find('.eqLogicAttr[data-l1key=configuration][data-l2key=modevacances]');
 //console.log("--------- type");
-console.dir(type);
+//console.dir(type);
 //console.log("--------- el");
-console.dir(el);
+//console.dir(el);
     jeedom.cmd.getSelectModal({cmd: {type: 'action'}}, function (result) {
         el.value(result.human);
         jeedom.cmd.displayActionOption(el.value(), '', function (html) {
@@ -96,8 +133,26 @@ $('.bt_plugin_view_log').on('click',function(){
 
 });
 
-function addAction(_action, type) {
-	//console.log("--------- addAction");
+function addAction(_action, type, id_action="") {
+	//console.log("--------- _action :");
+	//console.dir(_action);
+/* CONTENU DE _action
+
+{
+  "options": {
+    "enable": "1",
+    "background": "0",
+    "title": "#title#",
+    "message": "#controlname# est OK"
+  },
+  "actionType": "True",
+  "cmd": "#[Equipement internes][Pushover Lionel][IconeVerte]#"
+}
+
+{*/
+
+
+
 
     if (!isset(_action)) {
         _action = {};
@@ -106,6 +161,7 @@ function addAction(_action, type) {
         _action.options = {};
     }
 	
+	console.log("--------- id_action>>>>>>>>>>"+id_action);
 	
 
 			switch (type) {
@@ -144,6 +200,12 @@ function addAction(_action, type) {
     div += '<a class="btn btn-primary btn-sm listCmdAction" data-type="watchdogAction"><i class="fa fa-list-alt"></i></a>';
     div += '</span>';
     div += '</div>';
+	
+	// La commande c'est : _action.cmd
+    if (is_numeric(id_action)) {
+		div += '<a class="btn btn-primary btn-xs cmdAction" data-action="testaction" id_action="'+id_action+' title="'+id_action+' controlename="'+id_action+'"><i class="fa fa-rss"></i> Tester</a>';
+		}
+	//console.log("--------- testaction>>>>>>>>>>"+JSON.stringify(_action));
     div += '</div>';
     var actionOption_id = uniqId();
 	//console.log(uniqId());
@@ -214,8 +276,6 @@ function addCmdToTable(_cmd, type) {
    // tr += '<a class="btn btn-info btn-sm" pull-right data-action="remove" cmdAction><i class="fa fa-minus-circle"></i></a>';
    //*************************************************
    
-   
-   
 		tr += '<span class="cmdAttr" data-l1key="id" style="display:none;"></span>';
 		tr += '<input class="cmdAttr form-control input-sm" data-l1key="name" style="width : 140px;" placeholder="{{Nom}}">';
 		tr += '<span style="display:none;" class="type" type="' + init(_cmd.type) + '">' + jeedom.cmd.availableType() + '</span>';
@@ -264,6 +324,104 @@ function printEqLogic(_eqLogic) {
 	//console.log("--------- printEqLogic");
 	//console.log("_eqLogic");
 	//console.dir (_eqLogic);
+
+/* CONTENU DE _eqLogic
+{
+  "id": "4661",
+  "name": "Controle IP",
+  "logicalId": "",
+  "generic_type": null,
+  "object_id": null,
+  "eqType_name": "watchdog",
+  "eqReal_id": null,
+  "isVisible": "1",
+  "isEnable": "1",
+  "configuration": {
+    "createtime": "2020-04-11 10:14:21",
+    "dernierLancement": "SAVE 12.04.2020 09:48:02",
+    "dernierEtat": "True",
+    "autorefresh": "*5 * * * *",
+    "typeControl": "",
+    "tempo1": "",
+    "tempo2": "",
+    "tempo3": "",
+    "watchdogAction": [
+      {
+        "options": {
+          "enable": "1",
+          "background": "0",
+          "title": "#title#",
+          "message": "#controlname# est OK"
+        },
+        "actionType": "True",
+        "cmd": "#[Equipement internes][Pushover Lionel][IconeVerte]#"
+      },
+      {
+        "options": {
+          "enable": "1",
+          "background": "0",
+          "title": "#title#",
+          "message": "#controlname# est passé à False"
+        },
+        "actionType": "False",
+        "cmd": "#[Equipement internes][Pushover Lionel][IconeRouge]#"
+      }
+    ],
+    "updatetime": "2020-04-12 09:48:02"
+  },
+  "timeout": null,
+  "category": {
+    "heating": "0",
+    "security": "0",
+    "energy": "0",
+    "light": "0",
+    "automatism": "0",
+    "multimedia": "0",
+    "default": "0"
+  },
+  "display": {
+    "height": "110px",
+    "width": "230px"
+  },
+  "order": "9999",
+  "comment": null,
+  "tags": null,
+  "status": [],
+  "cmd": [
+    {
+      "id": "59408",
+      "logicalId": null,
+      "generic_type": null,
+      "eqType": "watchdog",
+      "name": "IP",
+      "order": "0",
+      "type": "info",
+      "subType": "watchdog",
+      "eqLogic_id": "4661",
+      "isHistorized": "0",
+      "unite": "",
+      "configuration": {
+        "controle": "#internalAddr# = \"192.168.0.21\"",
+        "calcul": "\"192.168.0.21\" = \"192.168.0.21\"",
+        "resultat": "True",
+        "aChange": false
+      },
+      "template": {
+        "dashboard": "default",
+        "mobile": "default"
+      },
+      "display": {
+        "showStatsOnmobile": 0,
+        "showStatsOndashboard": 0
+      },
+      "value": null,
+      "isVisible": "1",
+      "alert": []
+    }
+  ]
+}*/
+
+
 
 // on remplit la table du résultat global
     $('#table_controles_resultat').empty();
@@ -317,8 +475,10 @@ $('#table_actions').append('<legend><i class="far fa-thumbs-up" style="font-size
 
         // On va lister en premier les actions qui se déclencheront quand on passera de false à true
 		for (var i in _eqLogic.configuration.watchdogAction) {
-			if (_eqLogic.configuration.watchdogAction[i].actionType == "True")
-			addAction(_eqLogic.configuration.watchdogAction[i], "True")
+			if (_eqLogic.configuration.watchdogAction[i].actionType == "True") {
+			//_eqLogic.configuration.watchdogAction[i]
+			addAction(_eqLogic.configuration.watchdogAction[i], "True", i)
+			}
         }
 		
 //$('#table_actions').append('</div>');
@@ -331,7 +491,7 @@ $('#table_actions').append('<legend><i class="far fa-thumbs-down" style="font-si
         // puis les actions qui se déclencheront quand on passera de true à false
         for (var i in _eqLogic.configuration.watchdogAction) {
 			if (_eqLogic.configuration.watchdogAction[i].actionType == "False")
-			addAction(_eqLogic.configuration.watchdogAction[i], "False")
+			addAction(_eqLogic.configuration.watchdogAction[i], "False", i)
         } 
 		
 //$('#table_actions').append('</div>');
@@ -341,7 +501,7 @@ $('#table_actions').append('<legend><i class="fa fa-cogs" style="font-size : 2em
         // puis les actions qui se déclencheront quand on passera de true à false
         for (var i in _eqLogic.configuration.watchdogAction) {
 			if (_eqLogic.configuration.watchdogAction[i].actionType == "Avant")
-			addAction(_eqLogic.configuration.watchdogAction[i], "Avant")
+			addAction(_eqLogic.configuration.watchdogAction[i], "Avant", i)
         } 
 		
 	}

@@ -19,7 +19,7 @@
 try {
     require_once __DIR__ . '/../../../../core/php/core.inc.php';
     include_file('core', 'authentification', 'php');
-
+/*
     if (init('action') == 'launchAction') {
         watchdog::launchCmd(init('id'));
 		ajax::success();
@@ -36,6 +36,35 @@ try {
         watchdog::actionAll(init('id'));
 		ajax::success();
     }
+	*/
+    if (init('action') == 'testaction') {
+        $watchdog = watchdog::byId(init('id'));
+		    if (!is_object($watchdog)) {
+			  throw new Exception(__('Equipement watchdog introuvable : ', __FILE__) . init('id'));
+			}
+		$comptageid=0;
+		foreach ($watchdog->getConfiguration('watchdogAction') as $cmd) {
+					if (init('id_action')== $comptageid) {
+						$commandeaTester=$cmd['cmd'];
+						$optionsCommandeaTester=$cmd['options'];
+						//log::add('watchdog','debug', ' optionsCommandeaTester: '.json_encode($optionsCommandeaTester));
+						
+						if (count($watchdog->getCmd()) == 1) {// S'il n'y en a qu'une commande, on va remplacer #controlname# par la valeur, sinon on laisse #controlname#
+								foreach ($watchdog->getCmd() as $eqCmd) {
+									foreach ($optionsCommandeaTester as $key => $option) {
+										$optionsCommandeaTester[$key]=str_replace("#controlname#", $eqCmd->getName(), $option);
+									}				
+								}
+						}
+						foreach ($optionsCommandeaTester as $key => $option) {
+							$optionsCommandeaTester[$key]=str_replace("#title#", $watchdog->getName(), $option);
+						}
+						scenarioExpression::createAndExec('action', $commandeaTester, $optionsCommandeaTester);		
+					}
+					$comptageid++;
+				}
+		ajax::success();
+    }	
 	
 			
     throw new Exception(__('Aucune méthode correspondante à : ', __FILE__) . init('action'));
