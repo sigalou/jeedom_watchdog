@@ -158,7 +158,7 @@ foreach (jeeObject::all() as $object) {
 			<div class="form-group">
                 <label class="col-sm-3 control-label" >{{Mode de fonctionnement des contrôles}}</label>
                 <div class="col-sm-3">
-                    <select style="width: 420px;" id="sel_object" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="typeControl">
+                    <select style="width: 500px;" id="sel_object" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="typeControl">
 <option value="">{{Actions sur chaque contrôle indépendamment}}</option>
 <option value="OU">{{Actions sur l'ensemble des contôles (avec méthode OU)}}</option>
 <option value="ET">{{Actions sur l'ensemble des contôles (avec méthode ET)}}</option>
@@ -172,6 +172,26 @@ foreach (jeeObject::all() as $object) {
 	* Actions sur chaque contrôle indépendamment : Ce mode teste indépendamment chaque contrôle et déclenche les actions quand ce contrôle a changé d'état<br>
 	* Actions sur l'ensemble des contôles (avec méthode OU) : Ce mode teste le résultat global des contrôles en y appliquant un test "OU" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.<br>
 	* Actions sur l'ensemble des contôles (avec méthode ET) : Ce mode teste le résultat global des contrôles en y appliquant un test "ET" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.	</div>			
+
+			<br><br><div class="form-group">
+                <label class="col-sm-3 control-label" >{{Mode de fonctionnement des actions}}</label>
+                <div class="col-sm-3">
+                    <select style="width: 500px;" id="sel_object" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="typeAction">
+<option value="">{{Lancer une action uniquement si le contrôle change de valeur (par défaut)}}</option>
+<option value="ALL">{{Lancer une action à chaque controle en fonction du résultat}}</option>
+                   </select>
+               </div><br><br>
+		   	
+           </div>
+		
+<div class="alert-info bg-success">
+	Il existe trois deux de fonctionnement  : <br>
+	* Lancer une action uniquement si le contrôle change de valeur : Ce mode vous prévient quand le contrôle effectué a changé d'état<br>
+	* Lancer une action à chaque controle en fonction du résultat : Ce mode execute à chaque contrôle l'action qui correspond au résultat du contrôle.<br>
+</div>	
+
+
+
 	
 	
 </fieldset>

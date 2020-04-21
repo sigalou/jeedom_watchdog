@@ -99,6 +99,7 @@ class watchdog extends eqLogic {
  	//log::add('watchdog','debug','[*****dernierLancement2] de '.$this->getName()." vaut :".$this->getConfiguration('dernierLancement'));	
 
 	$typeControl= $this->getConfiguration('typeControl');
+	$typeAction= $this->getConfiguration('typeAction');
 
 	$traceleCalcul="Calcul : Init à ";
 	
@@ -138,6 +139,11 @@ class watchdog extends eqLogic {
 		
 		$resultatPrecedent=$this->getConfiguration('dernierEtat');
 		$this->setConfiguration('dernierEtat', $leResultatdelaBoucle);
+		
+		if ($typeAction == 'ALL'){
+			$resultatPrecedent = "";
+			log::add('watchdog','debug','Mode action à chaque contrôle : Désactivation du Résultat Précédent');	
+		}
        	
 		$typeControl= $this->getConfiguration('typeControl');
 		if ($typeControl !="") { 		

@@ -22,3 +22,8 @@ if (!isConnect()) {
     die();
 }
 ?>
+<style>
+pre#pre_eventlog {
+    font-family:  Menlo, Monaco, Consolas, "Courier New", monospace !important;
+}
+</style>
