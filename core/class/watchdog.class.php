@@ -86,8 +86,9 @@ class watchdog extends eqLogic {
 	}
 
     public function preSave() {
- 	//log::add('watchdog','debug','[eqLogic] preSave de '.$this->getName());	
- 	//log::add('watchdog','debug','[*****dernierLancement1] de '.$this->getName()." vaut :".$this->getConfiguration('dernierLancement'));	
+ 	log::add('watchdog','debug','[eqLogic] preSave de '.$this->getName());	
+ 	log::add('watchdog','debug','[*****dernierLancement1] de '.$this->getName()." vaut :".$this->getConfiguration('dernierLancement'));	
+	
 	if ((substr($this->getConfiguration('dernierLancement'), 0, 7)) == "PRECRON")
 		$this->setConfiguration('dernierLancement','CRON '.date("d.m.Y")." ".date("H:i:s"));
 	else {
@@ -249,6 +250,7 @@ class watchdog extends eqLogic {
 //Mettre self: ??
 		//set_boucleEnCours("79845613");
 		foreach (self::byType('watchdog') as $watchdog) {
+			//log::add('watchdog','debug','Lancement update de >> '.$watchdog->getName().' <<');
 			$autorefresh = $watchdog->getConfiguration('autorefresh');
 			$watchdog->setConfiguration('dernierLancement','PRECRON '.date("d.m.Y")." ".date("H:i:s")); // PRECON c'est pour signaler que le CRON va etre sauvegarder
 			//ESSAI
@@ -268,11 +270,11 @@ class watchdog extends eqLogic {
 						} catch (Exception $exc) {
 							log::add('watchdog', 'error', __('Erreur pour ', __FILE__) . $watchdog->getHumanName() . ' : ' . $exc->getMessage());
 						}
+						$watchdog->save();
 					}
 				} catch (Exception $exc) {
 					log::add('watchdog', 'error', __('Expression cron non valide pour ', __FILE__) . $watchdog->getHumanName() . ' : ' . $autorefresh);
 				}
-			$watchdog->save();
 			}
 		}
 	}
