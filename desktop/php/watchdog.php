@@ -159,7 +159,7 @@ foreach (jeeObject::all() as $object) {
                 <label class="col-sm-3 control-label" >{{Mode de fonctionnement des contrôles}}</label>
                 <div class="col-sm-3">
                     <select style="width: 500px;" id="sel_object" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="typeControl">
-<option value="">{{Actions sur chaque contrôle indépendamment}}</option>
+<option value="">{{Actions sur chaque contrôle indépendamment (par défaut)}}</option>
 <option value="OU">{{Actions sur l'ensemble des contôles (avec méthode OU)}}</option>
 <option value="ET">{{Actions sur l'ensemble des contôles (avec méthode ET)}}</option>
                    </select>
@@ -265,7 +265,16 @@ if ($typeControl!="")
 							<b>#controlname#</b> = Nom du contrôle qui a déclenché l'action. Mettre #controlname# dans <b>Titre</b> ou dans <b>Message</b> pour y récupérer la valeur<br/>
 							<b>#title#</b> = Nom du Watchdog. Mettre #title# dans <b>Titre</b> ou dans <b>Message</b> pour y récupérer la valeur
 							</div>
-							<?php } ?>
+							<?php 
+							}
+else {?>
+							<br><br><div class="alert-info bg-success">
+							<b>#title#</b> = Nom du Watchdog. Mettre #title# dans <b>Titre</b> ou dans <b>Message</b> pour y récupérer la valeur
+							</div>
+							<?php 
+							}
+
+							?>
 	   
 </div>
 </div>

@@ -224,12 +224,22 @@ class watchdog extends eqLogic {
 		
 	public function trigger($passe) {
 		// La fonction trigger ne doit être appellé sur le résultat général des controles, on ne fait rien si on est en mode "Actions sur chaque cvontrole indépendamment"
+
 		log::add('watchdog','debug','On lance les actions qui correspondent au passage de **'.$this->getName().'** à '.$passe);   
 			foreach ($this->getConfiguration("watchdogAction") as $action) {
 				try {
 				$options = [];
 				if (isset($action['options'])) $options = $action['options'];
 				if (($action['actionType'] == $passe) && $options['enable'] == '1'){
+					
+								/*foreach ($options as $key => $option) {
+									$options[$key]=str_replace("#controlname#", $this->getName(), $option);
+								}*/
+								foreach ($options as $key => $option) {
+									$options[$key]=str_replace("#title#", $this->getName(), $option);
+								}
+					
+					
 					//log::add('watchdog','debug','Lancement de : '.$action['cmd']);   
 					//scenarioExpression::createAndExec('action', $action['cmd'], $options);
 				log::add('watchdog','debug','**************************************************************************************************************************');
