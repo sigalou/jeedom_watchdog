@@ -86,76 +86,20 @@ class watchdog extends eqLogic {
 	}
 
     public function preSave() {
- 	log::add('watchdog','debug','[eqLogic] preSave de '.$this->getName());	
- 	log::add('watchdog','debug','[*****dernierLancement1] de '.$this->getName()." vaut :".$this->getConfiguration('dernierLancement'));	
+	//log::add('watchdog','debug','[eqLogic] preSave de '.$this->getName());	
+ 	//log::add('watchdog','debug','[*****dernierLancement1] de '.$this->getName()." vaut :".$this->getConfiguration('dernierLancement'));	
 	
-	if ((substr($this->getConfiguration('dernierLancement'), 0, 7)) == "PRECRON")
+	if ((substr($this->getConfiguration('dernierLancement'), 0, 7)) == "PRECRON") {
 		$this->setConfiguration('dernierLancement','CRON '.date("d.m.Y")." ".date("H:i:s"));
+		log::add('watchdog','debug','[SAUVEGARDE CRON de '.$this->getName().']');
+	}
 	else {
 		$this->setConfiguration('dernierLancement','SAVE '.date("d.m.Y")." ".date("H:i:s"));
-		log::add('watchdog','debug','-----------------------------------------------------------------');
-		log::add('watchdog','debug','SAUVEGARDE de >> '.$this->getName().' <<');
-		log::add('watchdog','debug','-----------------------------------------------------------------');
-		}
+		log::add('watchdog','debug','[SAUVEGARDE de '.$this->getName().']');
+	}
  	//log::add('watchdog','debug','[*****dernierLancement2] de '.$this->getName()." vaut :".$this->getConfiguration('dernierLancement'));	
 
-	$typeControl= $this->getConfiguration('typeControl');
-	$typeAction= $this->getConfiguration('typeAction');
-
-	$traceleCalcul="Calcul : Init à ";
-	
-	if ($typeControl=="ET") {
-		$leResultatdelaBoucle=true;
-	}
-	else {
-		$leResultatdelaBoucle=false;
-	}
-	
-					//On passe toutes les commandes de l'eqLogic pour calculer le résultat global des tests
-					foreach ($this->getCmd('info') as $cmd) {
-						//$cmd->save();// On lance un save pour que la commande $cmd soit testée, ce sera finalement fait deux fois mais ce test est obligatoire avant le résultat global
-						$leResultat=$cmd->getConfiguration('resultat');
-						//log::add('watchdog', 'debug', '------->>>>>>> Le grand test :'.$leResultat);
-						//2 lignes inutiles car le controle se fait déja au moment de preSave
-						//$resultat=$cmd->faireTestExpression($cmd->getConfiguration('controle'));
-						//$cmd->setConfiguration('resultat', $resultat);
-						if ($leResultat == "True" || $leResultat == "False"){
-							//Résultat valide, on continue le test
-							if ($typeControl=="ET") {
-								if ($leResultat == "False")	$leResultatdelaBoucle=false; // On est sur une fonction ET
-							}
-							else {
-								if ($leResultat == "True")	$leResultatdelaBoucle=true; // On est sur une fonction OU
-							}
-						}
-					}	
-		if ($leResultatdelaBoucle) $leResultatdelaBoucle = 'True';
-		else $leResultatdelaBoucle = 'False';
-		
-		//---------------------------------------------------
-		// On va chercher si on est en SAUVEGARDE ou en CRON
-			$dernierLancement=$this->getConfiguration('dernierLancement');
-			$dernierLancement=substr($dernierLancement, 0, 4);
-		//---------------------------------------------------
-		
-		$resultatPrecedent=$this->getConfiguration('dernierEtat');
-		$this->setConfiguration('dernierEtat', $leResultatdelaBoucle);
-		
-		if ($typeAction == 'ALL'){
-			$resultatPrecedent = "";
-			log::add('watchdog','debug','Mode action à chaque contrôle : Désactivation du Résultat Précédent');	
-		}
-       	
-		$typeControl= $this->getConfiguration('typeControl');
-		if ($typeControl !="") { 		
-			// On est ici sur le résultat général des controles, on ne fait rien si on est en mode "Actions sur chaque controle indépendamment"
-			if (($resultatPrecedent != $leResultatdelaBoucle) && ($dernierLancement =="CRON")) {
-				log::add('watchdog','debug','Bilan global : [Résultat Précédent='.$resultatPrecedent.'] [Nouveau Résultat='.$leResultatdelaBoucle.']--------------------> On lance Trigger');	
-				self::trigger($leResultatdelaBoucle);
-			} else {
-				log::add('watchdog','debug','Bilan global : [Résultat Précédent='.$resultatPrecedent.'] [Nouveau Résultat='.$leResultatdelaBoucle.']--------------------> On ne fait rien');	
-			}
-		}
+	//c'était ici l'ancien test global
     }
 
     public function postSave() {
@@ -164,22 +108,18 @@ class watchdog extends eqLogic {
 
     public function preUpdate() {
  	//log::add('watchdog','debug','[eqLogic] preUpdate de '.$this->getName());        
-       
     }
 
     public function postUpdate() {
  	//log::add('watchdog','debug','[eqLogic] postUpdate de '.$this->getName());        
-        
     }
 
     public function preRemove() {
  	//log::add('watchdog','debug','[eqLogic] preRemove de '.$this->getName());        
-        
     }
 
     public function postRemove() {
  	//log::add('watchdog','debug','[eqLogic] postRemove de '.$this->getName());        
-        
     }
 	
 	public function lancerControle($watchdog) {
@@ -214,12 +154,87 @@ class watchdog extends eqLogic {
 		
 		//set_boucleEnCours("7888885613");
 		foreach ($watchdog->getCmd('info') as $cmd) {
-					//log::add('watchdog', 'debug', '[Contrôle] Lancer le contrôle ** '.$cmd->getName()." **");
+					//log::add('watchdog', 'debug', '[>>>>>>>>>>>Contrôle] Lancer le contrôle ** '.$cmd->getName()." **");
 					//2 lignes inutiles car le controle se fait déja au moment de preSave
 					//$resultat=$cmd->faireTestExpression($cmd->getConfiguration('controle'));
 					//$cmd->setConfiguration('resultat', $resultat);
 					$cmd->save();
+					//log::add('watchdog', 'debug', '[>>>>FIN>>>>Contrôle] Lancer le contrôle ** '.$cmd->getName()." **");
 				}
+				
+		// On va faire le test GLOBAL
+		$typeControl= $this->getConfiguration('typeControl');
+		if ($typeControl!="") {	// Que si en OU ou en ET
+			log::add('watchdog','debug','On va chercher le résultat Global :');	
+
+			$typeAction= $this->getConfiguration('typeAction');
+
+			$traceleCalcul="Calcul : Init à ";
+			
+			if ($typeControl=="ET") {
+				$leResultatdelaBoucle=true;
+			}
+			else {
+				$leResultatdelaBoucle=false;
+			}
+					//g::add('watchdog','debug','leResultatdelaBoucle 1 : '.$leResultatdelaBoucle);	
+			
+							//On passe toutes les commandes de l'eqLogic pour calculer le résultat global des tests
+							foreach ($this->getCmd('info') as $cmd) {
+					//g::add('watchdog','debug','leResultatdelaBoucle 2 : '.$leResultatdelaBoucle);	
+								//$cmd->save();// On lance un save pour que la commande $cmd soit testée, ce sera finalement fait deux fois mais ce test est obligatoire avant le résultat global
+								$leResultat=$cmd->getConfiguration('resultat');
+								log::add('watchdog', 'debug', $typeControl." ".$leResultat. ' ('.$cmd->getName().')');
+								//2 lignes inutiles car le controle se fait déja au moment de preSave
+								//$resultat=$cmd->faireTestExpression($cmd->getConfiguration('controle'));
+								//$cmd->setConfiguration('resultat', $resultat);
+								if ($leResultat == "True" || $leResultat == "False"){
+					//g::add('watchdog','debug','leResultatdelaBoucle 3 : '.$leResultatdelaBoucle);	
+									//Résultat valide, on continue le test
+									if ($typeControl=="ET") {
+										if ($leResultat == "False")	$leResultatdelaBoucle=false; // On est sur une fonction ET
+					//g::add('watchdog','debug','leResultatdelaBoucle 4 : '.$leResultatdelaBoucle);	
+									}
+									else {
+										if ($leResultat == "True")	$leResultatdelaBoucle=true; // On est sur une fonction OU
+					//g::add('watchdog','debug','leResultatdelaBoucle 5 : '.$leResultatdelaBoucle);	
+									}
+								}
+							}	
+					//g::add('watchdog','debug','leResultatdelaBoucle 6 : '.$leResultatdelaBoucle);	
+				if ($leResultatdelaBoucle) $leResultatdelaBoucle = 'True';
+				else $leResultatdelaBoucle = 'False';
+								log::add('watchdog', 'debug', "=".$leResultatdelaBoucle);
+				
+				//---------------------------------------------------
+				// On va chercher si on est en SAUVEGARDE ou en CRON
+					//$dernierLancement=$this->getConfiguration('dernierLancement');
+					//$dernierLancement=substr($dernierLancement, 0, 4);
+				//---------------------------------------------------
+				
+				$resultatPrecedent=$this->getConfiguration('dernierEtat');
+				$this->setConfiguration('dernierEtat', $leResultatdelaBoucle);
+				
+				if ($typeAction == 'ALL'){
+					$resultatPrecedent = "";
+					log::add('watchdog','debug','Mode action à chaque contrôle : Désactivation du Résultat Précédent');	
+				}
+				
+				$typeControl= $this->getConfiguration('typeControl');
+				if ($typeControl !="") { 		
+					// On est ici sur le résultat général des controles, on ne fait rien si on est en mode "Actions sur chaque controle indépendamment"
+					if ($resultatPrecedent != $leResultatdelaBoucle) {
+						log::add('watchdog','debug','Bilan global : [Résultat Précédent='.$resultatPrecedent.'] [Nouveau Résultat='.$leResultatdelaBoucle.']-> On lance Trigger');	
+						self::trigger($leResultatdelaBoucle);
+					} else {
+						log::add('watchdog','debug','Bilan global : [Résultat Précédent='.$resultatPrecedent.'] [Nouveau Résultat='.$leResultatdelaBoucle.']-> On ne fait rien');	
+					}
+				}
+			
+		}	
+		
+
+		
 	}
 		
 	public function trigger($passe) {
@@ -274,9 +289,10 @@ class watchdog extends eqLogic {
 							//$watchdog->setConfiguration('boucleEnCours', "CRON");
 							//$_boucleEnCours="CRON";
 							log::add('watchdog','debug','-----------------------------------------------------------------');
-							log::add('watchdog','debug','Lancement CRON de >> '.$watchdog->getName().' <<');
+							log::add('watchdog','debug','Lancement CRON de **'.$watchdog->getName().'**');
 							log::add('watchdog','debug','-----------------------------------------------------------------');
 							$watchdog->lancerControle($watchdog);
+							//log::add('watchdog','debug','fin cron-----------------------------------------------------------------');
 						} catch (Exception $exc) {
 							log::add('watchdog', 'error', __('Erreur pour ', __FILE__) . $watchdog->getHumanName() . ' : ' . $exc->getMessage());
 						}
@@ -497,7 +513,7 @@ public function faireTestExpression($_string) {
 				//$macmd = cmd::byId(str_replace('#', '', $this->getId()));
 				//log::add('watchdog','debug','*************2 : ' . json_encode($macmd));
 				//log::add('watchdog','debug','[Contrôle*ID] '.$this->getName().' : ' . $macmd->getConfiguration('controle').' => Resultat : ' . $resultat);
-				log::add('watchdog','debug','[Contrôle] Lancer le contrôle de **'.$this->getName().'** : ' . jeedom::toHumanReadable($this->getConfiguration('controle')).' => Resultat : ' . $resultat);
+				log::add('watchdog','debug','[Contrôle] Lance '.$this->getName().'=' . jeedom::toHumanReadable($this->getConfiguration('controle')).'=> Resultat: ' . $resultat);
 				//log::add('watchdog','debug','zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz'. jeedom::fromHumanReadable($this->getConfiguration('controle'), false));
 				$_string=$this->getConfiguration('controle');
 				//log::add('watchdog','debug','Controle : ' . jeedom::fromHumanReadable($_string, true));
