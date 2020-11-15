@@ -269,18 +269,9 @@ class watchdog extends eqLogic {
 	}
 
 	public static function update() {
-		
-
-
-//Mettre self: ??
-		//set_boucleEnCours("79845613");
 		foreach (self::byType('watchdog') as $watchdog) {
-			//log::add('watchdog','debug','Lancement update de >> '.$watchdog->getName().' <<');
 			$autorefresh = $watchdog->getConfiguration('autorefresh');
 			$watchdog->setConfiguration('dernierLancement','PRECRON '.date("d.m.Y")." ".date("H:i:s")); // PRECON c'est pour signaler que le CRON va etre sauvegarder
-			//ESSAI
-			//$watchdog->setConfiguration("watchdogAction", 'CRON '.date("d.m.Y")." ".date("H:i:s"));
-			
 			if ($watchdog->getIsEnable() == 1 && $autorefresh != '') {
 				try {
 					$c = new Cron\CronExpression($autorefresh, new Cron\FieldFactory);
@@ -442,7 +433,11 @@ public function faireTestExpression($_string) {
 			
 	//log::add('watchdog','debug','******************[TriggerEquip] '.$this->getName().' à '.$passe);   
 	log::add('watchdog','debug','On lance les actions qui correspondent au passage de **'.$this->getName().'** à '.$passe);   
-			
+	
+	if ($eqLogic->getConfiguration('logspecifique'))
+	log::add('watchdog_'.$ideqLogic,'info' ,'╔══════════════════════['.$this->getName().' est passé à '.$passe.']════════════════════════════════════════════════════════════════════════════');
+						
+						
 				foreach ($eqLogic->getConfiguration("watchdogAction") as $action) {
 					try {
 							$options = [];
@@ -457,9 +452,9 @@ public function faireTestExpression($_string) {
 								}
 
 						
-						if ($options['log'] == '1')
-						log::add('watchdog_'.$ideqLogic, 'info', $options['title'].' : ' . $options['message']);
-						
+						if ($options['log'] == '1') {
+						log::add('watchdog_'.$ideqLogic,'info' ,'╠═══> Exécution de la commande ' . jeedom::toHumanReadable($action['cmd']) . " avec comme option(s) : ". json_encode($options));
+						}
 						
 						//log::add('watchdog','debug','Exécution de la commande ' . $action['cmd'] . " avec comme option(s) : ". json_encode($options));
 						//scenarioExpression::createAndExec('action', $action['cmd'], $options);
@@ -476,6 +471,8 @@ public function faireTestExpression($_string) {
 					}
 					
 				}
+		if ($eqLogic->getConfiguration('logspecifique')) log::add('watchdog_'.$ideqLogic,'info' ,'╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════');
+							
 		}
 	}
 

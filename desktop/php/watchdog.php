@@ -126,14 +126,21 @@ foreach (jeeObject::all() as $object) {
            </div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label"></label>
+		<label class="col-sm-3 control-label">Watchdog</label>
 		<div class="col-sm-9">
-			<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" checked >{{Activer}}</label>
+			<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" checked >{{Activé}}</label>
 			<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked >{{Visible}}</label>
 		</div>
 	</div>
-	<br><br>
-	
+	<br>
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Log spécifique pour ce watchdog</label>
+		<div class="col-sm-9">
+			<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="logspecifique" >{{Activé}}</label>
+		</div>
+	</div>
+	<br>
+			
 			<div class="form-group">
 			<label class="col-xs-3 control-label">{{Auto-actualisation (cron)}}</label>
 				<div class="col-xs-2">
@@ -160,8 +167,8 @@ foreach (jeeObject::all() as $object) {
                 <div class="col-sm-3">
                     <select style="width: 500px;" id="sel_object" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="typeControl">
 <option value="">{{Actions sur chaque contrôle indépendamment (par défaut)}}</option>
-<option value="OU">{{Actions sur l'ensemble des contôles (avec méthode OU)}}</option>
-<option value="ET">{{Actions sur l'ensemble des contôles (avec méthode ET)}}</option>
+<option value="OU">{{Actions sur l'ensemble des contrôles (avec méthode OU)}}</option>
+<option value="ET">{{Actions sur l'ensemble des contrôles (avec méthode ET)}}</option>
                    </select>
                </div><br><br>
 		   	
@@ -170,8 +177,8 @@ foreach (jeeObject::all() as $object) {
 <div class="alert-info bg-success">
 	Il existe trois modes de fonctionnement  : <br>
 	* Actions sur chaque contrôle indépendamment : Ce mode teste indépendamment chaque contrôle et déclenche les actions quand ce contrôle a changé d'état<br>
-	* Actions sur l'ensemble des contôles (avec méthode OU) : Ce mode teste le résultat global des contrôles en y appliquant un test "OU" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.<br>
-	* Actions sur l'ensemble des contôles (avec méthode ET) : Ce mode teste le résultat global des contrôles en y appliquant un test "ET" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.	</div>			
+	* Actions sur l'ensemble des contrôles (avec méthode OU) : Ce mode teste le résultat global des contrôles en y appliquant un test "OU" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.<br>
+	* Actions sur l'ensemble des contrôles (avec méthode ET) : Ce mode teste le résultat global des contrôles en y appliquant un test "ET" entre chaque contrôle. Il déclenche les actions quand le résultat global a changé d'état.	</div>			
 
 			<br><br><div class="form-group">
                 <label class="col-sm-3 control-label" >{{Mode de fonctionnement des actions}}</label>
@@ -185,7 +192,7 @@ foreach (jeeObject::all() as $object) {
            </div>
 		
 <div class="alert-info bg-success">
-	Il existe trois deux de fonctionnement  : <br>
+	Il existe deux modes de fonctionnement  : <br>
 	* Lancer une action uniquement si le contrôle change de valeur : Ce mode vous prévient quand le contrôle effectué a changé d'état<br>
 	* Lancer une action à chaque controle en fonction du résultat : Ce mode execute à chaque contrôle l'action qui correspond au résultat du contrôle.<br>
 </div>	
@@ -200,7 +207,7 @@ foreach (jeeObject::all() as $object) {
 
 <div role="tabpanel" class="tab-pane" id="controlestab">
 <legend><i class="fas fa-stethoscope" style="font-size : 2em;color:#a15bf7;"></i> <span style="color:#a15bf7">{{Contrôles à effectuer}}</span></legend>
-<table id="table_controles" class="table table-condensed ui-sortable table_controles">
+<table id="table_controles" class="table-condensed ui-sortable table_controles" width=100%>
     <thead>
         <tr>
             <th style="width: 200px;">{{Nom}}</th>
@@ -210,7 +217,7 @@ foreach (jeeObject::all() as $object) {
         </tr>
     </thead>
     <tbody></tbody>
-</table>
+</table><br>
 <a class="btn btn-success btn-sm bt_addControle pull-left" data-type="action" style="margin-top:-15px;"><i class="fa fa-plus-circle"></i> {{Ajouter un contrôle}}</a>
 <a id="afficheCalculs" class="btn btn-info btn-sm bt_afficheCalculs pull-right" data-type="action" style="margin-top:-15px;"><i class="fas fa-square-root-alt"></i> {{Afficher les calculs}}</a><a id="masqueCalculs" class="btn btn-warning btn-sm bt_masqueCalculs pull-right" data-type="action" style="margin-top:5px;"><i class="fas fa-square-root-alt"></i> {{Masquer les calculs}}</a>
 <br>
@@ -280,5 +287,7 @@ else {?>
 </div>
 </div>
 
+<?php include_file('desktop', 'alexaapi', 'css', 'alexaapi'); ?>
 <?php include_file('desktop', 'watchdog', 'js', 'watchdog');?>
 <?php include_file('core', 'plugin.template', 'js');?>
+

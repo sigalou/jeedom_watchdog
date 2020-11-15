@@ -181,8 +181,8 @@ function addAction(_action, type, id_action="") {
     div += '<div class="col-sm-2">';
 	    div += '<input type="checkbox" style="margin-top : 11px;margin-right : 5px;margin-left : 5px;" class="expressionAttr" data-l1key="options" data-l2key="enable" checked title="{{Décocher pour désactiver l\'action}}" />';
     div += '<input type="checkbox" style="margin-top : 11px;margin-right : 5px;" class="expressionAttr" data-l1key="options" data-l2key="background" title="Cocher pour que la commande s\'exécute en parallèle des autres actions" />';
-/*    div += '<input type="checkbox" class="expressionAttr tooltipstered" style="margin-top : 11px;margin-right : 5px;" data-l1key="options" data-l2key="log" checked title="Cocher pour que l\'action soit enregistrée dans le log du Watchdog" />';
-*/    div += '<select class="expressionAttr form-control input-sm" data-l1key="actionType" style="margin-bottom: 10px;width:calc(100% - 70px);display:inline-block">';
+    div += '<input type="checkbox" class="expressionAttr tooltipstered" style="margin-top : 11px;margin-right : 5px;" data-l1key="options" data-l2key="log" checked title="Cocher pour que l\'action soit enregistrée dans le log du Watchdog" />';
+    div += '<select class="expressionAttr form-control input-sm" data-l1key="actionType" style="margin-bottom: 10px;width:calc(100% - 70px);display:inline-block">';
     div += '<option style="background: #dff0d8; color: #00000;" value="True">{{Passe à True}}</option>';
     div += '<option style="background: #f2dede; color: #00000;" value="False">{{Passe à False}}</option>';
     div += '<option style="background: #d9edf7; color: #00000;" value="Avant">{{Avant le contrôle}}</option>';
@@ -293,7 +293,7 @@ function addCmdToTable(_cmd, type) {
 		tr += '</td>'; 	
 		tr += '<td>';
 
-		tr += '<i class="fa fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i>';
+		tr += '<span style="font-size: 1.5em;"><i class="fa icon_red fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i></span>';
 		tr += '</td>';
 		tr += '</tr>';
 		//tr += '<tr class="bg-warning"><td class="bg-warning">frgthjkl</td></tr>';
