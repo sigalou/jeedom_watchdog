@@ -287,7 +287,6 @@ else {?>
 </div>
 </div>
 
-<?php include_file('desktop', 'alexaapi', 'css', 'alexaapi'); ?>
 <?php include_file('desktop', 'watchdog', 'js', 'watchdog');?>
 <?php include_file('core', 'plugin.template', 'js');?>
 
