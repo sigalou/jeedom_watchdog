@@ -89,6 +89,23 @@ class watchdog extends eqLogic {
 	//log::add('watchdog','debug','[eqLogic] preSave de '.$this->getName());	
  	//log::add('watchdog','debug','[*****dernierLancement1] de '.$this->getName()." vaut :".$this->getConfiguration('dernierLancement'));	
 	
+	
+		$cmd = $this->getCmd(null, "resultatglobal");
+		if (!is_object($cmd)) {
+			log::add('watchdog', 'debug', '╠═══> Ajout de la commande info resultatglobal');
+			$cmd = new watchdogCmd();
+			$cmd->setType('info');
+			$cmd->setLogicalId("resultatglobal");
+			$cmd->setSubType('binary');
+			$cmd->setEqLogic_id($this->getId());
+			$cmd->setName("Résultat Global");
+			$cmd->setIsVisible(1);
+            //$cmd->setOrder("2");
+			//$cmd->setDisplay('title_disable', 0);
+			$cmd->save(); 
+		}
+
+	
 	if ((substr($this->getConfiguration('dernierLancement'), 0, 7)) == "PRECRON") {
 		$this->setConfiguration('dernierLancement','CRON '.date("d.m.Y")." ".date("H:i:s"));
 		log::add('watchdog','debug','[SAUVEGARDE CRON de '.$this->getName().']');
@@ -158,7 +175,9 @@ class watchdog extends eqLogic {
 					//2 lignes inutiles car le controle se fait déja au moment de preSave
 					//$resultat=$cmd->faireTestExpression($cmd->getConfiguration('controle'));
 					//$cmd->setConfiguration('resultat', $resultat);
+					if ($cmd->getLogicalId() != "resultatglobal") { // on ignore resultatglobal
 					$cmd->save();
+					}
 					//log::add('watchdog', 'debug', '[>>>>FIN>>>>Contrôle] Lancer le contrôle ** '.$cmd->getName()." **");
 				}
 				
@@ -181,23 +200,21 @@ class watchdog extends eqLogic {
 			
 							//On passe toutes les commandes de l'eqLogic pour calculer le résultat global des tests
 							foreach ($this->getCmd('info') as $cmd) {
-					//g::add('watchdog','debug','leResultatdelaBoucle 2 : '.$leResultatdelaBoucle);	
-								//$cmd->save();// On lance un save pour que la commande $cmd soit testée, ce sera finalement fait deux fois mais ce test est obligatoire avant le résultat global
-								$leResultat=$cmd->getConfiguration('resultat');
-								log::add('watchdog', 'debug', $typeControl." ".$leResultat. ' ('.$cmd->getName().')');
-								//2 lignes inutiles car le controle se fait déja au moment de preSave
-								//$resultat=$cmd->faireTestExpression($cmd->getConfiguration('controle'));
-								//$cmd->setConfiguration('resultat', $resultat);
-								if ($leResultat == "True" || $leResultat == "False"){
-					//g::add('watchdog','debug','leResultatdelaBoucle 3 : '.$leResultatdelaBoucle);	
-									//Résultat valide, on continue le test
-									if ($typeControl=="ET") {
-										if ($leResultat == "False")	$leResultatdelaBoucle=false; // On est sur une fonction ET
-					//g::add('watchdog','debug','leResultatdelaBoucle 4 : '.$leResultatdelaBoucle);	
-									}
-									else {
-										if ($leResultat == "True")	$leResultatdelaBoucle=true; // On est sur une fonction OU
-					//g::add('watchdog','debug','leResultatdelaBoucle 5 : '.$leResultatdelaBoucle);	
+								if ($cmd->getLogicalId() != "resultatglobal") { // on ignore resultatglobal
+									//$cmd->save();// On lance un save pour que la commande $cmd soit testée, ce sera finalement fait deux fois mais ce test est obligatoire avant le résultat global
+									$leResultat=$cmd->getConfiguration('resultat');
+									log::add('watchdog', 'debug', $typeControl." ".$leResultat. ' ('.$cmd->getName().')');
+									//2 lignes inutiles car le controle se fait déja au moment de preSave
+									//$resultat=$cmd->faireTestExpression($cmd->getConfiguration('controle'));
+									//$cmd->setConfiguration('resultat', $resultat);
+									if ($leResultat == "True" || $leResultat == "False"){
+										//Résultat valide, on continue le test
+										if ($typeControl=="ET") {
+											if ($leResultat == "False")	$leResultatdelaBoucle=false; // On est sur une fonction ET
+										}
+										else {
+											if ($leResultat == "True")	$leResultatdelaBoucle=true; // On est sur une fonction OU
+										}
 									}
 								}
 							}	
@@ -214,6 +231,9 @@ class watchdog extends eqLogic {
 				
 				$resultatPrecedent=$this->getConfiguration('dernierEtat');
 				$this->setConfiguration('dernierEtat', $leResultatdelaBoucle);
+				//Pour que le resultat soit accessible dans une commande info, on copie dernierEtat dans resultatglobal
+				$this->checkAndUpdateCmd('resultatglobal', $leResultatdelaBoucle);
+
 				
 				if ($typeAction == 'ALL'){
 					$resultatPrecedent = "";

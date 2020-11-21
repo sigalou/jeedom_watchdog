@@ -96,7 +96,7 @@ $('.listCmdInfoVacances').off('click').on('click',function(){
         });
     });
 	
-	el.value("coucou");
+	//el.value("coucou !!!!!!!");
 //console.log("--------- coucou");
 	
 	
@@ -161,7 +161,7 @@ function addAction(_action, type, id_action="") {
         _action.options = {};
     }
 	
-	console.log("--------- id_action>>>>>>>>>>"+id_action);
+	//console.log("--------- id_action>>>>>>>>>>"+id_action);
 	
 
 			switch (type) {
@@ -229,8 +229,9 @@ function addAction(_action, type, id_action="") {
  */
 function addCmdToTable(_cmd, type) {
 	
-		//console.log("--------- addCmdToTable");
-
+	//On ignore resultatglobal
+	if ((init(_cmd.logicalId) == 'resultatglobal')) return;
+  
 	// On est sur les commandes INFO -- Onglet Equipements à surveiller
 
 	// On remplit la table 	table_controles qui correspond à la table des equipements à tester Type=info SType=watchdog
@@ -423,20 +424,22 @@ function printEqLogic(_eqLogic) {
 
 
 
-// on remplit la table du résultat global
-    $('#table_controles_resultat').empty();
-		var tr = '<tr style="width: 100%; border-collapse: collapse; background-color: #26ae5f;">';
-		tr += '<td style="width: 200px;">';
-		tr += '</td>';
-		 tr += '<td>';
-		tr += '</td>';   
-		 tr += '<td style="width: 100px;">';
-		 tr += '<strong><span style="color: #ffffff;">' + _eqLogic.configuration.dernierEtat + '</span></strong>'; 
-		tr += '</td>'; 	
-		tr += '<td style="width: 100px;">';
-		tr += '</td>';
-		tr += '</tr>';
-	$('#table_controles_resultat').append(tr);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // On remplit la table_log
 
@@ -468,11 +471,70 @@ typeControl = _eqLogic.configuration.typeControl;
 dernierEtat = "(actuellement à "+_eqLogic.configuration.dernierEtat+")";
 
 
+//console.log ("coucou"+typeControl+tr);
+
+  //  $('#section_resultatGlobal').empty();
+//	$('#section_resultatGlobal').append("0000000000000000000000000000000000000000 "+typeControl);
+
+// on remplit la table du résultat global
+  //  $('#table_controles_resultat').empty();
+		switch (_eqLogic.configuration.dernierEtat) {
+		  case 'True':
+			var couleur = 'success';
+			var icon='<i class="far fa-thumbs-up"  style="color: #ffffff!important;"></i>';
+			break;
+		  case 'False':
+			var couleur = 'warning';
+			var icon='<i class="far fa-thumbs-down" style="color: #ffffff!important;"></i>';
+			break;
+		  default:
+			var couleur = 'info';
+			var icon='<i class="far fa-question-circle" style="color: #ffffff!important;"></i>';
+		}
+
+		var tr = '<br><br><legend><i class="fa loisir-weightlift"></i> {{Résultat global des contrôles, méthode ';
+		tr += typeControl;
+		tr += '}}</legend>	<table class="table "  >';
+		tr += '<tr bgcolor=silver style="width: 100%; border-collapse: collapse; background-color: #e0e2e2;">';
+		tr += '<td style="width: 3px;">';
+		tr += '</td>';
+		tr += "<td style='background-color:#e0e2e2;'><i><small>Cette information peut être utilisée dans vos scénarios, il s'agit de l'info [Résultat Global]</small></i>";
+		tr += '</td>';		 
+		tr += '<td align=right style="background-color:#e0e2e2;">';
+		 
+if (_eqLogic.configuration.dernierLancement.substring(0, 4) == "SAVE")
+		tr += "<i><small><small>Attention, résultat temporaire, peut être faux, sera actualisé au prochain CRON ---></small></small></i>";
+		 
+		 
+		tr += '</td>';   
+		// tr += '<td style="width: 100px; background-color: #26ae5f">';
+	//	 tr += '<strong><span style="color: #ffffff;">''</span></strong>'; 
+		 
+		 
+		tr += '<td style="background-color:#e0e2e2;width: 100px;"><span class="label label-'+couleur+'" >'+icon+'</span>';
+		tr += '<span class="label label-'+couleur+'" style="font-weight: bold;">'+ _eqLogic.configuration.dernierEtat+ '</span>';
+
+		 
+		 
+		tr += '</td>'; 	
+		tr += '<td style="width: 100px;">';
+		tr += '</td>';
+		tr += '</tr></table>';
+//	$('#table_controles_resultat').append(tr);
+
+
+
+
+$('#section_resultatGlobal').empty();
+
+
+
 if (typeControl == "")
 $('#table_actions').append('<legend><i class="far fa-thumbs-up" style="font-size : 2em;color:#a15bf7;"></i><span style="color:#a15bf7"> {{Actions à exécuter quand un des contrôles passe à True}}</span></legend>');
-else
+else {
+$('#section_resultatGlobal').html(tr);
 $('#table_actions').append('<legend><i class="far fa-thumbs-up" style="font-size : 2em;color:#a15bf7;"></i><span style="color:#a15bf7"> Actions à exécuter quand le résultat global des contrôles passe à True '+dernierEtat+'</span></legend>');
-
+}
         // On va lister en premier les actions qui se déclencheront quand on passera de false à true
 		for (var i in _eqLogic.configuration.watchdogAction) {
 			if (_eqLogic.configuration.watchdogAction[i].actionType == "True") {

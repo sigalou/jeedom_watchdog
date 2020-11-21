@@ -221,16 +221,21 @@ foreach (jeeObject::all() as $object) {
 <a class="btn btn-success btn-sm bt_addControle pull-left" data-type="action" style="margin-top:-15px;"><i class="fa fa-plus-circle"></i> {{Ajouter un contrôle}}</a>
 <a id="afficheCalculs" class="btn btn-info btn-sm bt_afficheCalculs pull-right" data-type="action" style="margin-top:-15px;"><i class="fas fa-square-root-alt"></i> {{Afficher les calculs}}</a><a id="masqueCalculs" class="btn btn-warning btn-sm bt_masqueCalculs pull-right" data-type="action" style="margin-top:5px;"><i class="fas fa-square-root-alt"></i> {{Masquer les calculs}}</a>
 <br>
-<?php
-if ($typeControl!="")
-{?>
-<br>
-<br><legend><i class="fa loisir-weightlift"></i> {{Résultat global des contrôles, méthode <?php print $typeControl;?>}}</legend>
-<table id="table_controles_resultat" class="table  table-condensed ui-sortable table_controles_resultat">
 
 
-</table>
-<?php } ?>
+
+<!--<br><br><legend><i class="fa loisir-weightlift"></i> {{Résultat global des contrôles, méthode <?php print $typeControl;?>}}</legend>
+ <table id="table_controles_resultat00000000" class="table  table-condensed ui-sortable table_controles_resultat0000000000">
+</table> -->
+
+
+<!-- ICI la partie qui affiche le résultat global dans le cas d'un mode OU ou d'un ET-->
+<div id="section_resultatGlobal" >
+</div>
+
+
+
+
 <legend><i class="fas fa-hourglass-half" style="font-size : 2em;color:#a15bf7;"></i> <span style="color:#a15bf7">{{Configuration des tempos}}</span></legend>
 
 <table border="0">
