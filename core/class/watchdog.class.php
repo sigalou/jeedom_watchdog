@@ -90,22 +90,8 @@ class watchdog extends eqLogic {
  	//log::add('watchdog','debug','[*****dernierLancement1] de '.$this->getName()." vaut :".$this->getConfiguration('dernierLancement'));	
 	
 	
-		$cmd = $this->getCmd(null, "resultatglobal");
-		if (!is_object($cmd)) {
-			log::add('watchdog', 'debug', '╠═══> Ajout de la commande info resultatglobal');
-			$cmd = new watchdogCmd();
-			$cmd->setType('info');
-			$cmd->setLogicalId("resultatglobal");
-			$cmd->setSubType('binary');
-			$cmd->setEqLogic_id($this->getId());
-			$cmd->setName("Résultat Global");
-			$cmd->setIsVisible(1);
-            //$cmd->setOrder("2");
-			//$cmd->setDisplay('title_disable', 0);
-			$cmd->save(); 
-		}
 
-	
+
 	if ((substr($this->getConfiguration('dernierLancement'), 0, 7)) == "PRECRON") {
 		$this->setConfiguration('dernierLancement','CRON '.date("d.m.Y")." ".date("H:i:s"));
 		log::add('watchdog','debug','[SAUVEGARDE CRON de '.$this->getName().']');
@@ -121,7 +107,21 @@ class watchdog extends eqLogic {
 
     public function postSave() {
  	//log::add('watchdog','debug','[eqLogic] postSave de '.$this->getName());        
-    }
+		$cmd = $this->getCmd(null, "resultatglobal");
+		if (!is_object($cmd)) {
+			log::add('watchdog', 'debug', '╠═══> Ajout de la commande info resultatglobal');
+			$cmd = new watchdogCmd();
+			$cmd->setType('info');
+			$cmd->setLogicalId("resultatglobal");
+			$cmd->setSubType('binary');
+			$cmd->setEqLogic_id($this->getId());
+			$cmd->setName("Résultat Global");
+			$cmd->setIsVisible(1);
+            //$cmd->setOrder("2");
+			//$cmd->setDisplay('title_disable', 0);
+			$cmd->save(); 
+		}    
+	}
 
     public function preUpdate() {
  	//log::add('watchdog','debug','[eqLogic] preUpdate de '.$this->getName());        
