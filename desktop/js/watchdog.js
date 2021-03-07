@@ -232,10 +232,16 @@ function addCmdToTable(_cmd, type) {
 	//On ignore resultatglobal
 	if ((init(_cmd.logicalId) == 'resultatglobal')) return;
   
+  
+ //typeControl = _eqLogic.configuration.typeControl;
+ 
+  
 	// On est sur les commandes INFO -- Onglet Equipements à surveiller
 
 	// On remplit la table 	table_controles qui correspond à la table des equipements à tester Type=info SType=watchdog
 	// On utilise cmdAttr
+
+		//$('#table_controles tbody').append("coucoucoucoucoucoucoucou");
 
     if (!isset(_cmd)) 
         //var _cmd = {configuration: {}};
@@ -247,6 +253,7 @@ function addCmdToTable(_cmd, type) {
 	if (!isset(_cmd.subType)) 
 		_cmd.subType = "watchdog";	
 
+//console.log ("------------------------------------"+_cmd.configuration.resultat);
 
 		//console.log($('.cmdAttr[data-l1key=configuration][data-l2key=resultat]').value());
 		//console.log(_cmd.configuration.resultat);
@@ -264,12 +271,25 @@ function addCmdToTable(_cmd, type) {
 			var couleur = 'info';
 			var icon='<i class="far fa-question-circle" style="color: #ffffff!important;"></i>';
 		}
-			
+		
+		switch (_cmd.configuration.resultatAvant) {
+		  case 'True':
+			var couleurAvant = 'success';
+			var iconAvant='<i class="far fa-thumbs-up"  style="color: #ffffff!important;"></i>';
+			break;
+		  case 'False':
+			var couleurAvant = 'warning';
+			var iconAvant='<i class="far fa-thumbs-down" style="color: #ffffff!important;"></i>';
+			break;
+		  default:
+			var couleurAvant = 'info';
+			var iconAvant='<i class="far fa-question-circle" style="color: #ffffff!important;"></i>';
+		}			
 		
 		//var tr = '<tr class="cmd info" >';88
 			var tr = '<tr class="cmd info" >'; //la couleur ne foncitonne pas à cause de info mais on ne peut pas supprimer info
 		
-		tr += '<td>';
+		tr += '<td width=160>';
 		
 		
 		
@@ -282,17 +302,23 @@ function addCmdToTable(_cmd, type) {
 		tr += '<span style="display:none;" class="type" type="' + init(_cmd.type) + '">' + jeedom.cmd.availableType() + '</span>';
 		tr += '<input class="cmdAttr form-control" type="hidden" data-l1key="subType" value="watchdog">';
 		tr += '</td>';
-		 tr += '<td>';
+		 tr += '<td >';
 		tr += ' <input class="cmdAttr form-control input-sm"  data-type="' + _cmd.type + '" data-l1key="configuration" data-l2key="controle"  style="margin-bottom : 5px;width : 80%; display : inline-block;" >';
 		tr += '<a class="btn btn-info btn-sm cursor listCmdInfo" data-type="' + _cmd.type + '"  style="margin-left : 5px;"><i class="fa fa-list-alt" style="color: #ffffff!important;"></i></a>';
 		tr += '<div hidden class="calcul"><small><i>';
 		tr += '<span style="margin-top : 9px; margin-left: 10px; " class="cmdAttr" data-l1key="configuration" data-l2key="calcul"></span></i></small></div>';
-		tr += '</td>';   
-		 tr += '<td><span class="cmdAttr label label-'+couleur+'" >'+icon+'</span>';
+		tr += '</td>';
+			if ((_cmd.configuration.resultatAvant != null) && (typeControl == "")) {
+				 tr += '<td width=150 align=center><span class="cmdAttr label label-'+couleurAvant+'" >'+iconAvant+'</span>';
+				tr += '<span class="cmdAttr label label-'+couleurAvant+'" style="font-weight: bold;" data-l1key="configuration" data-l2key="resultatAvant"></span>';
+				tr += '</td>';
+			}
+			
+		tr += '<td width=150 align=center><span class="cmdAttr label label-'+couleur+'" >'+icon+'</span>';
 		tr += '<span class="cmdAttr label label-'+couleur+'" style="font-weight: bold;" data-l1key="configuration" data-l2key="resultat"></span>';
 		//tr += '<span class="cmdAttr" style="font-weight: bold;" data-l1key="configuration" data-l2key="resultat"></span>';
 		tr += '</td>'; 	
-		tr += '<td>';
+		tr += '<td width=40 align=center>';
 
 		tr += '<span style="font-size: 1.5em;"><i class="fa icon_red fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i></span>';
 		tr += '</td>';
@@ -422,21 +448,7 @@ function printEqLogic(_eqLogic) {
   ]
 }*/
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//	$('#table_controlesTitre').append('<tr><td>1</td><td>2</td><td>3</td></tr>');
 
 
 
@@ -526,12 +538,23 @@ if (_eqLogic.configuration.dernierLancement.substring(0, 4) == "SAVE")
 
 
 $('#section_resultatGlobal').empty();
+$('#table_controlesTitre').empty();
+dernierLancement=_eqLogic.configuration.dernierLancement.replace('CRON ', '');
+dernierLancement=dernierLancement.replace('SAVE ', '');
+avantDernierLancement=_eqLogic.configuration.avantDernierLancement.replace('CRON ', '');
+avantDernierLancement=avantDernierLancement.replace('SAVE ', '');
+
+$titreModebase=' <tr><th style="width: 160px;">{{  Nom}}</th><th>{{  Contrôle}}</th><th class="text-center" style="width:150px;">Avant-dernier Résultat<br><small>'+avantDernierLancement+'</small></th><th class="text-center" style="width:150px;">Dernier Résultat<br><small>'+dernierLancement+'</small></th><th style="width:40px;"></th></tr>';
+$titreModeETOU=' <tr><th style="width: 160px;">{{  Nom}}</th><th>{{  Contrôle}}</th><th class="text-center" style="width:150px;">Dernier Résultat<br><small>'+dernierLancement+'</small></th><th style="width:40px;"></th></tr>';
 
 
 
-if (typeControl == "")
+if (typeControl == "") {
 $('#table_actions').append('<legend><i class="far fa-thumbs-up" style="font-size : 2em;color:#a15bf7;"></i><span style="color:#a15bf7"> {{Actions à exécuter quand un des contrôles passe à True}}</span></legend>');
+$('#table_controlesTitre').append($titreModebase);
+}
 else {
+$('#table_controlesTitre').append($titreModeETOU);
 $('#section_resultatGlobal').html(tr);
 $('#table_actions').append('<legend><i class="far fa-thumbs-up" style="font-size : 2em;color:#a15bf7;"></i><span style="color:#a15bf7"> Actions à exécuter quand le résultat global des contrôles passe à True '+dernierEtat+'</span></legend>');
 }
@@ -624,7 +647,8 @@ $("body").delegate(".listAction", 'click', function () {
 
 //$("body").delegate(".listCmdInfo", 'click', function() {
 $("#table_controles").off('click').on('click', ".listCmdInfo",function() {
-	
+		//$('#table_controlesTitre').append("0000000000000000000000000000000000000000 ");
+
 	//console.log("--------- listCmdInfo");
 
   var eldebut = $(this);

@@ -9,12 +9,12 @@
 	"hasDependency" : false,
 	"hasOwnDeamon" : false,
 	"maxDependancyInstallTime" : 0,
-	"changelog" : "http://sigalou-domotique.fr/plugin-jeedom-watchdog/69-watchdog-changelog",
-	"documentation" : "http://sigalou-domotique.fr/plugin-jeedom-watchdog/68-watchdog-documentation",
+	"changelog" : "http://jeedom.sigalou-domotique.fr/watchdog-changelog",
+	"documentation" : "http://jeedom.sigalou-domotique.fr/watchdog-documentation",
 	"link" : {
 		"forum":"Lien vers le forum",
 		"video" : "Lien vers une video"
 	},
 	"language" : ["fr_FR","en_US","de_DE","sp_SP","ru_RU","id_ID","it_IT"],
-	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile","V4"]
+	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile","v4"]
 }

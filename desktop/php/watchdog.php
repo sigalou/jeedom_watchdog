@@ -62,7 +62,7 @@ foreach ($eqLogics as $eqLogic) {
 
 		<div class="input-group pull-right" style="display:inline-flex">
 			
-			<a href="http://sigalou-domotique.fr/plugin-jeedom-watchdog/"  style="margin-right:5px" target="_blank" class="btn btn-success eqLogicAction "  title="{{Lien vers la Documentation du plugin}}"><i class="fa fa-book"></i> </a>
+			<a href="http://jeedom.sigalou-domotique.fr/watchdog-documentation"  style="margin-right:5px" target="_blank" class="btn btn-success eqLogicAction "  title="{{Lien vers la Documentation du plugin}}"><i class="fa fa-book"></i> </a>
 			<a class="btn btn-info eqLogicAction  bt_plugin_view_log"  style="margin-right:5px" title="{{Logs du Watchdog}}"><i class="fa fa-file"></i> </a>
 			<a class="btn btn-default eqLogicAction "  style="margin-right:5px" data-action="configure" title="{{Configuration avancée du Watchdog}}"><i class="fas fa-cogs"></i> </a>
 			<a class="btn btn-warning eqLogicAction " style="margin-right:5px" data-action="copy" title="{{Dupliquer cet équipement}}"><i class="fas fa-copy"></i> </a>
@@ -154,12 +154,19 @@ foreach (jeeObject::all() as $object) {
 			</div>
 			
 			<div class="form-group">
+			<label class="col-xs-3 control-label">{{Avant Dernier lancement}}</label>
+				<div class="col-xs-3">
+					<input type="text" disabled class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="avantDernierLancement">
+
+				</div>
+			</div>			
+			<div class="form-group">
 			<label class="col-xs-3 control-label">{{Dernier lancement}}</label>
 				<div class="col-xs-3">
 					<input type="text" disabled class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="dernierLancement">
 
 				</div>
-			</div>			
+			</div>
 			
 <br><legend><i class="fa fa-list-alt" style="font-size : 2em;color:#a15bf7;"></i> <span style="color:#a15bf7">{{Mode de fonctionnement}}</span></legend>
 			<div class="form-group">
@@ -207,17 +214,11 @@ foreach (jeeObject::all() as $object) {
 
 <div role="tabpanel" class="tab-pane" id="controlestab">
 <legend><i class="fas fa-stethoscope" style="font-size : 2em;color:#a15bf7;"></i> <span style="color:#a15bf7">{{Contrôles à effectuer}}</span></legend>
+<table id="table_controlesTitre" class="table-condensed" width=100%></table>
 <table id="table_controles" class="table-condensed ui-sortable table_controles" width=100%>
-    <thead>
-        <tr>
-            <th style="width: 200px;">{{Nom}}</th>
-			<th>{{Contrôle}}</th>
-			<th style="width: 100px;">{{Résultat}}</th>
-			<th style="width: 100px;"{{Action}}</</th>
-        </tr>
-    </thead>
     <tbody></tbody>
-</table><br>
+</table>
+<br>
 <a class="btn btn-success btn-sm bt_addControle pull-left" data-type="action" style="margin-top:-15px;"><i class="fa fa-plus-circle"></i> {{Ajouter un contrôle}}</a>
 <a id="afficheCalculs" class="btn btn-info btn-sm bt_afficheCalculs pull-right" data-type="action" style="margin-top:-15px;"><i class="fas fa-square-root-alt"></i> {{Afficher les calculs}}</a><a id="masqueCalculs" class="btn btn-warning btn-sm bt_masqueCalculs pull-right" data-type="action" style="margin-top:5px;"><i class="fas fa-square-root-alt"></i> {{Masquer les calculs}}</a>
 <br>
