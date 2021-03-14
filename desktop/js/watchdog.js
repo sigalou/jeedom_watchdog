@@ -539,10 +539,19 @@ if (_eqLogic.configuration.dernierLancement.substring(0, 4) == "SAVE")
 
 $('#section_resultatGlobal').empty();
 $('#table_controlesTitre').empty();
-dernierLancement=_eqLogic.configuration.dernierLancement.replace('CRON ', '');
-dernierLancement=dernierLancement.replace('SAVE ', '');
-avantDernierLancement=_eqLogic.configuration.avantDernierLancement.replace('CRON ', '');
-avantDernierLancement=avantDernierLancement.replace('SAVE ', '');
+
+dernierLancement="Aucun";
+if (typeof _eqLogic.configuration.dernierLancement !== 'undefined') {
+	dernierLancement=_eqLogic.configuration.dernierLancement.replace('CRON ', '');
+	dernierLancement=dernierLancement.replace('SAVE ', '');
+}
+
+avantDernierLancement="Aucun";
+if (typeof _eqLogic.configuration.avantDernierLancement !== 'undefined') {
+	avantDernierLancement=_eqLogic.configuration.avantDernierLancement.replace('CRON ', '');
+	avantDernierLancement=avantDernierLancement.replace('SAVE ', '');
+}
+
 
 $titreModebase=' <tr><th style="width: 160px;">{{  Nom}}</th><th>{{  Contrôle}}</th><th class="text-center" style="width:150px;">Avant-dernier Résultat<br><small>'+avantDernierLancement+'</small></th><th class="text-center" style="width:150px;">Dernier Résultat<br><small>'+dernierLancement+'</small></th><th style="width:40px;"></th></tr>';
 $titreModeETOU=' <tr><th style="width: 160px;">{{  Nom}}</th><th>{{  Contrôle}}</th><th class="text-center" style="width:150px;">Dernier Résultat<br><small>'+dernierLancement+'</small></th><th style="width:40px;"></th></tr>';
