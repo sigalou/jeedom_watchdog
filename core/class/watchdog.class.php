@@ -89,7 +89,7 @@ class watchdog extends eqLogic {
 	//log::add('watchdog','debug','[eqLogic] preSave de '.$this->getName());	
  	//log::add('watchdog','debug','[*****dernierLancement1] de '.$this->getName()." vaut :".$this->getConfiguration('dernierLancement'));	
 	
-	log::add('watchdog','info',' ┌──────────────────────[Sauvegarde du Watchdog '.$this->getName().']────────────────────────────────────────────────────────────────────────────────────');
+	log::add('watchdog','info','┌──────────────────────[Sauvegarde du Watchdog '.$this->getName().']────────────────────────────────────────────────────────────────────────────────────');
 
 
 
@@ -126,7 +126,7 @@ class watchdog extends eqLogic {
 		}    else {
 			//log::add('watchdog', 'debug', '╠═══> OK resultatglobal');
 		}
-	log::add('watchdog', 'info', " └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
+	log::add('watchdog', 'info', "└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
 
 	}
 
@@ -319,9 +319,9 @@ class watchdog extends eqLogic {
 
 							//$watchdog->setConfiguration('boucleEnCours', "CRON");
 							//$_boucleEnCours="CRON";
-							log::add('watchdog','info',' ╔══════════════════════[Lancement CRON du Watchdog '.$watchdog->getName().']════════════════════════════════════════════════════════════════════════════');
+							log::add('watchdog','info','╔══════════════════════[Lancement CRON du Watchdog '.$watchdog->getName().']════════════════════════════════════════════════════════════════════════════');
 							$watchdog->lancerControle($watchdog);
-							log::add('watchdog', 'info', " ╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════");
+							log::add('watchdog', 'info', "╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════");
 
 							//log::add('watchdog','debug','fin cron-----------------------------------------------------------------');
 						} catch (Exception $exc) {
@@ -533,7 +533,7 @@ public function faireTestExpression($_string) {
 		//$_boucleEnCours="1";
 	if ($this->getType() == 'action') return; //On ne fait pas le test si c'est une Commande Action		
 	if ($this->getLogicalId() == 'resultatglobal') return; //On ne fait pas le test si c'est la commande 	resultatglobal	
-	log::add('watchdog','info',' ║ ┌──────────────────────[Sauvegarde du Contrôle '.$this->getName().']────────────────────────────────────────────────────────────────────────────────────');
+	log::add('watchdog','info','║ ┌──────────────────────[Sauvegarde du Contrôle '.$this->getName().']────────────────────────────────────────────────────────────────────────────────────');
 			
 			
 		//---------------------------------------------------
@@ -587,7 +587,7 @@ public function faireTestExpression($_string) {
 		$this->getEqLogic()->save(); //enregistre l'équipement entier (et donc le resultat global des controles)
 	}
 		
-		log::add('watchdog', 'info', " ║ └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
+		log::add('watchdog', 'info', "║ └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
 
         
     }

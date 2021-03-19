@@ -232,7 +232,9 @@ function addCmdToTable(_cmd, type) {
 	//On ignore resultatglobal
 	if ((init(_cmd.logicalId) == 'resultatglobal')) return;
   
-  
+ // console.log("coucou1");
+//  console.log(_eqLogic.configuration.typeControl);
+//  console.log("coucou2");
  //typeControl = _eqLogic.configuration.typeControl;
  
   
