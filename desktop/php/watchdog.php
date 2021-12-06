@@ -106,7 +106,9 @@ foreach ($eqLogics as $eqLogic) {
                         <option value="">{{Aucun}}</option>
                         <?php
 
-/* foreach (jeeObject::all() as $object) {
+			    
+/* Ancienne version
+foreach (jeeObject::all() as $object) {
 	echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
 } */
 			    
